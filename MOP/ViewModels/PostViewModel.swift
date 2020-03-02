@@ -18,7 +18,10 @@ class PostViewModel : ObservableObject{
         postSet.append(p1)
         postSet.append(p2)
         postSet[0].addTag(tag: "#Test")
+        postSet[0].addTag(tag: "#Test2")
         postSet[0].addLocation(loc:"Montpellier, France")
+        postSet[1].addTag(tag: "#Ribonucleico")
+        postSet[1].addLocation(loc:"Egipt, Rio du Janeiro")
         print(postSet[0].getTags())
     }
 }

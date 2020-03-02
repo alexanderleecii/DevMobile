@@ -21,18 +21,19 @@ struct PostItem: View {
                 Text(String(post.location!))
                 .frame(width:300, height:30)
                 .background(Color(red: 0.6, green: 0.6, blue: 0.6, opacity: 1.0))
-                    .foregroundColor(Color.white)
+                .foregroundColor(Color.white)
             }
             
-            ForEach(post.getTags(), id: \.self){
-                tag in Text(tag)
-                    .frame(width:300,height:40)
-                .background(Color(red: 0.8, green: 0.8, blue: 0.8, opacity: 1.0))
-                    .foregroundColor(Color.white)
-                
+            HStack{
+                ForEach(post.getTags(), id: \.self){
+                    tag in Text(tag)
+                }
             }
+            .frame(width:300, height:40)
+            .background(Color(red: 0.8, green: 0.8, blue: 0.8, opacity: 1.0))
+            .foregroundColor(Color.white)
         }.cornerRadius(10)
-            .shadow(radius:5)
+
         
     }
 }

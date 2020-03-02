@@ -15,10 +15,8 @@ struct HomepageView: View {
             VStack{
                 ForEach(self.posts.postSet){
                     post in
-                    Text(post.text)
-                        .frame(width:328, height:125)
-                    .padding()
-                    .shadow(radius: 10)
+                    PostItem(post: post)
+                    Spacer()
                 }
             }
         }
