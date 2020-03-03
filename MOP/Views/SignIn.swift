@@ -33,15 +33,15 @@ struct SignIn: View {
                     TextField("Email", text: $email)
                 }
                 Section(header: Text("Password")){
-                    TextField("Password", text: $email)
-                    TextField("Repeat your password", text: $email)
+                    SecureField("Password", text: $email)
+                    SecureField("Repeat your password", text: $email)
                 }
                 Button(action: {
                     self.presentation.wrappedValue.dismiss()
                 }){
                     Text("Sign In")
                 }
-            } .navigationBarTitle("Settings")
+            } .navigationBarTitle("Sing In")
         }
     }
 }

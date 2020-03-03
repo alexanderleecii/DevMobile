@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import MongoKitten
 
 class PostViewModel : ObservableObject{
     @Published var postSet : [Post]
@@ -22,6 +23,19 @@ class PostViewModel : ObservableObject{
         postSet[0].addLocation(loc:"Montpellier, France")
         postSet[1].addTag(tag: "#Ribonucleico")
         postSet[1].addLocation(loc:"Egipt, Rio du Janeiro")
-        print(postSet[0].getTags())
+        
+        /*let db = try! MongoDatabase.synchronousConnect("mongodb+srv://bduser:password07@mernswiftproject-1jeom.mongodb.net/test?retryWrites=true&w=majority")
+        let users = db["users"]
+        users.find()
+            .map{document in
+                return document["pseudo"] as? String
+            }
+            .forEach{pseudo in
+                print("user: \(pseudo as! String)")
+            }*/
+        
+        //let dao = PostDAO()
+        //var u = dao.create(_id: "5e5c4351e51c162720ca985")
+        //print(u.pseudo)
     }
 }
