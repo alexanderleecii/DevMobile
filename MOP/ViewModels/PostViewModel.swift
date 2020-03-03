@@ -34,8 +34,8 @@ class PostViewModel : ObservableObject{
                 print("user: \(pseudo as! String)")
             }*/
         
-        //let dao = PostDAO()
-        //var u = dao.create(_id: "5e5c4351e51c162720ca985")
-        //print(u.pseudo)
+        let dao = UserDAO()
+        var u = dao.load(_id: "5e5c4351e51c162720ca985")
+        print(u.pseudo)
     }
 }

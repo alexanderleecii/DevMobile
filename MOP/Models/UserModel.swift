@@ -8,7 +8,7 @@
 
 import Foundation
 
-class User{
+class User:Decodable{
     var _id : String
     var pseudo : String
     var email : String

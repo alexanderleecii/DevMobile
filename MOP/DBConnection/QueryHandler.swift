@@ -7,21 +7,37 @@
 //
 
 import Foundation
-import MongoKitten
+
+enum QueryError:Error{
+    case noDataAvailable
+    case cannotProcessData
+}
 
 class QueryHandler{
-    var db : MongoDatabase
-    init() {
-        db = try! MongoDatabase.synchronousConnect("mongodb+srv://bduser:password07@mernswiftproject-1jeom.mongodb.net/test?retryWrites=true&w=majority")
+    let resourceURL: URL
+    
+    init(endpoint: String){
+        let resourceString = "https://wouldyoureact.herokuapp.com/api/\(endpoint)"
+        guard let resourceURL = URL(string: resourceString) else {
+            fatalError()
+        }
+        self.resourceURL = resourceURL
     }
     
-    func fetchUser(_id : String) -> [String]{
-        var res : [String] = []
-        let users = db["users"]
-        
-        let pseudo = users.find("_id" == _id).map{document in
-            res.append((document["pseudo"] as? String)!)
+    func load(_id: String, completion: @escaping(Result<User, QueryError>) -> Void){
+        let dataTask = URLSession.shared.dataTask(with: resourceURL.appendingPathComponent(_id)){ data, _, _ in
+            guard let jsonData = data else{
+                completion(.failure(.noDataAvailable))
+                return
+            }
+            do{
+                let decoder = JSONDecoder()
+                let response = try decoder.decode(User.self, from: jsonData)
+                completion(.success(response))
+            }catch{
+                completion(.failure(.cannotProcessData))
+            }
         }
-        return res
+        dataTask.resume()
     }
 }
