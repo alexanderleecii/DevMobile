@@ -12,14 +12,22 @@ struct PostItem: View {
     var post : Post
     
     var body: some View {
-        VStack{
+        VStack(spacing:0){
             Text(post.text)
-                .frame(width:300, height:100)
+                .frame(width:350, height:100)
                 .background(Color(red: 0.95, green: 0.95, blue: 0.95, opacity: 1.0))
+            HStack{
+                Image("like_post")
+                Text("10")
+            }
+            .padding(10)
+            .frame(width:350, height:40, alignment: .leading)
+            .background(Color(red: 0.95, green: 0.95, blue: 0.95, opacity: 1.0))
             
             if post.location != nil{
                 Text(String(post.location!))
-                .frame(width:300, height:30)
+                    .padding(.leading, 10)
+                    .frame(width:350, height:30, alignment: .leading)
                 .background(Color(red: 0.6, green: 0.6, blue: 0.6, opacity: 1.0))
                 .foregroundColor(Color.white)
             }
@@ -29,7 +37,8 @@ struct PostItem: View {
                     tag in Text(tag)
                 }
             }
-            .frame(width:300, height:40)
+            .padding(10)
+            .frame(width:350, height:40, alignment: .leading)
             .background(Color(red: 0.8, green: 0.8, blue: 0.8, opacity: 1.0))
             .foregroundColor(Color.white)
         }.cornerRadius(10)

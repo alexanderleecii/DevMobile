@@ -24,18 +24,22 @@ class QueryHandler{
         self.resourceURL = resourceURL
     }
     
-    func load(_id: String, completion: @escaping(Result<User, QueryError>) -> Void){
-        let dataTask = URLSession.shared.dataTask(with: resourceURL.appendingPathComponent(_id)){ data, _, _ in
-            guard let jsonData = data else{
-                completion(.failure(.noDataAvailable))
+    func loadUser(_id: String){
+        var request = URLRequest(url: resourceURL.appendingPathComponent(_id))
+        request.httpMethod = "GET"
+        
+        let dataTask = URLSession.shared.dataTask(with: request){ data, response, error in
+            if let error = error {
+                print("Error \(error)")
                 return
             }
-            do{
-                let decoder = JSONDecoder()
-                let response = try decoder.decode(User.self, from: jsonData)
-                completion(.success(response))
-            }catch{
-                completion(.failure(.cannotProcessData))
+            
+            if let response = response as? HTTPURLResponse {
+                print("Response status code \(response.statusCode)")
+            }
+            
+            if let data = data, let dataString = String(data: data, encoding: .utf8){
+                print("Response data string: \(dataString)")
             }
         }
         dataTask.resume()

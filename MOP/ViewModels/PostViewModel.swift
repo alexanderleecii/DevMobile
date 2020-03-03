@@ -24,18 +24,7 @@ class PostViewModel : ObservableObject{
         postSet[1].addTag(tag: "#Ribonucleico")
         postSet[1].addLocation(loc:"Egipt, Rio du Janeiro")
         
-        /*let db = try! MongoDatabase.synchronousConnect("mongodb+srv://bduser:password07@mernswiftproject-1jeom.mongodb.net/test?retryWrites=true&w=majority")
-        let users = db["users"]
-        users.find()
-            .map{document in
-                return document["pseudo"] as? String
-            }
-            .forEach{pseudo in
-                print("user: \(pseudo as! String)")
-            }*/
-        
-        let dao = UserDAO()
-        var u = dao.load(_id: "5e5c4351e51c162720ca985")
-        print(u.pseudo)
+        /*let dao = UserDAO()
+        dao.loadUserWithId(_id: "5e5c4351e51c162720ca985")*/
     }
 }

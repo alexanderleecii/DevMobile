@@ -11,14 +11,7 @@ import Foundation
 class UserDAO{
     let qh = QueryHandler(endpoint: "users/")
     
-    func load(_id: String) -> User{
-        qh.load(_id: _id){[weak self] result in
-            switch result{
-                case .failure(let error):
-                    print(error)
-                case .success(let user):
-                    return user
-            }
-        }
+    func loadUserWithId(_id: String){
+        qh.loadUser(_id: _id)
     }
 }
