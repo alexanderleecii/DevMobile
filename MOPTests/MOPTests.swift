@@ -7,7 +7,6 @@
 //
 
 import XCTest
-@testable import MOP
 
 class MOPTests: XCTestCase {
 

@@ -1,9 +1,24 @@
 //
 //  PhotoCaptureView.swift
-//  MOP
+//  Camera
 //
-//  Created by etud on 03/03/2020.
-//  Copyright © 2020 Groupe Incroyable. All rights reserved.
+//  Created by ds-mayur on 10/4/19.
+//  Copyright © 2019 Mayur Rathod. All rights reserved.
 //
+import SwiftUI
 
-import Foundation
+struct PhotoCaptureView: View {
+    
+    @Binding var showImagePicker    : Bool
+    @Binding var image              : Image?
+    
+    var body: some View {
+        ImagePicker(isShown: $showImagePicker, image: $image)
+    }
+}
+
+struct PhotoCaptureView_Previews: PreviewProvider {
+    static var previews: some View {
+        PhotoCaptureView(showImagePicker: .constant(false), image: .constant(Image("")))
+    }
+}
