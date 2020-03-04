@@ -11,7 +11,7 @@ import Foundation
 class UserDAO{
     let qh = QueryHandler(endpoint: "users/")
     
-    func loadUserWithId(_id: String){
+    /*func loadUserWithId(_id: String){
         qh.loadUser(_id: _id)
-    }
+    }*/
 }

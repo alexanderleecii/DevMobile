@@ -17,8 +17,14 @@ struct PostItem: View {
                 .frame(width:350, height:100)
                 .background(Color(red: 0.95, green: 0.95, blue: 0.95, opacity: 1.0))
             HStack{
-                Image("like_post")
-                Text("10")
+                Button(action: {
+                    self.post.nbLikes+=1
+                    print(self.post.nbLikes)
+                }){
+                    Image("like_post")
+                        .foregroundColor(Color.gray)
+                }
+                Text(String(self.post.nbLikes))
             }
             .padding(10)
             .frame(width:350, height:40, alignment: .leading)
