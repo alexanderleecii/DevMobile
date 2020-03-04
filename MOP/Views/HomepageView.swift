@@ -10,6 +10,7 @@ import SwiftUI
 
 struct HomepageView: View {
     @ObservedObject var mainViewRouter : MainViewRouter
+    @ObservedObject var postViewRouter : PostViewRouter
     
     var body: some View {
         
@@ -23,15 +24,17 @@ struct HomepageView: View {
                 }
             }
         
-        //GeometryReader allows us to build de view acording to the screen size
+        //GeometryReader allows us to build the view according to the screen size
         return GeometryReader{ geometry in
             ZStack(alignment: .leading){
                 if !self.mainViewRouter.showMenu{
+                    
                     if self.mainViewRouter.currentPage == "latest_posts"{
                         LatestPostsView(mainViewRouter: self.mainViewRouter)
                         .frame(width: geometry.size.width, height: geometry.size.height)
                     }else if self.mainViewRouter.currentPage == "top_posts"{
-                        Text("top")
+                        TopPostsView(mainViewRouter: self.mainViewRouter)
+                        .frame(width: geometry.size.width, height: geometry.size.height)
                     }else if self.mainViewRouter.currentPage == "profile"{
                         Text("profile")
                     }else if self.mainViewRouter.currentPage == "settings"{
@@ -146,6 +149,6 @@ struct TopPostsView: View{
 
 struct HomepageView_Previews: PreviewProvider {
     static var previews: some View {
-        HomepageView(mainViewRouter: MainViewRouter())
+        HomepageView(mainViewRouter: MainViewRouter(),postViewRouter: PostViewRouter())
     }
 }

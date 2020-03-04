@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct PostItem: View {
-    var post : Post
+    @ObservedObject var post : Post
     
     var body: some View {
         VStack(spacing:0){

@@ -25,6 +25,7 @@
 		AE078B88240959F3004DC88D /* HomepageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE078B87240959F3004DC88D /* HomepageView.swift */; };
 		AE078B8A24095F4C004DC88D /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE078B8924095F4C004DC88D /* PostView.swift */; };
 		AE078B8C24097146004DC88D /* PostItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE078B8B24097146004DC88D /* PostItem.swift */; };
+		AE66722024104EC80095C97A /* PostViewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE66721F24104EC80095C97A /* PostViewRouter.swift */; };
 		AEB70433240CFB63006651EE /* LogIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB70432240CFB63006651EE /* LogIn.swift */; };
 		AEB70435240CFB77006651EE /* SignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB70434240CFB77006651EE /* SignIn.swift */; };
 		AEC1BABE240D304A0046D5B9 /* QueryHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC1BABD240D304A0046D5B9 /* QueryHandler.swift */; };
@@ -79,6 +80,7 @@
 		AE078B87240959F3004DC88D /* HomepageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomepageView.swift; sourceTree = "<group>"; };
 		AE078B8924095F4C004DC88D /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
 		AE078B8B24097146004DC88D /* PostItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostItem.swift; sourceTree = "<group>"; };
+		AE66721F24104EC80095C97A /* PostViewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewRouter.swift; sourceTree = "<group>"; };
 		AEB70432240CFB63006651EE /* LogIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogIn.swift; sourceTree = "<group>"; };
 		AEB70434240CFB77006651EE /* SignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignIn.swift; sourceTree = "<group>"; };
 		AEC1BABD240D304A0046D5B9 /* QueryHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryHandler.swift; sourceTree = "<group>"; };
@@ -139,6 +141,7 @@
 		AE078B3E24094C96004DC88D /* MOP */ = {
 			isa = PBXGroup;
 			children = (
+				AE66721E24104E9B0095C97A /* Routers */,
 				AEC1BABC240D2FBB0046D5B9 /* DBConnection */,
 				AE078B8624095996004DC88D /* Views */,
 				AE078B7D24095756004DC88D /* ViewModels */,
@@ -212,9 +215,17 @@
 				AEB70434240CFB77006651EE /* SignIn.swift */,
 				B7EB123A240FC819002FEDEA /* MenuView.swift */,
 				B7145609240EB90E00286357 /* ContentView.swift */,
-				B7EB123C240FEE97002FEDEA /* MainViewRouter.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		AE66721E24104E9B0095C97A /* Routers */ = {
+			isa = PBXGroup;
+			children = (
+				B7EB123C240FEE97002FEDEA /* MainViewRouter.swift */,
+				AE66721F24104EC80095C97A /* PostViewRouter.swift */,
+			);
+			path = Routers;
 			sourceTree = "<group>";
 		};
 		AEC1BABC240D2FBB0046D5B9 /* DBConnection */ = {
@@ -383,6 +394,7 @@
 				AE078B78240950A6004DC88D /* UserModel.swift in Sources */,
 				AE078B7024094D73004DC88D /* PostModel.swift in Sources */,
 				AE078B7224094D8D004DC88D /* CommentModel.swift in Sources */,
+				AE66722024104EC80095C97A /* PostViewRouter.swift in Sources */,
 				AE078B88240959F3004DC88D /* HomepageView.swift in Sources */,
 				AE078B8124095832004DC88D /* PostViewModel.swift in Sources */,
 				AE078B85240958F3004DC88D /* TagViewModel.swift in Sources */,

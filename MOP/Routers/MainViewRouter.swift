@@ -13,7 +13,7 @@ import SwiftUI
 //Will notify and update all the observing views
 class MainViewRouter: ObservableObject{
     
-    //Passes its data to any view that's observing whenver the objectWillChange property is called
+    //Passes its data to any view that's observing whenever the objectWillChange property is called
     let objectWillChange = PassthroughSubject<MainViewRouter,Never>()
     
     var showMenu: Bool = false{

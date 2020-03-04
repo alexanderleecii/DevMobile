@@ -8,9 +8,9 @@
 
 import Foundation
 
-class Post : Identifiable{
+class Post : Identifiable, ObservableObject{
     var _id : String
-    var nbLikes : Int
+    @Published var nbLikes : Int
     var text : String
     var nbReports : Int
     var imgUrl : String?
