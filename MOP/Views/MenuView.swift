@@ -13,58 +13,13 @@ struct MenuView: View {
     var body: some View {
         NavigationView{
             VStack(alignment: .leading){
-                HStack{
-                    Button(action: {
-                        self.mainViewRouter.currentPage = "latest_posts"
-                        withAnimation{
-                            self.mainViewRouter.showMenu = false
-                        }
-                    }){
-                        Text("Latest posts")
-                        .foregroundColor(Color.gray)
-                        .font(.headline)
-                    }
-                }
+                MenuButton(mainViewRouter: self.mainViewRouter, name: "Latest Post")
                 .padding(.top, 100)
-                HStack{
-                    Button(action: {
-                        self.mainViewRouter.currentPage = "top_posts"
-                        withAnimation{
-                            self.mainViewRouter.showMenu = false
-                        }
-                    }){
-                        Text("Top posts")
-                        .foregroundColor(Color.gray)
-                        .font(.headline)
-
-                    }
-                                    }
+                MenuButton(mainViewRouter: self.mainViewRouter, name: "Top Post")
                 .padding(.top, 30)
-                HStack{
-                    Button(action: {
-                        self.mainViewRouter.currentPage = "profile"
-                        withAnimation{
-                            self.mainViewRouter.showMenu = false
-                        }
-                    }){
-                        Text("Profile")
-                        .foregroundColor(Color.gray)
-                        .font(.headline)
-                    }
-                }
+                MenuButton(mainViewRouter: self.mainViewRouter, name: "Profile")
                 .padding(.top, 30)
-                HStack{
-                    Button(action: {
-                        self.mainViewRouter.currentPage = "settings"
-                        withAnimation{
-                            self.mainViewRouter.showMenu = false
-                        }
-                    }){
-                        Text("Settings")
-                        .foregroundColor(Color.gray)
-                        .font(.headline)
-                    }
-                }
+                MenuButton(mainViewRouter: self.mainViewRouter, name: "Settings")
                 .padding(.top, 30)
                 Spacer()
             }
@@ -77,6 +32,27 @@ struct MenuView: View {
         .navigationBarHidden(true)
     }
 }
+
+
+struct MenuButton : View {
+    @ObservedObject var mainViewRouter : MainViewRouter
+    var name : String
+    var body : some View{
+        HStack{
+            Button(action: {
+                self.mainViewRouter.currentPage = String(self.name.map{$0 == " " ? " ": $0})
+                withAnimation{
+                    self.mainViewRouter.showMenu = false
+                }
+            }){
+                Text(name)
+                .foregroundColor(Color.gray)
+                .font(.headline)
+            }
+        }
+    }
+}
+ 
 
 struct MenuView_Previews: PreviewProvider {
     static var previews: some View {
