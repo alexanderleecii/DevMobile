@@ -21,6 +21,9 @@ struct MenuView: View {
                 .padding(.top, 30)
                 MenuButton(mainViewRouter: self.mainViewRouter, name: "Settings")
                 .padding(.top, 30)
+                // logic for when a user is logged = Sign Out - not logged Log In or Sign In
+                MenuButton(mainViewRouter: self.mainViewRouter, name: "Log In")
+                .padding(.top, 30)
                 Spacer()
             }
             .padding()
