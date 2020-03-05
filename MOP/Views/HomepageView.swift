@@ -30,10 +30,10 @@ struct HomepageView: View {
                 if !self.mainViewRouter.showMenu{
                     
                     if self.mainViewRouter.currentPage == "latest_posts"{
-                        LatestPostsView(mainViewRouter: self.mainViewRouter)
+                        LatestPostsView(mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter)
                         .frame(width: geometry.size.width, height: geometry.size.height)
                     }else if self.mainViewRouter.currentPage == "top_posts"{
-                        TopPostsView(mainViewRouter: self.mainViewRouter)
+                        TopPostsView(mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter)
                         .frame(width: geometry.size.width, height: geometry.size.height)
                     }else if self.mainViewRouter.currentPage == "profile"{
                         Text("profile")
@@ -43,12 +43,12 @@ struct HomepageView: View {
                     
                 }else{
                     if self.mainViewRouter.currentPage == "latest_posts"{
-                        LatestPostsView(mainViewRouter: self.mainViewRouter)
+                        LatestPostsView(mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter)
                         .frame(width: geometry.size.width, height: geometry.size.height)
                         .blur(radius: 2)
                         .disabled(self.mainViewRouter.showMenu)
                     }else if self.mainViewRouter.currentPage == "top_posts"{
-                        TopPostsView(mainViewRouter: self.mainViewRouter)
+                        TopPostsView(mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter)
                         .frame(width: geometry.size.width, height: geometry.size.height)
                         .blur(radius: 2)
                         .disabled(self.mainViewRouter.showMenu)
@@ -73,6 +73,7 @@ struct HomepageView: View {
 struct LatestPostsView: View{
     @ObservedObject var posts = PostViewModel()
     @ObservedObject var mainViewRouter: MainViewRouter
+    @ObservedObject var postViewRouter: PostViewRouter
     
     var body: some View{
         VStack{
@@ -98,7 +99,7 @@ struct LatestPostsView: View{
                 VStack(spacing: 15){
                     ForEach(self.posts.postSet){
                         post in
-                        PostItem(post: post)
+                        PostItem(post: post, postViewRouter: self.postViewRouter)
                         Spacer()
                     }
                 }
@@ -117,6 +118,7 @@ struct LatestPostsView: View{
 struct TopPostsView: View{
     @ObservedObject var posts = PostViewModel()
     @ObservedObject var mainViewRouter: MainViewRouter
+    @ObservedObject var postViewRouter: PostViewRouter
     
     var body: some View{
         VStack{
@@ -142,7 +144,7 @@ struct TopPostsView: View{
                 VStack(spacing: 10){
                     ForEach(self.posts.postSet){
                         post in
-                        PostItem(post: post)
+                        PostItem(post: post, postViewRouter: self.postViewRouter)
                         Spacer()
                     }
                 }

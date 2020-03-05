@@ -17,6 +17,15 @@ class Post : Identifiable, ObservableObject{
     var location : String?
     var tags : [String]
     
+    init()
+    {
+        self._id = ""
+        self.nbLikes = 0
+        self.text = ""
+        self.nbReports = 0
+        self.tags = []
+    }
+    
     init(_id:String, nbLikes:Int, text:String, nbReports:Int) {
         self._id = _id
         self.nbLikes = nbLikes

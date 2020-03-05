@@ -20,5 +20,9 @@ class PostViewRouter: ObservableObject{
         }
     }
     
-    //var post: Post =Post(_id: "ok", nbLikes: 1, text: "C'est pas cool", nbReports: 0)
+    var post: Post = Post(){
+        didSet{
+            objectWillChange.send(self)
+        }
+    }
 }

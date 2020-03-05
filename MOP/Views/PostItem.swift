@@ -10,12 +10,19 @@ import SwiftUI
 
 struct PostItem: View {
     @ObservedObject var post : Post
+    @ObservedObject var postViewRouter : PostViewRouter
     
     var body: some View {
         VStack(spacing:0){
-            Text(post.text)
+            Button(action: {
+                self.postViewRouter.post = self.post
+                self.postViewRouter.showPost = true
+            }){
+                Text(post.text)
                 .frame(width:350, height:100)
                 .background(Color(red: 0.95, green: 0.95, blue: 0.95, opacity: 1.0))
+            }
+            
             HStack{
                 Button(action: {
                     self.post.nbLikes+=1
@@ -56,6 +63,6 @@ struct PostItem: View {
 struct PostItem_Previews: PreviewProvider {
     static var previews: some View {
         
-        PostItem(post: PostViewModel().postSet[0])
+        PostItem(post: PostViewModel().postSet[0], postViewRouter: PostViewRouter())
     }
 }
