@@ -13,9 +13,9 @@ struct MenuView: View {
     var body: some View {
         NavigationView{
             VStack(alignment: .leading){
-                MenuButton(mainViewRouter: self.mainViewRouter, name: "Latest Post")
+                MenuButton(mainViewRouter: self.mainViewRouter, name: "Latest posts")
                 .padding(.top, 100)
-                MenuButton(mainViewRouter: self.mainViewRouter, name: "Top Post")
+                MenuButton(mainViewRouter: self.mainViewRouter, name: "Top posts")
                 .padding(.top, 30)
                 MenuButton(mainViewRouter: self.mainViewRouter, name: "Profile")
                 .padding(.top, 30)
@@ -40,7 +40,7 @@ struct MenuButton : View {
     var body : some View{
         HStack{
             Button(action: {
-                self.mainViewRouter.currentPage = String(self.name.map{$0 == " " ? " ": $0})
+                self.mainViewRouter.currentPage = String(self.name.lowercased().replacingOccurrences(of: " ", with: "_"))
                 withAnimation{
                     self.mainViewRouter.showMenu = false
                 }

@@ -42,10 +42,21 @@ struct HomepageView: View {
                     }
                     
                 }else{
-                    LatestPostsView(mainViewRouter: self.mainViewRouter)
-                    .frame(width: geometry.size.width, height: geometry.size.height)
-                    .blur(radius: 2)
-                        .disabled(self.mainViewRouter.showMenu ? true : false)
+                    if self.mainViewRouter.currentPage == "latest_posts"{
+                        LatestPostsView(mainViewRouter: self.mainViewRouter)
+                        .frame(width: geometry.size.width, height: geometry.size.height)
+                        .blur(radius: 2)
+                        .disabled(self.mainViewRouter.showMenu)
+                    }else if self.mainViewRouter.currentPage == "top_posts"{
+                        TopPostsView(mainViewRouter: self.mainViewRouter)
+                        .frame(width: geometry.size.width, height: geometry.size.height)
+                        .blur(radius: 2)
+                        .disabled(self.mainViewRouter.showMenu)
+                    }else if self.mainViewRouter.currentPage == "profile"{
+                        Text("profile")
+                    }else if self.mainViewRouter.currentPage == "settings"{
+                        Text("settings")
+                    }
                     
                     MenuView(mainViewRouter: self.mainViewRouter)
                     .frame(width: geometry.size.width/2)
@@ -128,7 +139,7 @@ struct TopPostsView: View{
                 .font(.title).bold()
                 .frame(width: 350, height: 50, alignment: .leading)
             ScrollView{
-                VStack(spacing: 15){
+                VStack(spacing: 10){
                     ForEach(self.posts.postSet){
                         post in
                         PostItem(post: post)
