@@ -27,41 +27,84 @@ struct HomepageView: View {
         //GeometryReader allows us to build the view according to the screen size
         return GeometryReader{ geometry in
             ZStack(alignment: .leading){
-                if !self.mainViewRouter.showMenu{
-                    
-                    if self.mainViewRouter.currentPage == "latest_posts"{
-                        LatestPostsView(mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter)
-                        .frame(width: geometry.size.width, height: geometry.size.height)
-                    }else if self.mainViewRouter.currentPage == "top_posts"{
-                        TopPostsView(mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter)
-                        .frame(width: geometry.size.width, height: geometry.size.height)
-                    }else if self.mainViewRouter.currentPage == "profile"{
-                        Text("profile")
-                    }else if self.mainViewRouter.currentPage == "settings"{
-                        Text("settings")
+                VStack{
+                    HStack{
+                        Button(action: {
+                            withAnimation{
+                                self.mainViewRouter.showMenu = true
+                            }
+                        }){
+                            Image("menu")
+                                .foregroundColor(Color.gray)
+                        }
                     }
-                    
-                }else{
-                    if self.mainViewRouter.currentPage == "latest_posts"{
-                        LatestPostsView(mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter)
-                        .frame(width: geometry.size.width, height: geometry.size.height)
-                        .blur(radius: 2)
-                        .disabled(self.mainViewRouter.showMenu)
-                    }else if self.mainViewRouter.currentPage == "top_posts"{
-                        TopPostsView(mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter)
-                        .frame(width: geometry.size.width, height: geometry.size.height)
-                        .blur(radius: 2)
-                        .disabled(self.mainViewRouter.showMenu)
-                    }else if self.mainViewRouter.currentPage == "profile"{
-                        Text("profile")
-                    }else if self.mainViewRouter.currentPage == "settings"{
-                        Text("settings")
+                    .padding(.top, 5)
+                    .frame(width: 350, height: 40, alignment: .leading)
+                    Divider()
+                        .background(Color.gray)
+                        .frame(width:420, height:10)
+                    Spacer()
+                    if !self.mainViewRouter.showMenu{
+                        
+                        if !self.postViewRouter.showPost{
+                            if self.mainViewRouter.currentPage == "latest_posts"{
+                                LatestPostsView(mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter)
+                                .frame(width: geometry.size.width)
+                            }else if self.mainViewRouter.currentPage == "top_posts"{
+                                TopPostsView(mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter)
+                                .frame(width: geometry.size.width)
+                            }else if self.mainViewRouter.currentPage == "profile"{
+                                Text("profile")
+                            }else if self.mainViewRouter.currentPage == "settings"{
+                                Text("settings")
+                            }
+                        }else{
+                            PostView(post: self.postViewRouter.post)
+                        }
+                        
+                    }else{
+                        if !self.postViewRouter.showPost{
+                            if self.mainViewRouter.currentPage == "latest_posts"{
+                                LatestPostsView(mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter)
+                                .frame(width: geometry.size.width)
+                                .blur(radius: 2)
+                                .disabled(self.mainViewRouter.showMenu)
+                            }else if self.mainViewRouter.currentPage == "top_posts"{
+                                TopPostsView(mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter)
+                                .frame(width: geometry.size.width)
+                                .blur(radius: 2)
+                                .disabled(self.mainViewRouter.showMenu)
+                            }else if self.mainViewRouter.currentPage == "profile"{
+                                Text("profile")
+                            }else if self.mainViewRouter.currentPage == "settings"{
+                                Text("settings")
+                            }
+                        }else{
+                            PostView(post: self.postViewRouter.post)
+                            .frame(width: geometry.size.width)
+                            .blur(radius: 2)
+                            .disabled(self.mainViewRouter.showMenu)
+                        }
                     }
-                    
-                    MenuView(mainViewRouter: self.mainViewRouter)
+                    HStack(spacing: 50){
+                        Button(action:{
+                            self.mainViewRouter.currentPage = "latest_posts"
+                            self.postViewRouter.showPost = false
+                        }){
+                            Image("home")
+                                .foregroundColor(Color.black)
+                        }
+                        Image("add")
+                        Image("search")
+                    }
+                    .frame(width:420, height:60)
+                    .background(Color.gray)
+                }
+                if self.mainViewRouter.showMenu{
+                    MenuView(mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter)
                     .frame(width: geometry.size.width/2)
+                        .padding(.leading)
                     .transition(.move(edge: .leading))
-                    
                 }
             }
             .gesture(drag)
@@ -77,26 +120,11 @@ struct LatestPostsView: View{
     
     var body: some View{
         VStack{
-            HStack{
-                Button(action: {
-                    withAnimation{
-                        self.mainViewRouter.showMenu = true
-                    }
-                }){
-                    Image("menu")
-                        .foregroundColor(Color.gray)
-                }
-            }
-            .padding(.top, 5)
-            .frame(width: 350, height: 40, alignment: .leading)
-            Divider()
-                .background(Color.gray)
-                .frame(width:420, height:10)
             Text("Latest posts")
                 .font(.title).bold()
                 .frame(width: 350, height: 50, alignment: .leading)
             ScrollView{
-                VStack(spacing: 15){
+                VStack(spacing: 10){
                     ForEach(self.posts.postSet){
                         post in
                         PostItem(post: post, postViewRouter: self.postViewRouter)
@@ -104,13 +132,6 @@ struct LatestPostsView: View{
                     }
                 }
             }
-            HStack(spacing: 50){
-                Image("home")
-                Image("add")
-                Image("search")
-            }
-            .frame(width:420, height:60)
-            .background(Color.gray)
         }
     }
 }
@@ -122,21 +143,6 @@ struct TopPostsView: View{
     
     var body: some View{
         VStack{
-            HStack{
-                Button(action: {
-                    withAnimation{
-                        self.mainViewRouter.showMenu = true
-                    }
-                }){
-                    Image("menu")
-                        .foregroundColor(Color.gray)
-                }
-            }
-            .padding(.top, 5)
-            .frame(width: 350, height: 40, alignment: .leading)
-            Divider()
-                .background(Color.gray)
-                .frame(width:420, height:10)
             Text("Top posts")
                 .font(.title).bold()
                 .frame(width: 350, height: 50, alignment: .leading)
@@ -149,13 +155,6 @@ struct TopPostsView: View{
                     }
                 }
             }
-            HStack(spacing: 50){
-                Image("home")
-                Image("add")
-                Image("search")
-            }
-            .frame(width:420, height:60)
-            .background(Color.gray)
         }
     }
 }

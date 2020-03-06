@@ -16,6 +16,7 @@ class Post : Identifiable, ObservableObject{
     var imgUrl : String?
     var location : String?
     var tags : [String]
+    var comments : [Comment]
     
     init()
     {
@@ -24,6 +25,7 @@ class Post : Identifiable, ObservableObject{
         self.text = ""
         self.nbReports = 0
         self.tags = []
+        self.comments = []
     }
     
     init(_id:String, nbLikes:Int, text:String, nbReports:Int) {
@@ -32,6 +34,7 @@ class Post : Identifiable, ObservableObject{
         self.text = text
         self.nbReports = nbReports
         self.tags = []
+        self.comments = []
     }
     
     func getTags() -> [String]{

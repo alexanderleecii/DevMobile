@@ -9,14 +9,42 @@
 import SwiftUI
 
 struct PostView: View {
-
+    @ObservedObject var post : Post
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack{
+            PostItem(post: post, postViewRouter: PostViewRouter())
+                .padding(.bottom, 20)
+            HStack{
+                Text("Comments")
+                    .padding(.trailing, 10)
+                Button(action: {
+                    
+                }){
+                    Text("Latest")
+                        .foregroundColor(Color.gray)
+                }
+                Text("|")
+                Button(action: {
+                    
+                }){
+                    Text("Top")
+                        .foregroundColor(Color.gray)
+                }
+            }.frame(width: 350, alignment: .leading)
+                .padding(.bottom, -10)
+            
+            Divider()
+            .background(Color.gray)
+            .frame(width:350, height:1)
+            CommentsView(post: post)
+            Spacer()
+        }
+        
     }
 }
 
 struct PostView_Previews: PreviewProvider {
     static var previews: some View {
-        PostView()
+        PostView(post: Post())
     }
 }
