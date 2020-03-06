@@ -9,7 +9,15 @@
 import Foundation
 
 class PostDAO{
+    let qh = QueryHandler(endpoint: "posts/")
     
+    func loadPostWithId(_id: String){
+        guard let json = qh.getWithId(_id: _id) else { return }
+        let decoder = JSONDecoder()
+        //let post = try? decoder.decode(Post.self, from: json)
+    }
     
-    
+    func loadAllPosts(){
+        qh.getAll()
+    }
 }

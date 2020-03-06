@@ -33,7 +33,8 @@ class PostViewModel : ObservableObject{
         postSet[1].addTag(tag: "#Ribonucleico")
         postSet[1].addLocation(loc:"Egipt, Rio du Janeiro")
         
-        /*let dao = UserDAO()
-        dao.loadUserWithId(_id: "5e5c4351e51c162720ca985")*/
+        let dao = PostDAO()
+        dao.loadPostWithId(_id: "5e5c43c664ef650a203d6f6b")
+        //dao.loadAllPosts()
     }
 }

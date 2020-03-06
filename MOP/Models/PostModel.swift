@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Post : Identifiable, ObservableObject{
+class Post : Identifiable, ObservableObject/*, Decodable*/{
     var _id : String
     @Published var nbLikes : Int
     var text : String
