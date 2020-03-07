@@ -8,19 +8,30 @@
 
 import Foundation
 
+
 class Post : Identifiable, ObservableObject/*, Decodable*/{
-    var _id : String
-    @Published var nbLikes : Int
+    var _id = UUID()
+    
     var text : String
-    var nbReports : Int
     var imgUrl : String?
     var location : String?
-    var tags : [String]
-    var comments : [Comment]
+    var tags : [String] = []
+    
+    @Published var nbLikes : Int = 0
+    var nbReports : Int = 0
+    
+    
+    var comments : [Comment] = []
+    
+    init(text:String, location:String, imgUrl:String, tags:[String]){
+        self.text = text
+        self.location = location
+        self.imgUrl = imgUrl
+        self.tags = tags
+    }
     
     init()
     {
-        self._id = ""
         self.nbLikes = 0
         self.text = ""
         self.nbReports = 0
@@ -28,13 +39,10 @@ class Post : Identifiable, ObservableObject/*, Decodable*/{
         self.comments = []
     }
     
-    init(_id:String, nbLikes:Int, text:String, nbReports:Int) {
-        self._id = _id
-        self.nbLikes = nbLikes
+    init(text:String, nbLikes:Int, nbReports:Int) {
         self.text = text
+        self.nbLikes = nbLikes
         self.nbReports = nbReports
-        self.tags = []
-        self.comments = []
     }
     
     func getTags() -> [String]{

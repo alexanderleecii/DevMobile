@@ -10,76 +10,128 @@ import SwiftUI
 
 struct AddPostView: View {
     @Environment(\.presentationMode) var presentation
+    
+    //post attributes
     @State var postStr = ""
-    @State var option = "image"
     @State var location = ""
-    @State var selectingImage = false
+    @State var tags = ""
     @State var postImage : Image?
+    
+    //state control variables
+    @State var selectedOptions =
+        [ "message": false,
+          "hashtag" : false,
+          "location" : false,
+          "image" : false ]
+    @State var selectingImage = false
+    
+    
+    enum Options: String{
+        case none, message, image, tag, location
+    }
+    
+    
     var body: some View {
-            VStack{	
-                HStack{
-                    Button(action: {
-                        self.presentation.wrappedValue.dismiss()
-                    }){
-                        Text("Cancel")
-                    }
-                    Spacer()
-                    Button(action: {
-                        }){
-                        Text("Add")
-                    }
-                }
-                .padding([.leading, .trailing, .top], 25.0)
-                Rectangle()
-                    .frame( height: 1)
+        NavigationView{
+            VStack{
+                
                 TextField("post", text: $postStr)
                     .frame(height: 300.0)
                     .padding([.leading,.trailing])
                 Spacer()
-                
-                if option=="message"{
-                    
-                }else if option == "location" {
+                if selectedOptions["hashtag"]!{
+                    HStack{
+                        Text("Tags")
+                        .padding(.leading)
+                        TextField("", text: $tags)
+                        .padding(.trailing)
+                        .background(Color.gray)
+                        .cornerRadius(15.0)
+                    }
+                }
+                if selectedOptions["location"]! {
                     HStack{
                         Text("Where were you?")
                         .padding(.leading)
-                        TextField("qsdqsd", text: $location)
+                        TextField("", text: $location)
                         .padding(.trailing)
+                        .background(Color.gray)
+                        .cornerRadius(15.0)
                     }
-                    .padding(.bottom, 50.0)
+                    .padding(.bottom, 20.0)
                     .font(.body)
-                }else if option == "tags" {
-                    
-                }else if option == "image"{
-                    Button(action:{
-                        self.selectingImage.toggle()
-                    }){
-                        Text("Select Image")
-                    }.sheet(isPresented: $selectingImage){
-                        PhotoCaptureView(showImagePicker: self.$selectingImage, image: self.$postImage)
-                        
-                    }
                 }
-                
-                HStack{
-                    HStack(spacing: 50){
-                        Image("message")
-                        .resizable()
-                        .frame(width: 35.0, height: 35.0)
-                        Image("location")
-                        .resizable()
-                        .frame(width: 35.0, height: 35.0)
-                        Image("gallery")
-                        .resizable()
-                        .frame(width: 35.0, height: 35.0)
+                if selectedOptions["image"]!{
+                    VStack{
+                        NavigationLink(destination: ImagePicker(isShown: self.$selectingImage, image: self.$postImage),
+                                       isActive: self.$selectingImage){EmptyView()}
+                        Button(action:{
+                            self.selectingImage.toggle()
+                        }){
+                            Text("Select Image...")
+                        }
                     }
                     
-
                 }
 
+                HStack(spacing: 50){
+                    MenuIcon(selectedOptions: self.$selectedOptions, menuType: "message")
+                    MenuIcon(selectedOptions: self.$selectedOptions, menuType: "location")
+                    MenuIcon(selectedOptions: self.$selectedOptions, menuType: "hashtag")
+                    MenuIcon(selectedOptions: self.$selectedOptions, menuType: "image")
+                }
             }
-
+            .navigationBarTitle(Text("New Post"))
+            .navigationBarItems(
+                leading:
+                Button(action:{
+                    
+                }){
+                    Text("Cancel")
+                },
+                trailing:
+                Button(action:{
+                    //TODO add to list of Posts
+                    self.createNewPost()
+                }){
+                    Text("Add Post")
+                })
+        }
    }
+    
+    //TODO
+    func convertImageToURL() -> String {
+        return "image.url"
+    }
+    
+    //TODO
+    func convertTagStrToArray() -> [String]{
+        return ["hello","goodbye"]
+    }
+    
+    func createNewPost() -> Post {
+        return Post(text: self.$postStr.wrappedValue,
+                    location: self.$location.wrappedValue,
+                    imgUrl: convertImageToURL(),
+                    tags: convertTagStrToArray()
+        )
+    }
+}
+
+struct MenuIcon : View {
+    @Binding var selectedOptions : [String : Bool]
+    var menuType : String
+    var body : some View{
+        Button(action: {
+            self.selectedOptions[self.menuType]!.toggle()
+        }){
+            Image(menuType)
+            .resizable()
+            .frame(width: 35.0, height: 35.0)
+            .foregroundColor(.black)
+        }
+    }
+    
 }
 
 struct AddPostView_Previews: PreviewProvider {

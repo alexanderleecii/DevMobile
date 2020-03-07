@@ -13,8 +13,8 @@ class PostViewModel : ObservableObject{
     @Published var postSet : [Post]
     
     init(){
-        let p1 = Post(_id: "154e6fc", nbLikes: 1, text: "C'est pas cool", nbReports: 0)
-        let p2 = Post(_id: "699th58", nbLikes: 1, text: "Mashallah ma chérie wesh", nbReports: 0)
+        let p1 = Post(text: "C'est pas cool", nbLikes:1, nbReports:0 )
+        let p2 = Post(text: "Mashallah ma chérie wesh", nbLikes:2, nbReports:1 )
         
         let c1 = Comment(_id: "1", nbLikes: 3, text: "Je ne suis pas du tout d'accord!!!", nbReports: 6, pseudo: "Michou")
         let c2 = Comment(_id: "2", nbLikes: 0, text: "Vous devriez retourner à l'école.", nbReports: 0, pseudo: "Polo")

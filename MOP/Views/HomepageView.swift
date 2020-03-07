@@ -94,7 +94,12 @@ struct HomepageView: View {
                             Image("home")
                                 .foregroundColor(Color.black)
                         }
-                        Image("add")
+                        Button(action:{
+                            //Think we are going to need a navigationLink here
+                            AddPostView()
+                        }){
+                            Image("add")
+                        }
                         Image("search")
                     }
                     .frame(width:420, height:60)
