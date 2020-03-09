@@ -11,7 +11,7 @@ import SwiftUI
 struct HomepageView: View {
     @ObservedObject var mainViewRouter : MainViewRouter
     @ObservedObject var postViewRouter : PostViewRouter
-    
+    @State var showingAddPostView = false
     var body: some View {
         
         //Custom swipe gesture to set showMenu to false when the user has swiped far enough
@@ -92,13 +92,16 @@ struct HomepageView: View {
                             self.postViewRouter.showPost = false
                         }){
                             Image("home")
-                                .foregroundColor(Color.black)
+                            .foregroundColor(Color.black)
                         }
                         Button(action:{
-                            //Think we are going to need a navigationLink here
-                            AddPostView()
+                            self.showingAddPostView.toggle()
                         }){
                             Image("add")
+                            .foregroundColor(Color.black)
+                        }
+                        .sheet(isPresented: self.$showingAddPostView){
+                            AddPostView(visible: self.$showingAddPostView)
                         }
                         Image("search")
                     }

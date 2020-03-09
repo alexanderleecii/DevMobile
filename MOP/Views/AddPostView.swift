@@ -9,22 +9,27 @@
 import SwiftUI
 
 struct AddPostView: View {
-    @Environment(\.presentationMode) var presentation
+    @Environment(\.presentationMode) private var presentation
+    
+    //Binding Attribute
+    @Binding var visible : Bool
     
     //post attributes
-    @State var postStr = ""
-    @State var location = ""
-    @State var tags = ""
-    @State var postImage : Image?
+    @State private var postStr = ""
+    @State private var location = ""
+    @State private var tags = ""
+    @State private var postImage : Image?
     
     //state control variables
-    @State var selectedOptions =
+    @State private var selectedOptions =
         [ "message": false,
           "hashtag" : false,
           "location" : false,
           "image" : false ]
-    @State var selectingImage = false
     
+    @State private var selectingImage = false
+    
+    //TODO: Preventing keyboard to cover TextField's
     
     enum Options: String{
         case none, message, image, tag, location
@@ -136,6 +141,6 @@ struct MenuIcon : View {
 
 struct AddPostView_Previews: PreviewProvider {
     static var previews: some View {
-        AddPostView()
+        AddPostView(visible: .constant(true))
     }
 }
