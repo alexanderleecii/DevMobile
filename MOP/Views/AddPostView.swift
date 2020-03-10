@@ -11,8 +11,12 @@ import SwiftUI
 struct AddPostView: View {
     @Environment(\.presentationMode) private var presentation
     
+    //PostViewModel
+    @ObservedObject var posts : PostViewModel
+    
     //Binding Attribute
     @Binding var visible : Bool
+    
     
     //post attributes
     @State private var postStr = ""
@@ -26,8 +30,8 @@ struct AddPostView: View {
           "hashtag" : false,
           "location" : false,
           "image" : false ]
-    
     @State private var selectingImage = false
+    @State private var imageAlreadySelected = false
     
     //TODO: Preventing keyboard to cover TextField's
     
@@ -39,10 +43,21 @@ struct AddPostView: View {
     var body: some View {
         NavigationView{
             VStack{
-                
-                TextField("post", text: $postStr)
-                    .frame(height: 300.0)
-                    .padding([.leading,.trailing])
+                Divider()
+                TextField("Write here ...", text: $postStr)
+                    
+                //.frame(height: 300.0)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .overlay(RoundedRectangle(cornerRadius:30.0).stroke(Color.blue, lineWidth:1))
+                    .padding([.leading,.trailing,.top, .bottom], 40)
+                    //.multilineTextAlignment(.leading)
+                    //.font(.headline)
+                if postImage != nil{
+                    postImage!
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    
+                }
                 Spacer()
                 if selectedOptions["hashtag"]!{
                     HStack{
@@ -53,6 +68,7 @@ struct AddPostView: View {
                         .background(Color.gray)
                         .cornerRadius(15.0)
                     }
+                    .animation(.default)
                 }
                 if selectedOptions["location"]! {
                     HStack{
@@ -62,23 +78,32 @@ struct AddPostView: View {
                         .padding(.trailing)
                         .background(Color.gray)
                         .cornerRadius(15.0)
+                        .animation(.default)
                     }
                     .padding(.bottom, 20.0)
                     .font(.body)
                 }
-                if selectedOptions["image"]!{
+                if selectedOptions["image"]! {
                     VStack{
-                        NavigationLink(destination: ImagePicker(isShown: self.$selectingImage, image: self.$postImage),
-                                       isActive: self.$selectingImage){EmptyView()}
                         Button(action:{
                             self.selectingImage.toggle()
                         }){
-                            Text("Select Image...")
+                            if !imageAlreadySelected {
+                                Text("Select image...")
+                            }
+                            else {
+                                Text("Replace selected image...")
+                            }
                         }
+                        .sheet(isPresented: self.$selectingImage, onDismiss: {
+                            self.selectedOptions["image"]!.toggle()
+                            self.imageAlreadySelected.toggle()
+                        }){
+                        ImagePicker(isShown: self.$selectingImage, image: self.$postImage)
                     }
-                    
+                        .animation(.default)
+                    }
                 }
-
                 HStack(spacing: 50){
                     MenuIcon(selectedOptions: self.$selectedOptions, menuType: "message")
                     MenuIcon(selectedOptions: self.$selectedOptions, menuType: "location")
@@ -90,14 +115,18 @@ struct AddPostView: View {
             .navigationBarItems(
                 leading:
                 Button(action:{
-                    
+                    self.visible.toggle()
                 }){
                     Text("Cancel")
                 },
                 trailing:
                 Button(action:{
-                    //TODO add to list of Posts
-                    self.createNewPost()
+                    //TODO agregar verificaciones de que todo esta bien
+                    if true{
+                        //Add to list of Posts
+                        self.posts.addPost(post: self.createNewPost())
+                        self.visible.toggle()
+                    }
                 }){
                     Text("Add Post")
                 })
@@ -141,6 +170,6 @@ struct MenuIcon : View {
 
 struct AddPostView_Previews: PreviewProvider {
     static var previews: some View {
-        AddPostView(visible: .constant(true))
+        AddPostView(posts: PostViewModel(), visible: .constant(true))
     }
 }

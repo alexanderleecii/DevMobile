@@ -25,7 +25,6 @@ struct PostView: View {
                 }
                 Text("|")
                 Button(action: {
-                    
                 }){
                     Text("Top")
                         .foregroundColor(Color.gray)

@@ -37,4 +37,8 @@ class PostViewModel : ObservableObject{
         dao.loadPostWithId(_id: "5e5c43c664ef650a203d6f6b")
         //dao.loadAllPosts()
     }
+    
+    func addPost(post: Post){
+        self.postSet.append(post)
+    }
 }
