@@ -9,8 +9,11 @@
 import SwiftUI
 
 struct HomepageView: View {
-    @ObservedObject var mainViewRouter : MainViewRouter
-    @ObservedObject var postViewRouter : PostViewRouter
+    @ObservedObject var mainViewRouter = MainViewRouter()
+    @ObservedObject var postViewRouter = PostViewRouter()
+    @State var showingAddPostView = false
+    @ObservedObject var posts = PostViewModel()
+    
     
     var body: some View {
         
@@ -45,13 +48,12 @@ struct HomepageView: View {
                         .frame(width:420, height:10)
                     Spacer()
                     if !self.mainViewRouter.showMenu{
-                        
                         if !self.postViewRouter.showPost{
                             if self.mainViewRouter.currentPage == "latest_posts"{
-                                LatestPostsView(mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter)
+                                LatestPostsView(posts: self.posts, mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter)
                                 .frame(width: geometry.size.width)
                             }else if self.mainViewRouter.currentPage == "top_posts"{
-                                TopPostsView(mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter)
+                                TopPostsView(posts: self.posts, mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter)
                                 .frame(width: geometry.size.width)
                             }else if self.mainViewRouter.currentPage == "profile"{
                                 Text("profile")
@@ -61,16 +63,15 @@ struct HomepageView: View {
                         }else{
                             PostView(post: self.postViewRouter.post)
                         }
-                        
                     }else{
                         if !self.postViewRouter.showPost{
                             if self.mainViewRouter.currentPage == "latest_posts"{
-                                LatestPostsView(mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter)
+                                LatestPostsView(posts: self.posts, mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter)
                                 .frame(width: geometry.size.width)
                                 .blur(radius: 2)
                                 .disabled(self.mainViewRouter.showMenu)
                             }else if self.mainViewRouter.currentPage == "top_posts"{
-                                TopPostsView(mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter)
+                                TopPostsView(posts: self.posts, mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter)
                                 .frame(width: geometry.size.width)
                                 .blur(radius: 2)
                                 .disabled(self.mainViewRouter.showMenu)
@@ -92,13 +93,16 @@ struct HomepageView: View {
                             self.postViewRouter.showPost = false
                         }){
                             Image("home")
-                                .foregroundColor(Color.black)
+                            .foregroundColor(Color.black)
                         }
                         Button(action:{
-                            //Think we are going to need a navigationLink here
-                            AddPostView()
+                            self.showingAddPostView.toggle()
                         }){
                             Image("add")
+                            .foregroundColor(Color.black)
+                        }
+                        .sheet(isPresented: self.$showingAddPostView){
+                            AddPostView(posts: self.posts, visible: self.$showingAddPostView)
                         }
                         Image("search")
                     }
@@ -119,7 +123,7 @@ struct HomepageView: View {
 }
 
 struct LatestPostsView: View{
-    @ObservedObject var posts = PostViewModel()
+    @ObservedObject var posts : PostViewModel
     @ObservedObject var mainViewRouter: MainViewRouter
     @ObservedObject var postViewRouter: PostViewRouter
     
@@ -142,7 +146,7 @@ struct LatestPostsView: View{
 }
 
 struct TopPostsView: View{
-    @ObservedObject var posts = PostViewModel()
+    @ObservedObject var posts : PostViewModel
     @ObservedObject var mainViewRouter: MainViewRouter
     @ObservedObject var postViewRouter: PostViewRouter
     
@@ -166,6 +170,6 @@ struct TopPostsView: View{
 
 struct HomepageView_Previews: PreviewProvider {
     static var previews: some View {
-        HomepageView(mainViewRouter: MainViewRouter(),postViewRouter: PostViewRouter())
+        HomepageView()
     }
 }

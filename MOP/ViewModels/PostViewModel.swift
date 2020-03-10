@@ -79,4 +79,8 @@ class PostViewModel : ObservableObject{
         }
         dataTask.resume()
     }
+    
+    func addPost(post: Post){
+        self.postSet.append(post)
+    }
 }

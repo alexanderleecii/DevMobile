@@ -6,16 +6,12 @@
 //  Copyright © 2020 Groupe Incroyable. All rights reserved.
 //
 
+
+//TODO password and mail verification
+
 import Foundation
 import SwiftUI
 
-/*
-
- var pseudo : String
- var email : String
- var password : String
- */
- 
 
 
 
@@ -25,6 +21,12 @@ struct SignIn: View {
     @State private var email : String = ""
     @State private var password : String = ""
     @State private var passwordRep : String = ""
+    @State private var avatarImage : Image?
+    // Avatar selecting control variables
+    @State private var selectingImage = false
+    @State private var imageAlreadySelected = false
+    
+    
     var body: some View {
         VStack{
             Text("Sign In")
@@ -50,17 +52,39 @@ struct SignIn: View {
                     .background(Color.white)
                     .cornerRadius(20.0)
                     .shadow(radius: 10.0, x: 20, y: 10)
-                SecureField("Repeat your password", text: self.$passwordRep)
-                    .padding()
-                    .background(Color.white)
-                    .cornerRadius(20.0)
-                    .shadow(radius: 10.0, x: 20, y: 10)
-                TextField("Select Avatar", text: self.$email)
-                .padding()
-                .background(Color.white)
-                .cornerRadius(20.0)
-                .shadow(radius: 10.0, x: 20, y: 10)
-            }.padding([.leading, .trailing], 27.5)
+                
+            }.padding([.leading, .trailing,.bottom], 27.5)
+            
+            
+            if !self.imageAlreadySelected {
+                Button(action:{
+                        self.selectingImage.toggle()
+                    }){
+                        if !imageAlreadySelected {
+                            Text("Select Avatar")
+                        }
+                        else {
+                            Text("Replace selected image")
+                        }
+                    }
+                    .sheet(isPresented: self.$selectingImage, onDismiss: {
+                        self.imageAlreadySelected.toggle()
+                    }){
+                        ImagePicker(isShown: self.$selectingImage, image: self.$avatarImage)
+                    }
+                
+            }
+            else {
+                if avatarImage != nil{
+                    avatarImage!
+                    .resizable()
+                    .frame(width: 300, height: 170)
+                    .cornerRadius(10)
+                }
+            }
+            
+            
+            Spacer()
             
             Button(action: {
                 self.presentation.wrappedValue.dismiss()
@@ -73,11 +97,10 @@ struct SignIn: View {
                 .background(Color.blue)
                 .cornerRadius(15.0)
                 .shadow(radius: 10, x:20, y:10)
-                .padding(.top)
             }
             Spacer()
         }
-        .background(LinearGradient(gradient: Gradient(colors: [.blue, .white]), startPoint: .top, endPoint: .bottom))
+        .background(LinearGradient(gradient: Gradient(colors: [.black, .white]), startPoint: .top, endPoint: .bottom))
         .edgesIgnoringSafeArea(.all)
 
     }
