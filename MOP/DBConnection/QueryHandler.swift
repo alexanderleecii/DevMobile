@@ -40,7 +40,7 @@ class QueryHandler{
             }
             
             if let data = data, let dataString = String(data: data, encoding: .utf8){
-                print("Response data string: \(dataString)")
+                //print("Response data string: \(dataString)")
                 json = data
             }
         }
@@ -48,9 +48,10 @@ class QueryHandler{
         return json
     }
     
-    func getAll(){
+    func getAll() -> Data?{
         var request = URLRequest(url: resourceURL)
         request.httpMethod = "GET"
+        var json: Data?
         
         let dataTask = URLSession.shared.dataTask(with: request){ data, response, error in
             if let error = error {
@@ -64,8 +65,10 @@ class QueryHandler{
             
             if let data = data, let dataString = String(data: data, encoding: .utf8){
                 print("Response data string: \(dataString)")
+                json = data
             }
         }
         dataTask.resume()
+        return json
     }
 }

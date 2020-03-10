@@ -7,3 +7,19 @@
 //
 
 import Foundation
+
+class Report: Decodable{
+    var _id = ""
+    var user = ""
+    
+    enum CodingKeys: String, CodingKey{
+        case _id
+        case user
+    }
+    
+    required init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        self._id = try values.decode(String.self, forKey: ._id)
+        self.user = try values.decode(String.self, forKey: .user)
+    }
+}

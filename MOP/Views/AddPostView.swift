@@ -110,11 +110,12 @@ struct AddPostView: View {
     }
     
     func createNewPost() -> Post {
-        return Post(text: self.$postStr.wrappedValue,
+        /*return Post(text: self.$postStr.wrappedValue,
                     location: self.$location.wrappedValue,
                     imgUrl: convertImageToURL(),
                     tags: convertTagStrToArray()
-        )
+        )*/
+        return Post()
     }
 }
 
