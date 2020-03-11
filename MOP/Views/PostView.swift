@@ -10,9 +10,10 @@ import SwiftUI
 
 struct PostView: View {
     @ObservedObject var post : Post
+    @ObservedObject var mainViewRouter : MainViewRouter
     var body: some View {
         VStack{
-            PostItem(post: post, postViewRouter: PostViewRouter())
+            PostItem(post: post, postViewRouter: PostViewRouter(), mainViewRouter: self.mainViewRouter)
                 .padding(.bottom, 20)
             HStack{
                 Text("Comments")
@@ -35,7 +36,7 @@ struct PostView: View {
             Divider()
             .background(Color.gray)
             .frame(width:350, height:1)
-            CommentsView(post: post)
+            CommentsView(post: post, mainViewRouter: self.mainViewRouter)
             Spacer()
         }
         
@@ -44,6 +45,6 @@ struct PostView: View {
 
 struct PostView_Previews: PreviewProvider {
     static var previews: some View {
-        PostView(post: Post())
+        PostView(post: Post(), mainViewRouter: MainViewRouter())
     }
 }

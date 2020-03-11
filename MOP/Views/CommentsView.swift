@@ -10,12 +10,13 @@ import SwiftUI
 
 struct CommentsView: View {
     @ObservedObject var post : Post
+    @ObservedObject var mainViewRouter : MainViewRouter
     var body: some View {
         ScrollView{
             VStack(spacing: 5){
                 ForEach(self.post.comments){
                     comment in
-                    CommentItem(comment: comment)
+                    CommentItem(comment: comment, mainViewRouter: self.mainViewRouter)
                     Spacer()
                 }
             }
@@ -25,6 +26,6 @@ struct CommentsView: View {
 
 struct CommentsView_Previews: PreviewProvider {
     static var previews: some View {
-        CommentsView(post: PostViewModel().postSet[0])
+        CommentsView(post: PostViewModel().postSet[0], mainViewRouter: MainViewRouter())
     }
 }

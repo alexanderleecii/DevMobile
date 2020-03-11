@@ -10,6 +10,7 @@ import SwiftUI
 
 struct CommentItem: View {
     @ObservedObject var comment : Comment
+    @ObservedObject var mainViewRouter : MainViewRouter
     var body: some View {
         VStack(alignment: .leading){
             Text(self.comment.text)
@@ -21,20 +22,26 @@ struct CommentItem: View {
                     .fontWeight(.thin)
                     .italic()
                 Spacer()
-                Button(action: {
-                    self.comment.nbLikes+=1
-                    print(self.comment.nbLikes)
-                }){
+                if self.mainViewRouter.connectedUser != nil{
+                    Button(action: {
+                        self.comment.nbLikes+=1
+                        print(self.comment.nbLikes)
+                    }){
+                        Image("thumbs_up")
+                            .foregroundColor((self.comment.nbLikes>0) ? Color.blue : Color.gray)
+                    }
+                    .foregroundColor(Color.gray)
+                    Text(String(self.comment.nbLikes))
+                    Button(action: {
+                        self.comment.nbReports+=1
+                    }){
+                        Image("report")
+                            .foregroundColor(Color.red)
+                    }
+                }else{
                     Image("thumbs_up")
-                        .foregroundColor((self.comment.nbLikes>0) ? Color.blue : Color.gray)
-                }
-                Text(String(self.comment.nbLikes))
-                .foregroundColor(Color.gray)
-                Button(action: {
-                    self.comment.nbReports+=1
-                }){
-                    Image("report")
-                        .foregroundColor(Color.red)
+                        .foregroundColor(Color.gray)
+                    Text(String(self.comment.nbLikes))
                 }
             }
             .frame(width:350, height:40, alignment: .trailing)
@@ -49,6 +56,6 @@ struct CommentItem: View {
 
 struct CommentItem_Previews: PreviewProvider {
     static var previews: some View {
-        CommentItem(comment: Comment(_id: "1", nbLikes: 3, text: "Je ne suis pas du tout d'accord!!!", nbReports: 6, pseudo: "Michou"))
+        CommentItem(comment: Comment(_id: "1", nbLikes: 3, text: "Je ne suis pas du tout d'accord!!!", nbReports: 6, pseudo: "Michou"), mainViewRouter: MainViewRouter())
     }
 }

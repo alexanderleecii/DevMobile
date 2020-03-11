@@ -66,7 +66,7 @@ struct HomepageView: View {
                             }
                             
                         }else{
-                            PostView(post: self.postViewRouter.post)
+                            PostView(post: self.postViewRouter.post, mainViewRouter: self.mainViewRouter)
                         }
                     }else{
                         if !self.postViewRouter.showPost{
@@ -89,7 +89,7 @@ struct HomepageView: View {
                             }else if self.mainViewRouter.currentPage == "log_out"{
                             }
                         }else{
-                            PostView(post: self.postViewRouter.post)
+                            PostView(post: self.postViewRouter.post, mainViewRouter: self.mainViewRouter)
                             .frame(width: geometry.size.width)
                             .blur(radius: 2)
                             .disabled(self.mainViewRouter.showMenu)
@@ -146,7 +146,7 @@ struct LatestPostsView: View{
                     VStack(spacing: 10){
                         ForEach(self.posts.postSet){
                             post in
-                            PostItem(post: post, postViewRouter: self.postViewRouter)
+                            PostItem(post: post, postViewRouter: self.postViewRouter, mainViewRouter: self.mainViewRouter)
                             Spacer()
                         }
                     }
@@ -172,7 +172,7 @@ struct TopPostsView: View{
                     VStack(spacing: 10){
                         ForEach(self.posts.postSet){
                             post in
-                            PostItem(post: post, postViewRouter: self.postViewRouter)
+                            PostItem(post: post, postViewRouter: self.postViewRouter, mainViewRouter: self.mainViewRouter)
                             Spacer()
                         }
                     }

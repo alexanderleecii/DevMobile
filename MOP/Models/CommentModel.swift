@@ -9,18 +9,24 @@
 import Foundation
 
 class Comment:Identifiable, ObservableObject, Decodable{
-    var _id : String
-    @Published var nbLikes : Int
+    var _id = ""
     var text : String
-    var nbReports : Int
     var pseudo : String
+    var user : String = ""
+    var likes : [Like] = []
+    @Published var nbLikes : Int = 0
+    var reports : [Report] = []
+    var nbReports : Int = 0
     
     enum CodingKeys: String, CodingKey{
         case _id
-        case nbLikes
         case text
-        case nbReports
         case pseudo
+        case user
+        case likes
+        case nbLikes
+        case reports
+        case nbReports
     }
     
     init(_id:String, nbLikes:Int, text:String, nbReports: Int, pseudo: String){
@@ -33,10 +39,20 @@ class Comment:Identifiable, ObservableObject, Decodable{
     
     required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        self.nbLikes = try values.decode(Int.self, forKey: .nbLikes)
         self._id = try values.decode(String.self, forKey: ._id)
+        
         self.text = try values.decode(String.self, forKey: .text)
-        self.nbReports = try values.decode(Int.self, forKey: .nbReports)
+        
         self.pseudo = try values.decode(String.self, forKey: .pseudo)
+        
+        self.user = try values.decode(String.self, forKey: .user)
+        
+        self.likes = try values.decode([Like].self, forKey: .likes)
+        
+        self.nbLikes = self.likes.count
+        
+        self.reports = try values.decode([Report].self, forKey: .reports)
+        
+        self.nbReports = self.reports.count
     }
 }

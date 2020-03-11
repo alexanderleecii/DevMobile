@@ -11,6 +11,7 @@ import SwiftUI
 struct PostItem: View {
     @ObservedObject var post : Post
     @ObservedObject var postViewRouter : PostViewRouter
+    @ObservedObject var mainViewRouter : MainViewRouter
     
     var body: some View {
         VStack(spacing:0){
@@ -24,10 +25,15 @@ struct PostItem: View {
             }
             
             HStack{
-                Button(action: {
-                    self.post.nbLikes+=1
-                    print(self.post.nbLikes)
-                }){
+                if self.mainViewRouter.connectedUser != nil{
+                    Button(action: {
+                        self.post.nbLikes+=1
+                        print(self.post.nbLikes)
+                    }){
+                        Image("like_post")
+                            .foregroundColor(Color.gray)
+                    }
+                }else{
                     Image("like_post")
                         .foregroundColor(Color.gray)
                 }
@@ -63,6 +69,6 @@ struct PostItem: View {
 struct PostItem_Previews: PreviewProvider {
     static var previews: some View {
         
-        PostItem(post: PostViewModel().postSet[0], postViewRouter: PostViewRouter())
+        PostItem(post: PostViewModel().postSet[0], postViewRouter: PostViewRouter(), mainViewRouter: MainViewRouter())
     }
 }
