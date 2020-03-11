@@ -10,8 +10,11 @@ import Foundation
 import SwiftUI
 
 struct LogIn: View{
+    //@ObservedObject var user : User
+    @ObservedObject var mainViewRouter: MainViewRouter
+    @ObservedObject var userVM : UserViewModel
     @Environment(\.presentationMode) var presentation
-    @State private var user : String = ""
+    @State private var email : String = ""
     @State private var password : String = ""
     var body : some View {
         VStack{
@@ -21,7 +24,6 @@ struct LogIn: View{
                 .foregroundColor(.white)
                 .padding(.bottom, 100)
                 .padding(.top, 150)
-                .shadow(radius: 10.0, x: 20, y: 10)
             
             /*
             Image(systemName: "person")
@@ -33,30 +35,30 @@ struct LogIn: View{
                 .padding(.bottom, 50)
             */
             VStack(alignment: .leading, spacing: 15) {
-                TextField("User", text: self.$user)
+                TextField("Email", text: self.$email)
                     .padding()
                     .background(Color.white)
                     .cornerRadius(20.0)
-                    .shadow(radius: 10.0, x: 20, y: 10)
                 
                 SecureField("Password", text: self.$password)
                     .padding()
                     .background(Color.white)
                     .cornerRadius(20.0)
-                    .shadow(radius: 10.0, x: 20, y: 10)
             }.padding([.leading, .trailing], 27.5)
             
             Button(action: {
-                self.presentation.wrappedValue.dismiss()
+                self.userVM.login(email: self.email, password: self.password){user in
+                    self.mainViewRouter.connectedUser = user
+                }
+                self.mainViewRouter.currentPage = "latest_posts"
             }){
                 Text("Log In")
                 .font(.headline)
                 .foregroundColor(.white)
                 .padding()
                 .frame(width: 150, height:50)
-                .background(Color.blue)
+                .background(Color.gray)
                 .cornerRadius(15.0)
-                .shadow(radius: 10, x:20, y:10)
                 .padding(.top)
             }
             
@@ -64,7 +66,7 @@ struct LogIn: View{
             HStack(spacing: 0) {
                 Text("Don't have an account? ")
                 Button(action: {
-                    SignIn()
+                    
                 }) {
                     Text("Sign Up")
                     .foregroundColor(.blue)
@@ -72,14 +74,14 @@ struct LogIn: View{
             }
             .padding(.bottom, 15.0)
         }
-        .background(LinearGradient(gradient: Gradient(colors: [.blue, .white]), startPoint: .top, endPoint: .bottom))
+        .background(Color(red: 0.9, green: 0.7, blue: 0.7, opacity: 0.5) )
         .edgesIgnoringSafeArea(.all)
     }
 }
 
 struct logIn_Previews: PreviewProvider {
     static var previews: some View {
-        LogIn()
+        LogIn(mainViewRouter: MainViewRouter(), userVM: UserViewModel())
     }
 }
 	

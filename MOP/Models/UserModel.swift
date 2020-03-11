@@ -8,18 +8,18 @@
 
 import Foundation
 
-class User:Decodable{
+class User:ObservableObject, Decodable{
     var _id : String
     var pseudo : String
     var email : String
-    var password : String
-    var isAdmin : Bool
+    //var password : String
+    //var isAdmin : Bool
     
     init(id:String, pseudo:String, email:String, password:String, isAdmin:Bool){
         self._id = id
         self.pseudo = pseudo
         self.email = email
-        self.password = password
-        self.isAdmin = isAdmin
+        //self.password = password
+        //self.isAdmin = isAdmin
     }
 }

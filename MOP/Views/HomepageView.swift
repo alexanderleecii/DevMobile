@@ -13,6 +13,7 @@ struct HomepageView: View {
     @ObservedObject var postViewRouter = PostViewRouter()
     @State var showingAddPostView = false
     @ObservedObject var posts = PostViewModel()
+    @ObservedObject var userVM : UserViewModel
     
     
     var body: some View {
@@ -30,7 +31,7 @@ struct HomepageView: View {
         //GeometryReader allows us to build the view according to the screen size
         return GeometryReader{ geometry in
             ZStack(alignment: .leading){
-                VStack{
+                VStack(spacing: -4){
                     HStack{
                         Button(action: {
                             withAnimation{
@@ -43,9 +44,10 @@ struct HomepageView: View {
                     }
                     .padding(.top, 5)
                     .frame(width: 350, height: 40, alignment: .leading)
+                    Spacer()
                     Divider()
                         .background(Color.gray)
-                        .frame(width:420, height:10)
+                        .frame(width:420, height:1)
                     Spacer()
                     if !self.mainViewRouter.showMenu{
                         if !self.postViewRouter.showPost{
@@ -59,7 +61,10 @@ struct HomepageView: View {
                                 Text("profile")
                             }else if self.mainViewRouter.currentPage == "settings"{
                                 Text("settings")
+                            }else if self.mainViewRouter.currentPage == "log_in"{
+                                LogIn(mainViewRouter: self.mainViewRouter, userVM: self.userVM)
                             }
+                            
                         }else{
                             PostView(post: self.postViewRouter.post)
                         }
@@ -79,6 +84,9 @@ struct HomepageView: View {
                                 Text("profile")
                             }else if self.mainViewRouter.currentPage == "settings"{
                                 Text("settings")
+                            }else if self.mainViewRouter.currentPage == "log_in"{
+                                LogIn(mainViewRouter: self.mainViewRouter, userVM: self.userVM)
+                            }else if self.mainViewRouter.currentPage == "log_out"{
                             }
                         }else{
                             PostView(post: self.postViewRouter.post)
@@ -132,12 +140,15 @@ struct LatestPostsView: View{
             Text("Latest posts")
                 .font(.title).bold()
                 .frame(width: 350, height: 50, alignment: .leading)
-            ScrollView{
-                VStack(spacing: 10){
-                    ForEach(self.posts.postSet){
-                        post in
-                        PostItem(post: post, postViewRouter: self.postViewRouter)
-                        Spacer()
+            Spacer()
+            if !posts.postSet.isEmpty{ //So the ScrollView is only rendered after the data has been fetched
+                ScrollView{
+                    VStack(spacing: 10){
+                        ForEach(self.posts.postSet){
+                            post in
+                            PostItem(post: post, postViewRouter: self.postViewRouter)
+                            Spacer()
+                        }
                     }
                 }
             }
@@ -153,14 +164,17 @@ struct TopPostsView: View{
     var body: some View{
         VStack{
             Text("Top posts")
-                .font(.title).bold()
-                .frame(width: 350, height: 50, alignment: .leading)
-            ScrollView{
-                VStack(spacing: 10){
-                    ForEach(self.posts.postSet){
-                        post in
-                        PostItem(post: post, postViewRouter: self.postViewRouter)
-                        Spacer()
+            .font(.title).bold()
+            .frame(width: 350, height: 50, alignment: .leading)
+            Spacer()
+            if !posts.postSet.isEmpty{//So the ScrollView is only rendered after the data has been fetched
+                ScrollView{
+                    VStack(spacing: 10){
+                        ForEach(self.posts.postSet){
+                            post in
+                            PostItem(post: post, postViewRouter: self.postViewRouter)
+                            Spacer()
+                        }
                     }
                 }
             }
@@ -170,6 +184,6 @@ struct TopPostsView: View{
 
 struct HomepageView_Previews: PreviewProvider {
     static var previews: some View {
-        HomepageView()
+        HomepageView(userVM: UserViewModel())
     }
 }

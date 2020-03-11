@@ -13,7 +13,7 @@ class PostViewModel : ObservableObject{
     
     init(){
         loadAllPosts()
-        postSet.append(Post()) //Loading doesn't work otherwise
+        //postSet.append(Post()) //Loading doesn't work otherwise
         
         /*let p1 = Post(text: "C'est pas cool", nbLikes:1, nbReports:0 )
         let p2 = Post(text: "Courage ma chérie", nbLikes:2, nbReports:1 )

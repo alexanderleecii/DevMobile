@@ -61,9 +61,8 @@ class Post : Identifiable, ObservableObject, Decodable{
         self.reports = try values.decode([Report].self, forKey: .reports)
         
         self.nbReports = self.reports.count
-        
+
         self.comments = try values.decode([Comment].self, forKey: .comments)
-        
         //self.location = try values.decode(String.self, forKey: .location)
         //self.imgUrl = try values.decode(String.self, forKey: .imgUrl)
         

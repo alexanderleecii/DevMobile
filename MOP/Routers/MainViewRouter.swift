@@ -27,4 +27,10 @@ class MainViewRouter: ObservableObject{
             objectWillChange.send(self)
         }
     }
+    
+    var connectedUser: User? = nil{
+        didSet{
+            objectWillChange.send(self)
+        }
+    }
 }
