@@ -23,6 +23,7 @@ class Post : Identifiable, ObservableObject, Decodable{
     var comments : [Comment] = []
     var location : String? = nil
     var imgUrl : String? = nil
+    var date = Date()
     
     enum CodingKeys: String, CodingKey{
         case _id
@@ -38,6 +39,7 @@ class Post : Identifiable, ObservableObject, Decodable{
         case comments
         case imgUrl
         case location
+        case date
     }
     
     required init(from decoder: Decoder) throws {
@@ -63,9 +65,10 @@ class Post : Identifiable, ObservableObject, Decodable{
         self.nbReports = self.reports.count
 
         self.comments = try values.decode([Comment].self, forKey: .comments)
+        
+        self.date = try values.decode(Date.self, forKey: .date)
         //self.location = try values.decode(String.self, forKey: .location)
         //self.imgUrl = try values.decode(String.self, forKey: .imgUrl)
-        
     }
     
     init(title:String, text:String, pseudo: String, location:String, imgUrl:String, tags:[String]){
