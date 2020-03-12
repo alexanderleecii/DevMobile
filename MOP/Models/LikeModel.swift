@@ -22,4 +22,8 @@ class Like: Decodable{
         self._id = try values.decode(String.self, forKey: ._id)
         self.user = try values.decode(String.self, forKey: .user)
     }
+    
+    init(user: String){
+        self.user = user
+    }
 }

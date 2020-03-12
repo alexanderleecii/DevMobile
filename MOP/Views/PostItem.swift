@@ -12,7 +12,7 @@ struct PostItem: View {
     @ObservedObject var post : Post
     @ObservedObject var postViewRouter : PostViewRouter
     @ObservedObject var mainViewRouter : MainViewRouter
-    
+
     var body: some View {
         VStack(spacing:0){
             Button(action: {
@@ -26,12 +26,22 @@ struct PostItem: View {
             
             HStack{
                 if self.mainViewRouter.connectedUser != nil{
-                    Button(action: {
-                        self.post.nbLikes+=1
-                        print(self.post.nbLikes)
-                    }){
-                        Image("like_post")
-                            .foregroundColor(Color.gray)
+                    if !isLiked(){
+                        Button(action: {
+                            self.post.nbLikes+=1
+                            self.post.likes.append(Like(user: self.mainViewRouter.connectedUser!._id))
+                        }){
+                            Image("like_post")
+                                .foregroundColor(Color.gray)
+                        }
+                    }else{
+                        Button(action: {
+                            self.post.nbLikes-=1
+                            self.dislike()
+                        }){
+                            Image("like_post")
+                                .foregroundColor(Color.gray)
+                        }
                     }
                 }else{
                     Image("like_post")
@@ -61,9 +71,25 @@ struct PostItem: View {
             .background(Color(red: 0.8, green: 0.8, blue: 0.8, opacity: 1.0))
             .foregroundColor(Color.white)
         }.cornerRadius(10)
-
-        
     }
+    
+    func isLiked() -> Bool{
+        for like in self.post.likes{
+            if like.user == self.mainViewRouter.connectedUser?._id{
+                return true
+            }
+        }
+        return false
+    }
+    
+    func dislike(){
+        for i in 0...self.post.likes.count-1{
+            if self.post.likes[i].user == self.mainViewRouter.connectedUser?._id{
+                self.post.likes.remove(at: i)
+            }
+        }
+    }
+    
 }
 
 struct PostItem_Previews: PreviewProvider {

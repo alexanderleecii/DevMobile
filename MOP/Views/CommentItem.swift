@@ -23,14 +23,25 @@ struct CommentItem: View {
                     .italic()
                 Spacer()
                 if self.mainViewRouter.connectedUser != nil{
-                    Button(action: {
-                        self.comment.nbLikes+=1
-                        print(self.comment.nbLikes)
-                    }){
-                        Image("thumbs_up")
-                            .foregroundColor((self.comment.nbLikes>0) ? Color.blue : Color.gray)
+                    if !isLiked(){
+                        Button(action: {
+                            self.comment.nbLikes+=1
+                            self.comment.likes.append(Like(user: self.mainViewRouter.connectedUser!._id))
+                        }){
+                            Image("thumbs_up")
+                                .foregroundColor(Color.gray)
+                        }
+                        .foregroundColor(Color.gray)
+                    }else{
+                        Button(action: {
+                            self.comment.nbLikes-=1
+                            self.dislike()
+                        }){
+                            Image("thumbs_up")
+                                .foregroundColor(Color.blue)
+                        }
                     }
-                    .foregroundColor(Color.gray)
+                    
                     Text(String(self.comment.nbLikes))
                     Button(action: {
                         self.comment.nbReports+=1
@@ -51,6 +62,23 @@ struct CommentItem: View {
             .background(Color.gray)
             .frame(width:350, height:1)
         }.background(Color(red: 0.98, green: 0.98, blue: 0.98, opacity: 1.0))
+    }
+    
+    func isLiked() -> Bool{
+        for like in self.comment.likes{
+            if like.user == self.mainViewRouter.connectedUser?._id{
+                return true
+            }
+        }
+        return false
+    }
+    
+    func dislike(){
+        for i in 0...self.comment.likes.count-1{
+            if self.comment.likes[i].user == self.mainViewRouter.connectedUser?._id{
+                self.comment.likes.remove(at: i)
+            }
+        }
     }
 }
 

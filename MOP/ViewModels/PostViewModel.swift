@@ -12,10 +12,10 @@ class PostViewModel : ObservableObject{
     @Published var postSet = [Post]()
     
     init(){
-        //loadAllPosts()
+        loadAllPosts()
         //postSet.append(Post()) //Loading doesn't work otherwise
-        print("Im HERE")
-        let p1 = Post(text: "First Post according time, third according likes", nbLikes:1, nbReports:0 )
+        
+        /*let p1 = Post(text: "First Post according time, third according likes", nbLikes:1, nbReports:0 )
         let p2 = Post(text: "Second Post according time, second according likes", nbLikes:2, nbReports:1 )
                 let p3 = Post(text: "Third Post according time, first according likes", nbLikes:4000, nbReports:1 )
         
@@ -25,7 +25,7 @@ class PostViewModel : ObservableObject{
         
         print(postSet.count)
         postSet = self.getPostsOrderedBy(viewType: "top_posts")
-        print(postSet.count)
+        print(postSet.count)*/
         /*
         let p1 = Post(text: "C'est pas cool", nbLikes:1, nbReports:0 )
         let p2 = Post(text: "Courage ma chérie", nbLikes:2, nbReports:1 )
@@ -52,6 +52,7 @@ class PostViewModel : ObservableObject{
              postSet.sort(by: {$0.date > $1.date})
          }
          else if att == "top_posts"{
+            print("erreur")
              postSet.sort(by: {$0.nbLikes > $1.nbLikes})
          }
          return postSet
