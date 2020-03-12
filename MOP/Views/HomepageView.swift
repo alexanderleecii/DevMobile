@@ -185,8 +185,7 @@ struct TopPostsView: View{
                     }
                 }
             }
-        }
-        .onAppear{
+            }.onAppear{
             self.posts.getPostsOrderedBy(viewType: "top_posts")
         }
     }
