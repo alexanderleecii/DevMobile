@@ -34,6 +34,7 @@ struct AddPostView: View {
     @State private var imageAlreadySelected = false
     
     //TODO: Preventing keyboard to cover TextField's
+    @ObservedObject private var keyboard = KeyboardObserver()
     
     enum Options: String{
         case none, message, image, tag, location
@@ -111,6 +112,8 @@ struct AddPostView: View {
                     MenuIcon(selectedOptions: self.$selectedOptions, menuType: "image")
                 }
             }
+            .padding(.bottom, keyboard.currentHeight)
+            .animation(.easeOut(duration: 0.16))
             .navigationBarTitle(Text("New Post"))
             .navigationBarItems(
                 leading:
@@ -131,6 +134,7 @@ struct AddPostView: View {
                     Text("Add Post")
                 })
         }
+        
    }
     
     //TODO
