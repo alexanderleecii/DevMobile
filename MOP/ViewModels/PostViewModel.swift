@@ -14,18 +14,43 @@ class PostViewModel : ObservableObject{
     init(){
         //loadAllPosts()
         //postSet.append(Post()) //Loading doesn't work otherwise
-        print("Im HERE")
-        let p1 = Post(text: "First Post according time, third according likes", nbLikes:1, nbReports:0 )
-        let p2 = Post(text: "Second Post according time, second according likes", nbLikes:2, nbReports:1 )
-                let p3 = Post(text: "Third Post according time, first according likes", nbLikes:4000, nbReports:1 )
         
+        let d = Date()
+        let d2 = d.addingTimeInterval(1000)
+        let d3 = d2.addingTimeInterval(1000)
+        let d4 = d3.addingTimeInterval(1000)
+        
+        let p1 = Post(text: "Third according time, third according likes", nbLikes:1, nbReports:0 , date:d2)
+        let p2 = Post(text: "Second Post according time, first according likes", nbLikes:3, nbReports:1, date:d3)
+        let p3 = Post(text: "First Post according time, second according likes", nbLikes:2, nbReports:1, date:d4)
+        let p4 = Post(text: "Forth Post according time, Forth according likes", nbLikes:0, nbReports:1, date:d)
+        
+        postSet.append(p4)
         postSet.append(p1)
-        postSet.append(p3)
         postSet.append(p2)
+        postSet.append(p3)
         
-        print(postSet.count)
+        /*
+        
+        postSet.forEach{ post in
+            print(post.text, post.date)
+        }
+        print("*********************")
+        postSet = self.getPostsOrderedBy(viewType: "latest_posts")
+        
+        
+        postSet.forEach{ post in
+            print(post.text, post.date)
+        }
+        print("*********************")
         postSet = self.getPostsOrderedBy(viewType: "top_posts")
-        print(postSet.count)
+        
+        postSet.forEach{ post in
+            print(post.text, post.date)
+        }
+        print("*********************")
+        */
+        
         /*
         let p1 = Post(text: "C'est pas cool", nbLikes:1, nbReports:0 )
         let p2 = Post(text: "Courage ma chérie", nbLikes:2, nbReports:1 )
@@ -47,14 +72,15 @@ class PostViewModel : ObservableObject{
         postSet[1].addLocation(loc:"Egipt, Rio du Janeiro")*/
     }
      
-     func getPostsOrderedBy(viewType att : String) ->  [Post] {
+     func getPostsOrderedBy(viewType att : String){
          if att == "latest_posts" {
-             postSet.sort(by: {$0.date > $1.date})
+            print("late")
+            postSet.sort(by: {$0.date > $1.date})
          }
          else if att == "top_posts"{
-             postSet.sort(by: {$0.nbLikes > $1.nbLikes})
+            print("top")
+            postSet.sort(by: {$0.nbLikes > $1.nbLikes})
          }
-         return postSet
      }
      
     

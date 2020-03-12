@@ -133,35 +133,6 @@ struct HomepageView: View {
     }
 }
 
-struct GenericPostView: View{
-    @ObservedObject var posts : PostViewModel
-    @ObservedObject var mainViewRouter: MainViewRouter
-    @ObservedObject var postViewRouter: PostViewRouter
-    
-    var sortingAlgo : (Post,Post) -> Bool
-    
-    
-    var body: some View{
-        VStack{
-            Text("Latest posts")
-                .font(.title).bold()
-                .frame(width: 350, height: 50, alignment: .leading)
-            Spacer()
-            if !posts.postSet.isEmpty{ //So the ScrollView is only rendered after the data has been fetched
-                ScrollView{
-                    VStack(spacing: 10){
-                        ForEach(self.posts.postSet){
-                            post in
-                            PostItem(post: post, postViewRouter: self.postViewRouter, mainViewRouter: self.mainViewRouter)
-                            Spacer()
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
 
 struct LatestPostsView: View{
     @ObservedObject var posts : PostViewModel
@@ -186,6 +157,9 @@ struct LatestPostsView: View{
                 }
             }
         }
+        .onAppear{
+            self.posts.getPostsOrderedBy(viewType: "latest_posts")
+        }
     }
 }
 
@@ -203,7 +177,7 @@ struct TopPostsView: View{
             if !posts.postSet.isEmpty{//So the ScrollView is only rendered after the data has been fetched
                 ScrollView{
                     VStack(spacing: 10){
-                        ForEach(self.posts.getPostsOrderedBy(viewType: "top_posts")){
+                        ForEach(self.posts.postSet){
                             post in
                             PostItem(post: post, postViewRouter: self.postViewRouter, mainViewRouter: self.mainViewRouter)
                             Spacer()
@@ -211,6 +185,9 @@ struct TopPostsView: View{
                     }
                 }
             }
+        }
+        .onAppear{
+            self.posts.getPostsOrderedBy(viewType: "top_posts")
         }
     }
 }
