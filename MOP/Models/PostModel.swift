@@ -94,12 +94,13 @@ class Post : Identifiable, ObservableObject, Decodable{
         self.comments = []
     }
     
-    init(text:String, nbLikes:Int, nbReports:Int) {
+    init(text:String, nbLikes:Int, nbReports:Int, date:Date) {
         self.title = "null"
         self.text = text
         self.pseudo = "null"
         self.nbLikes = nbLikes
         self.nbReports = nbReports
+        self.date = date
     }
     
     func getTags() -> [String]{
