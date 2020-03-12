@@ -25,4 +25,10 @@ class PostViewRouter: ObservableObject{
             objectWillChange.send(self)
         }
     }
+    
+    var sortedBy: String = "latest"{
+        didSet{
+            objectWillChange.send(self)
+        }
+    }
 }

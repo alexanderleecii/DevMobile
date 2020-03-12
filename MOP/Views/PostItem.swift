@@ -12,6 +12,8 @@ struct PostItem: View {
     @ObservedObject var post : Post
     @ObservedObject var postViewRouter : PostViewRouter
     @ObservedObject var mainViewRouter : MainViewRouter
+    
+    @State private var showingAlert = false
 
     var body: some View {
         VStack(spacing:0){
@@ -34,6 +36,7 @@ struct PostItem: View {
                             Image("like_post")
                                 .foregroundColor(Color.gray)
                         }
+                        Text(String(self.post.nbLikes))
                     }else{
                         Button(action: {
                             self.post.nbLikes-=1
@@ -42,12 +45,33 @@ struct PostItem: View {
                             Image("like_post")
                                 .foregroundColor(Color.gray)
                         }
+                        Text(String(self.post.nbLikes))
+                    }
+                    Spacer()
+                    if !isReported(){
+                        Button(action: {
+                            self.post.nbReports+=1
+                            self.post.reports.append(Report(user: self.mainViewRouter.connectedUser!._id))
+                            print(self.post.reports[0].user)
+                        }){
+                            Image("report")
+                                .foregroundColor(Color.red)
+                        }
+                    }else{
+                        Button(action: {
+                            self.showingAlert = true
+                        }){
+                            Image("report")
+                                .foregroundColor(Color.red)
+                        }.alert(isPresented: $showingAlert) {
+                            Alert(title: Text("You already reported that post."), message: Text("You already reported that post."))
+                        }
                     }
                 }else{
                     Image("like_post")
                         .foregroundColor(Color.gray)
+                    Text(String(self.post.nbLikes))
                 }
-                Text(String(self.post.nbLikes))
             }
             .padding(10)
             .frame(width:350, height:40, alignment: .leading)
@@ -88,6 +112,15 @@ struct PostItem: View {
                 self.post.likes.remove(at: i)
             }
         }
+    }
+    
+    func isReported() -> Bool{
+        for report in self.post.reports{
+            if report.user == self.mainViewRouter.connectedUser?._id{
+                return true
+            }
+        }
+        return false
     }
     
 }

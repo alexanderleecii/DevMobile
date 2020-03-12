@@ -72,7 +72,6 @@ class PostViewModel : ObservableObject{
      
      func getPostsOrderedBy(viewType att : String){
          if att == "latest_posts" {
-            print("late")
             postSet.sort(by: {$0.date > $1.date})
          }
          else if att == "top_posts"{

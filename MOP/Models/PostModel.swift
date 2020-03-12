@@ -18,7 +18,7 @@ class Post : Identifiable, ObservableObject, Decodable{
     var user : String = ""
     var likes : [Like] = []
     @Published var nbLikes : Int = 0
-    var reports : [Report] = []
+    @Published var reports : [Report] = []
     var nbReports : Int = 0
     var comments : [Comment] = []
     var location : String? = nil
@@ -47,6 +47,9 @@ class Post : Identifiable, ObservableObject, Decodable{
         self._id = try values.decode(String.self, forKey: ._id)
         
         self.tags = try values.decode([String].self, forKey: .tags)
+        for i in 0...self.tags.count-1{
+            self.tags[i] = "#"+self.tags[i]
+        }
         
         self.title = try values.decode(String.self, forKey: .title)
         
