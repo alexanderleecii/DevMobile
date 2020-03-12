@@ -170,7 +170,7 @@ struct TopPostsView: View{
             if !posts.postSet.isEmpty{//So the ScrollView is only rendered after the data has been fetched
                 ScrollView{
                     VStack(spacing: 10){
-                        ForEach(self.posts.postSet){
+                        ForEach(self.posts.getPostsOrderedBy(viewType: "top_posts")){
                             post in
                             PostItem(post: post, postViewRouter: self.postViewRouter, mainViewRouter: self.mainViewRouter)
                             Spacer()
