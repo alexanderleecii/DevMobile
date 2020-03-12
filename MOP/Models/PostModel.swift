@@ -66,7 +66,10 @@ class Post : Identifiable, ObservableObject, Decodable{
 
         self.comments = try values.decode([Comment].self, forKey: .comments)
         
-        self.date = try values.decode(Date.self, forKey: .date)
+        let format = DateFormatter()
+        format.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
+        self.date = format.date(from: try values.decode(String.self, forKey: .date))!
+        
         //self.location = try values.decode(String.self, forKey: .location)
         //self.imgUrl = try values.decode(String.self, forKey: .imgUrl)
     }

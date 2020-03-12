@@ -52,6 +52,9 @@ struct HomepageView: View {
                     if !self.mainViewRouter.showMenu{
                         if !self.postViewRouter.showPost{
                             if self.mainViewRouter.currentPage == "latest_posts"{
+                                /*GenericPostView(posts: self.posts, mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter)
+                                .frame(width: geometry.size.width)*/
+                                
                                 LatestPostsView(posts: self.posts, mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter)
                                 .frame(width: geometry.size.width)
                             }else if self.mainViewRouter.currentPage == "top_posts"{
@@ -129,6 +132,36 @@ struct HomepageView: View {
         .edgesIgnoringSafeArea(.bottom)
     }
 }
+
+struct GenericPostView: View{
+    @ObservedObject var posts : PostViewModel
+    @ObservedObject var mainViewRouter: MainViewRouter
+    @ObservedObject var postViewRouter: PostViewRouter
+    
+    var sortingAlgo : (Post,Post) -> Bool
+    
+    
+    var body: some View{
+        VStack{
+            Text("Latest posts")
+                .font(.title).bold()
+                .frame(width: 350, height: 50, alignment: .leading)
+            Spacer()
+            if !posts.postSet.isEmpty{ //So the ScrollView is only rendered after the data has been fetched
+                ScrollView{
+                    VStack(spacing: 10){
+                        ForEach(self.posts.postSet){
+                            post in
+                            PostItem(post: post, postViewRouter: self.postViewRouter, mainViewRouter: self.mainViewRouter)
+                            Spacer()
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 
 struct LatestPostsView: View{
     @ObservedObject var posts : PostViewModel
