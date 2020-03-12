@@ -13,22 +13,23 @@ struct PostView: View {
     @ObservedObject var mainViewRouter : MainViewRouter
     
     var body: some View {
-        var sorted = "latest"
-        return VStack{
+        VStack{
             PostItem(post: post, postViewRouter: PostViewRouter(), mainViewRouter: self.mainViewRouter)
                 .padding(.bottom, 20)
             HStack{
                 Text("Comments")
                     .padding(.trailing, 10)
                 Button(action: {
-                    sorted = "latest"
+                    //TODO
+                    self.post.orderCommentsBy(viewType: "latest")
                 }){
                     Text("Latest")
                         .foregroundColor(Color.gray)
                 }
                 Text("|")
                 Button(action: {
-                    sorted = "top"
+                    //TODO
+                    self.post.orderCommentsBy(viewType: "top")
                 }){
                     Text("Top")
                         .foregroundColor(Color.gray)
@@ -36,11 +37,7 @@ struct PostView: View {
             }.frame(width: 350, alignment: .leading)
                 .padding(.bottom, -10)
             
-            Divider()
-            .background(Color.gray)
-            .frame(width:350, height:1)
-            CommentsView(post: post, mainViewRouter: self.mainViewRouter, sorted: sorted)
-            Spacer()
+            
         }
         
     }

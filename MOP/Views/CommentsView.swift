@@ -12,8 +12,6 @@ struct CommentsView: View {
     @ObservedObject var post : Post
     @ObservedObject var mainViewRouter : MainViewRouter
     
-    var sorted : String
-    
     var body: some View {
         ScrollView{
             VStack(spacing: 5){
@@ -29,6 +27,6 @@ struct CommentsView: View {
 
 struct CommentsView_Previews: PreviewProvider {
     static var previews: some View {
-        CommentsView(post: PostViewModel().postSet[0], mainViewRouter: MainViewRouter(), sorted: "latest")
+        CommentsView(post: PostViewModel().postSet[0], mainViewRouter: MainViewRouter())
     }
 }

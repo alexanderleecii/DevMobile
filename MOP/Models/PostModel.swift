@@ -20,7 +20,7 @@ class Post : Identifiable, ObservableObject, Decodable{
     @Published var nbLikes : Int = 0
     @Published var reports : [Report] = []
     var nbReports : Int = 0
-    var comments : [Comment] = []
+    @Published var comments : [Comment] = []
     var location : String? = nil
     var imgUrl : String? = nil
     var date = Date()
@@ -116,5 +116,14 @@ class Post : Identifiable, ObservableObject, Decodable{
     
     func addLocation(loc:String){
         self.location = loc
+    }
+    
+    func orderCommentsBy(viewType att : String){
+        if att == "latest" {
+            //self.comments.sort(by: {$0.date > $1.date})
+        }
+        else if att == "top"{
+           self.comments.sort(by: {$0.nbLikes > $1.nbLikes})
+        }
     }
 }

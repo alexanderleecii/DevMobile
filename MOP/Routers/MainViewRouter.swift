@@ -33,4 +33,10 @@ class MainViewRouter: ObservableObject{
             objectWillChange.send(self)
         }
     }
+    
+    var sortedComments: String = "latest"{
+        didSet{
+            objectWillChange.send(self)
+        }
+    }
 }
