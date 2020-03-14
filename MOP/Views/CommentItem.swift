@@ -9,8 +9,11 @@
 import SwiftUI
 
 struct CommentItem: View {
+    @ObservedObject var post : Post
     @ObservedObject var comment : Comment
     @ObservedObject var mainViewRouter : MainViewRouter
+    
+    @State private var showingAlert = false
     var body: some View {
         VStack(alignment: .leading){
             Text(self.comment.text)
@@ -27,6 +30,7 @@ struct CommentItem: View {
                         Button(action: {
                             self.comment.nbLikes+=1
                             self.comment.likes.append(Like(user: self.mainViewRouter.connectedUser!._id))
+                            PostViewModel().likeComment(postid: self.post._id, commentid: self.comment._id, token: self.mainViewRouter.token!)
                         }){
                             Image("thumbs_up")
                                 .foregroundColor(Color.gray)
@@ -36,6 +40,7 @@ struct CommentItem: View {
                         Button(action: {
                             self.comment.nbLikes-=1
                             self.dislike()
+                            PostViewModel().dislikeComment(postid: self.post._id, commentid: self.comment._id, token: self.mainViewRouter.token!)
                         }){
                             Image("thumbs_up")
                                 .foregroundColor(Color.blue)
@@ -43,12 +48,25 @@ struct CommentItem: View {
                     }
                     
                     Text(String(self.comment.nbLikes))
-                    Button(action: {
-                        self.comment.nbReports+=1
-                    }){
-                        Image("report")
-                            .foregroundColor(Color.red)
+                    if !isReported(){
+                        Button(action: {
+                            self.comment.nbReports+=1
+                            PostViewModel().reportComment(postid: self.post._id, commentid: self.comment._id, token: self.mainViewRouter.token!)
+                        }){
+                            Image("report")
+                                .foregroundColor(Color.red)
+                        }
+                    }else{
+                        Button(action: {
+                            self.showingAlert = true
+                        }){
+                            Image("report")
+                                .foregroundColor(Color.red)
+                        }.alert(isPresented: $showingAlert) {
+                            Alert(title: Text("You already reported that comment."), message: Text("You already reported that comment."))
+                        }
                     }
+                    
                 }else{
                     Image("thumbs_up")
                         .foregroundColor(Color.gray)
@@ -80,10 +98,19 @@ struct CommentItem: View {
             }
         }
     }
+    
+    func isReported() -> Bool{
+        for report in self.comment.reports{
+            if report.user == self.mainViewRouter.connectedUser?._id{
+                return true
+            }
+        }
+        return false
+    }
 }
 
 struct CommentItem_Previews: PreviewProvider {
     static var previews: some View {
-        CommentItem(comment: Comment(_id: "1", nbLikes: 3, text: "Je ne suis pas du tout d'accord!!!", nbReports: 6, pseudo: "Michou"), mainViewRouter: MainViewRouter())
+        CommentItem(post: Post(), comment: Comment(_id: "1", nbLikes: 3, text: "Je ne suis pas du tout d'accord!!!", nbReports: 6, pseudo: "Michou"), mainViewRouter: MainViewRouter())
     }
 }

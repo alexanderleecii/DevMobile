@@ -34,6 +34,12 @@ class MainViewRouter: ObservableObject{
         }
     }
     
+    var token: String? = nil{
+        didSet{
+            objectWillChange.send(self)
+        }
+    }
+    
     var sortedComments: String = "latest"{
         didSet{
             objectWillChange.send(self)

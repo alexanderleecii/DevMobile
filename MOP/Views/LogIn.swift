@@ -47,8 +47,9 @@ struct LogIn: View{
             }.padding([.leading, .trailing], 27.5)
             
             Button(action: {
-                self.userVM.login(email: self.email, password: self.password){user in
+                self.userVM.login(email: self.email, password: self.password){user, token in
                     self.mainViewRouter.connectedUser = user
+                    self.mainViewRouter.token = token
                 }
                 self.mainViewRouter.currentPage = "latest_posts"
             }){

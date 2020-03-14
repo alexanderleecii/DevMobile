@@ -17,7 +17,7 @@ struct CommentsView: View {
             VStack(spacing: 5){
                 ForEach(self.post.comments){
                     comment in
-                    CommentItem(comment: comment, mainViewRouter: self.mainViewRouter)
+                    CommentItem(post: self.post, comment: comment, mainViewRouter: self.mainViewRouter)
                     Spacer()
                 }
             }

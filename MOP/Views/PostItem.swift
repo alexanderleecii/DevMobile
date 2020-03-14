@@ -32,6 +32,7 @@ struct PostItem: View {
                         Button(action: {
                             self.post.nbLikes+=1
                             self.post.likes.append(Like(user: self.mainViewRouter.connectedUser!._id))
+                            PostViewModel().likePost(_id: self.post._id, token: self.mainViewRouter.token!)
                         }){
                             Image("like_post")
                                 .foregroundColor(Color.gray)
@@ -41,6 +42,7 @@ struct PostItem: View {
                         Button(action: {
                             self.post.nbLikes-=1
                             self.dislike()
+                            PostViewModel().dislikePost(_id: self.post._id, token: self.mainViewRouter.token!)
                         }){
                             Image("like_post")
                                 .foregroundColor(Color.gray)
@@ -52,7 +54,7 @@ struct PostItem: View {
                         Button(action: {
                             self.post.nbReports+=1
                             self.post.reports.append(Report(user: self.mainViewRouter.connectedUser!._id))
-                            print(self.post.reports[0].user)
+                            PostViewModel().reportPost(_id: self.post._id, token: self.mainViewRouter.token!)
                         }){
                             Image("report")
                                 .foregroundColor(Color.red)

@@ -16,7 +16,7 @@ class Comment:Identifiable, ObservableObject, Decodable{
     var date = Date()
     var likes : [Like] = []
     @Published var nbLikes : Int = 0
-    var reports : [Report] = []
+    @Published var reports : [Report] = []
     var nbReports : Int = 0
     
     enum CodingKeys: String, CodingKey{

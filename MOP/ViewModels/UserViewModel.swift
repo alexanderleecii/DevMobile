@@ -17,7 +17,7 @@ class UserViewModel : ObservableObject{
         connectedUser = nil
     }
     
-    func login(email: String, password: String, completionHandler: @escaping (User) -> ()){
+    func login(email: String, password: String, completionHandler: @escaping (User, String) -> ()){
         let resourceString = "https://wouldyoureact.herokuapp.com/api/auth/"
         guard let resourceURL = URL(string: resourceString) else {
             fatalError()
@@ -61,7 +61,7 @@ class UserViewModel : ObservableObject{
                         
                         DispatchQueue.main.async {
                             self.connectedUser = user
-                            completionHandler(user)
+                            completionHandler(user,token)
                         }
                     }
                     
