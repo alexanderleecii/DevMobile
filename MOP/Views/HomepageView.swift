@@ -61,7 +61,7 @@ struct HomepageView: View {
                                 TopPostsView(posts: self.posts, mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter)
                                 .frame(width: geometry.size.width)
                             }else if self.mainViewRouter.currentPage == "profile"{
-                                Text("profile")
+                                ProfileView(mainViewRouter: self.mainViewRouter)
                             }else if self.mainViewRouter.currentPage == "settings"{
                                 Text("settings")
                             }else if self.mainViewRouter.currentPage == "log_in"{
@@ -84,12 +84,14 @@ struct HomepageView: View {
                                 .blur(radius: 2)
                                 .disabled(self.mainViewRouter.showMenu)
                             }else if self.mainViewRouter.currentPage == "profile"{
-                                Text("profile")
+                                ProfileView(mainViewRouter: self.mainViewRouter)
                             }else if self.mainViewRouter.currentPage == "settings"{
                                 Text("settings")
                             }else if self.mainViewRouter.currentPage == "log_in"{
                                 LogIn(mainViewRouter: self.mainViewRouter, userVM: self.userVM)
                             }else if self.mainViewRouter.currentPage == "log_out"{
+                                LatestPostsView(posts: self.posts, mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter)
+                                .frame(width: geometry.size.width)
                             }
                         }else{
                             PostView(post: self.postViewRouter.post, mainViewRouter: self.mainViewRouter)
@@ -187,6 +189,69 @@ struct TopPostsView: View{
             }
             }.onAppear{
             self.posts.getPostsOrderedBy(viewType: "top_posts")
+        }
+    }
+}
+
+struct ProfileView: View{
+    @ObservedObject var mainViewRouter: MainViewRouter
+    @State var updateUsername = false
+    @State private var username: String = ""
+    
+    var body: some View{
+        let user = self.mainViewRouter.connectedUser
+        if user != nil{
+            self.username = user!.pseudo
+        }
+        return VStack(alignment: .center){
+            Text("Profile")
+                .font(.system(size: 50))
+                .frame(width: 350, height: 50, alignment: .center)
+                .padding(.bottom, 50)
+            Text("Your email")
+                .padding(.bottom, 10)
+                .font(.system(size: 30))
+            Text(String((user?.email)!))
+            .font(.system(size: 20))
+            .padding(.bottom, 30)
+            Text("Your username")
+            .padding(.bottom, 10)
+            .font(.system(size: 30))
+            HStack{
+                if !updateUsername{
+                    Text(String((user?.pseudo)!))
+                    .font(.system(size: 20))
+                    Button(action: {
+                        self.updateUsername = true
+                    }){
+                        Text("Update")
+                            .font(.headline)
+                            .frame(width: 100, height: 30)
+                            .background(Color.gray)
+                            .foregroundColor(Color.white)
+                        .cornerRadius(10)
+                    }
+                }else{
+                    TextField("Pseudo", text: self.$username)
+                        .padding()
+                        .background(Color.white)
+                        .border(Color.gray)
+                        .cornerRadius(20.0)
+                    Button(action: {
+                        self.updateUsername = false
+                        self.mainViewRouter.connectedUser?.pseudo = self.username
+                    }){
+                        Text("Save")
+                            .font(.headline)
+                            .frame(width: 100, height: 30)
+                            .background(Color.green)
+                            .foregroundColor(Color.white)
+                            .cornerRadius(10)
+                    }
+                }
+            }.padding([.leading, .trailing], 27.5)
+            
+            Spacer()
         }
     }
 }
