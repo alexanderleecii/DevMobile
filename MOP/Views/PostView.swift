@@ -36,7 +36,7 @@ struct PostView: View {
                 }
             }.frame(width: 350, alignment: .leading)
                 .padding(.bottom, -10)
-            
+            CommentsView(post: self.post, mainViewRouter: self.mainViewRouter)
             
         }
         

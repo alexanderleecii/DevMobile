@@ -120,7 +120,7 @@ class Post : Identifiable, ObservableObject, Decodable{
     
     func orderCommentsBy(viewType att : String){
         if att == "latest" {
-            //self.comments.sort(by: {$0.date > $1.date})
+            self.comments.sort(by: {$0.date > $1.date})
         }
         else if att == "top"{
            self.comments.sort(by: {$0.nbLikes > $1.nbLikes})

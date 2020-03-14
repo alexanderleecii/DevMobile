@@ -13,6 +13,7 @@ class Comment:Identifiable, ObservableObject, Decodable{
     var text : String
     var pseudo : String
     var user : String = ""
+    var date = Date()
     var likes : [Like] = []
     @Published var nbLikes : Int = 0
     var reports : [Report] = []
@@ -23,6 +24,7 @@ class Comment:Identifiable, ObservableObject, Decodable{
         case text
         case pseudo
         case user
+        case date
         case likes
         case nbLikes
         case reports
@@ -46,6 +48,10 @@ class Comment:Identifiable, ObservableObject, Decodable{
         self.pseudo = try values.decode(String.self, forKey: .pseudo)
         
         self.user = try values.decode(String.self, forKey: .user)
+        
+        let format = DateFormatter()
+        format.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
+        self.date = format.date(from: try values.decode(String.self, forKey: .date))!
         
         self.likes = try values.decode([Like].self, forKey: .likes)
         
