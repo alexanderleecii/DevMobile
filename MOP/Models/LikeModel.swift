@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Like: Decodable{
+class Like: Codable{
     var _id = ""
     var user = ""
     
@@ -25,5 +25,10 @@ class Like: Decodable{
     
     init(user: String){
         self.user = user
+    }
+    
+    func encode(to encoder: Encoder) throws{
+        var values = encoder.container(keyedBy: CodingKeys.self)
+        try values.encode(user, forKey: .user)
     }
 }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Comment:Identifiable, ObservableObject, Decodable{
+class Comment:Identifiable, ObservableObject, Codable{
     var _id = ""
     var text : String
     var pseudo : String
@@ -60,5 +60,15 @@ class Comment:Identifiable, ObservableObject, Decodable{
         self.reports = try values.decode([Report].self, forKey: .reports)
         
         self.nbReports = self.reports.count
+    }
+    
+    func encode(to encoder: Encoder) throws{
+        var values = encoder.container(keyedBy: CodingKeys.self)
+        try values.encode(text, forKey: .text)
+        try values.encode(pseudo, forKey: .pseudo)
+        try values.encode(user, forKey: .user)
+        try values.encode(date, forKey: .date)
+        try values.encode(likes, forKey: .likes)
+        try values.encode(reports, forKey: .reports)
     }
 }

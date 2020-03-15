@@ -15,7 +15,7 @@ struct HomepageView: View {
     @ObservedObject var posts = PostViewModel()
     @ObservedObject var userVM : UserViewModel
     
-    
+    @State private var showingAlertAddPost = false
     var body: some View {
         
         //Custom swipe gesture to set showMenu to false when the user has swiped far enough
@@ -108,14 +108,27 @@ struct HomepageView: View {
                             Image("home")
                             .foregroundColor(Color.black)
                         }
-                        Button(action:{
-                            self.showingAddPostView.toggle()
-                        }){
-                            Image("add")
-                            .foregroundColor(Color.black)
-                        }
-                        .sheet(isPresented: self.$showingAddPostView){
-                            AddPostView(posts: self.posts, visible: self.$showingAddPostView)
+                        if self.mainViewRouter.connectedUser != nil{
+                            Button(action:{
+                                self.showingAddPostView.toggle()
+                                    
+                            }){
+                                Image("add")
+                                .foregroundColor(Color.black)
+                            }
+                            .sheet(isPresented: self.$showingAddPostView){
+                                AddPostView(mainViewRouter: self.mainViewRouter, posts: self.posts, visible: self.$showingAddPostView)
+                            }
+                        }else{
+                            Button(action:{
+                                self.showingAlertAddPost.toggle()
+                            }){
+                                Image("add")
+                                .foregroundColor(Color.black)
+                            }
+                            .alert(isPresented: self.$showingAlertAddPost) {
+                                Alert(title: Text(""), message: Text("You must be logged in."))
+                            }
                         }
                         Image("search")
                     }

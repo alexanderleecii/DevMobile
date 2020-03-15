@@ -9,7 +9,7 @@
 import Foundation
 
 
-class Post : Identifiable, ObservableObject, Decodable{
+class Post : Identifiable, ObservableObject, Codable{
     var _id = ""
     var tags : [String] = []
     var title : String
@@ -47,9 +47,6 @@ class Post : Identifiable, ObservableObject, Decodable{
         self._id = try values.decode(String.self, forKey: ._id)
         
         self.tags = try values.decode([String].self, forKey: .tags)
-        for i in 0...self.tags.count-1{
-            self.tags[i] = "#"+self.tags[i]
-        }
         
         self.title = try values.decode(String.self, forKey: .title)
         
@@ -77,13 +74,18 @@ class Post : Identifiable, ObservableObject, Decodable{
         //self.imgUrl = try values.decode(String.self, forKey: .imgUrl)
     }
     
-    init(title:String, text:String, pseudo: String, location:String, imgUrl:String, tags:[String]){
+    init(tags:[String], title: String, text:String, pseudo: String, user: String, location:String, imgUrl:String){
+        self.tags = tags
         self.title = title
         self.text = text
         self.pseudo = pseudo
-        self.location = location
-        self.imgUrl = imgUrl
-        self.tags = tags
+        self.user = user
+        if location != ""{
+            self.location = location
+        }
+        if imgUrl != ""{
+            self.imgUrl = imgUrl
+        }
     }
     
     init()
@@ -97,13 +99,22 @@ class Post : Identifiable, ObservableObject, Decodable{
         self.comments = []
     }
     
-    init(text:String, nbLikes:Int, nbReports:Int, date:Date) {
-        self.title = "null"
-        self.text = text
-        self.pseudo = "null"
-        self.nbLikes = nbLikes
-        self.nbReports = nbReports
-        self.date = date
+    func encode(to encoder: Encoder) throws{
+        var values = encoder.container(keyedBy: CodingKeys.self)
+        
+        if !tags.isEmpty{
+            let tagString = self.tags.joined(separator: ",") //Server wants to work with a string
+            try values.encode(tagString, forKey: .tags)
+        }
+        try values.encode(self.title, forKey: .title)
+        try values.encode(self.text, forKey: .text)
+        try values.encode(self.pseudo, forKey: .pseudo)
+        
+        if self.location != nil{
+            try values.encode(self.location, forKey: .location)
+        }else{
+            try values.encode("", forKey: .location)
+        }
     }
     
     func getTags() -> [String]{

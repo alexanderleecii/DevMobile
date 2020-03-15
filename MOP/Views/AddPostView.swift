@@ -11,6 +11,8 @@ import SwiftUI
 struct AddPostView: View {
     @Environment(\.presentationMode) private var presentation
     
+    @ObservedObject var mainViewRouter : MainViewRouter
+    
     //PostViewModel
     @ObservedObject var posts : PostViewModel
     
@@ -19,7 +21,8 @@ struct AddPostView: View {
     
     
     //post attributes
-    @State private var postStr = ""
+    @State private var title = ""
+    @State private var text = ""
     @State private var location = ""
     @State private var tags = ""
     @State private var postImage : Image?
@@ -45,7 +48,14 @@ struct AddPostView: View {
         NavigationView{
             VStack{
                 Divider()
-                TextField("Write here ...", text: $postStr)
+                TextField("Title", text: $title)
+                    
+                //.frame(height: 300.0)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .overlay(RoundedRectangle(cornerRadius:30.0).stroke(Color.blue, lineWidth:1))
+                    .padding([.leading,.trailing,.top, .bottom], 40)
+                
+                TextField("Post", text: $text)
                     
                 //.frame(height: 300.0)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -127,7 +137,7 @@ struct AddPostView: View {
                     //TODO agregar verificaciones de que todo esta bien
                     if true{
                         //Add to list of Posts
-                        self.posts.addPost(post: self.createNewPost())
+                        self.posts.addPost(post: self.createNewPost(), token: self.mainViewRouter.token!)
                         self.visible.toggle()
                     }
                 }){
@@ -139,21 +149,26 @@ struct AddPostView: View {
     
     //TODO
     func convertImageToURL() -> String {
-        return "image.url"
+        if self.$postImage.wrappedValue != nil{
+            return "image.url"
+        }else{
+            return ""
+        }
     }
     
     //TODO
     func convertTagStrToArray() -> [String]{
-        return ["hello","goodbye"]
+        if self.$tags.wrappedValue != ""{
+            return self.$tags.wrappedValue.components(separatedBy: " ")
+        }else{
+            return []
+        }
     }
     
     func createNewPost() -> Post {
-        /*return Post(text: self.$postStr.wrappedValue,
+        return Post(tags: self.convertTagStrToArray(), title: self.$title.wrappedValue, text: self.$text.wrappedValue, pseudo: self.mainViewRouter.connectedUser!.pseudo, user: self.mainViewRouter.connectedUser!._id,
                     location: self.$location.wrappedValue,
-                    imgUrl: convertImageToURL(),
-                    tags: convertTagStrToArray()
-        )*/
-        return Post()
+                    imgUrl: self.convertImageToURL())
     }
 }
 
@@ -175,6 +190,6 @@ struct MenuIcon : View {
 
 struct AddPostView_Previews: PreviewProvider {
     static var previews: some View {
-        AddPostView(posts: PostViewModel(), visible: .constant(true))
+        AddPostView(mainViewRouter: MainViewRouter(), posts: PostViewModel(), visible: .constant(true))
     }
 }

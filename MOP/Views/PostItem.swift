@@ -87,15 +87,17 @@ struct PostItem: View {
                 .foregroundColor(Color.white)
             }
             
-            HStack{
-                ForEach(post.getTags(), id: \.self){
-                    tag in Text(tag)
+            if(!post.getTags().isEmpty){
+                HStack{
+                    ForEach(post.getTags(), id: \.self){
+                        tag in Text("#"+tag)
+                    }
                 }
+                .padding(10)
+                .frame(width:350, height:40, alignment: .leading)
+                .background(Color(red: 0.8, green: 0.8, blue: 0.8, opacity: 1.0))
+                .foregroundColor(Color.white)
             }
-            .padding(10)
-            .frame(width:350, height:40, alignment: .leading)
-            .background(Color(red: 0.8, green: 0.8, blue: 0.8, opacity: 1.0))
-            .foregroundColor(Color.white)
         }.cornerRadius(10)
     }
     

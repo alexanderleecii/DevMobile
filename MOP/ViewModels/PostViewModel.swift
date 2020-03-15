@@ -71,8 +71,35 @@ class PostViewModel : ObservableObject{
         dataTask.resume()
     }
     
-    func addPost(post: Post){
+    func addPost(post: Post, token: String){
         self.postSet.append(post)
+        let encoder = JSONEncoder()
+        let jsondata = try! encoder.encode(post)
+        print(String(data: jsondata, encoding: .utf8)!)
+        
+        let resourceString = "https://wouldyoureact.herokuapp.com/api/posts"
+        guard let resourceURL = URL(string: resourceString) else {
+            fatalError()
+        }
+        var request = URLRequest(url: resourceURL)
+        request.httpMethod = "POST"
+        request.addValue(token, forHTTPHeaderField: "x-auth-token")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = jsondata
+        
+        let dataTask = URLSession.shared.dataTask(with: request){ data, response, error in
+            if let response = response as? HTTPURLResponse {
+                //print("Response status code \(response.statusCode)")
+            }
+            if let error = error {
+                //print("Error \(error)")
+                return
+            }
+            if let data = data, let dataString = String(data: data, encoding: .utf8){
+                //print("Response data string: \(dataString)")
+            }
+        }
+        dataTask.resume()
     }
     
     func likePost(_id: String, token: String){

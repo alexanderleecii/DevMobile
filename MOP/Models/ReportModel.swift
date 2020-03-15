@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Report: Decodable{
+class Report: Codable{
     var _id = ""
     var user = ""
     
@@ -26,5 +26,10 @@ class Report: Decodable{
     init(user: String)
     {
         self.user = user
+    }
+    
+    func encode(to encoder: Encoder) throws{
+        var values = encoder.container(keyedBy: CodingKeys.self)
+        try values.encode(user, forKey: .user)
     }
 }
