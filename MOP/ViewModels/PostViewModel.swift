@@ -24,6 +24,11 @@ class PostViewModel : ObservableObject{
             postSet.sort(by: {$0.nbLikes > $1.nbLikes})
          }
      }
+    
+    func getUserPosts(_id: String) -> [Post]{
+        let userPosts = self.postSet.filter{$0.user == _id}
+        return userPosts
+    }
      
     
     func loadPostWithId(_id: String, completionHandler: @escaping (_ result: Post) -> Void){

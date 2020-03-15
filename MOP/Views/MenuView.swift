@@ -58,7 +58,11 @@ struct MenuButton : View {
         HStack{
             Button(action: {
                 if self.name == "Log Out"{
+                    if self.mainViewRouter.currentPage == "profile"{
+                        self.mainViewRouter.currentPage = "latest_posts"
+                    }
                     self.mainViewRouter.connectedUser = nil
+                    self.mainViewRouter.token = nil
                     withAnimation{
                         self.mainViewRouter.showMenu = false
                         self.postViewRouter.showPost = false
