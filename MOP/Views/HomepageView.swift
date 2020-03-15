@@ -66,6 +66,8 @@ struct HomepageView: View {
                                 Text("settings")
                             }else if self.mainViewRouter.currentPage == "log_in"{
                                 LogIn(mainViewRouter: self.mainViewRouter, userVM: self.userVM)
+                            }else if self.mainViewRouter.currentPage == "sign_up"{
+                                SignUpView(mainViewRouter: self.mainViewRouter, userVM: self.userVM)
                             }
                             
                         }else{

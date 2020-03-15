@@ -14,6 +14,9 @@ struct LogIn: View{
     @ObservedObject var mainViewRouter: MainViewRouter
     @ObservedObject var userVM : UserViewModel
     @Environment(\.presentationMode) var presentation
+    
+    @ObservedObject private var keyboard = KeyboardObserver()
+    
     @State private var email : String = ""
     @State private var password : String = ""
     var body : some View {
@@ -23,7 +26,7 @@ struct LogIn: View{
                 .font(.largeTitle)
                 .foregroundColor(.white)
                 .padding(.bottom, 100)
-                .padding(.top, 150)
+                .padding(.top, 100)
             
             /*
             Image(systemName: "person")
@@ -46,6 +49,16 @@ struct LogIn: View{
                     .cornerRadius(20.0)
             }.padding([.leading, .trailing], 27.5)
             
+            HStack(spacing: 0) {
+                Text("Don't have an account? ")
+                Button(action: {
+                    self.mainViewRouter.currentPage = "sign_up"
+                }) {
+                    Text("Sign Up")
+                    .foregroundColor(.blue)
+                }
+            }
+            
             Button(action: {
                 self.userVM.login(email: self.email, password: self.password){user, token in
                     self.mainViewRouter.connectedUser = user
@@ -62,18 +75,7 @@ struct LogIn: View{
                 .cornerRadius(15.0)
                 .padding(.top)
             }
-            
             Spacer()
-            HStack(spacing: 0) {
-                Text("Don't have an account? ")
-                Button(action: {
-                    
-                }) {
-                    Text("Sign Up")
-                    .foregroundColor(.blue)
-                }
-            }
-            .padding(.bottom, 15.0)
         }
         .background(Color(red: 0.9, green: 0.7, blue: 0.7, opacity: 0.5) )
         .edgesIgnoringSafeArea(.all)
