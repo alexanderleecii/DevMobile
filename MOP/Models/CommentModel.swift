@@ -31,12 +31,10 @@ class Comment:Identifiable, ObservableObject, Codable{
         case nbReports
     }
     
-    init(_id:String, nbLikes:Int, text:String, nbReports: Int, pseudo: String){
-        self._id = _id
-        self.nbLikes = nbLikes
-        self.text = text
-        self.nbReports = nbReports
+    init(pseudo: String, user: String, text: String){
         self.pseudo = pseudo
+        self.user = user
+        self.text = text
     }
     
     required init(from decoder: Decoder) throws {
@@ -67,8 +65,5 @@ class Comment:Identifiable, ObservableObject, Codable{
         try values.encode(text, forKey: .text)
         try values.encode(pseudo, forKey: .pseudo)
         try values.encode(user, forKey: .user)
-        try values.encode(date, forKey: .date)
-        try values.encode(likes, forKey: .likes)
-        try values.encode(reports, forKey: .reports)
     }
 }

@@ -111,6 +111,6 @@ struct CommentItem: View {
 
 struct CommentItem_Previews: PreviewProvider {
     static var previews: some View {
-        CommentItem(post: Post(), comment: Comment(_id: "1", nbLikes: 3, text: "Je ne suis pas du tout d'accord!!!", nbReports: 6, pseudo: "Michou"), mainViewRouter: MainViewRouter())
+        Text("Hello world")
     }
 }

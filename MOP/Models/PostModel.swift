@@ -137,4 +137,9 @@ class Post : Identifiable, ObservableObject, Codable{
            self.comments.sort(by: {$0.nbLikes > $1.nbLikes})
         }
     }
+    
+    func addComment(comment: Comment, token: String){
+        self.comments.append(comment)
+        PostViewModel().addComment(postid: self._id, comment: comment, token: token)
+    }
 }

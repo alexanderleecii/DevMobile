@@ -162,6 +162,36 @@ class PostViewModel : ObservableObject{
         dataTask.resume()
     }
     
+    func addComment(postid: String, comment: Comment, token: String){
+        let encoder = JSONEncoder()
+        let jsondata = try! encoder.encode(comment)
+        print(String(data: jsondata, encoding: .utf8)!)
+        
+        let resourceString = "https://wouldyoureact.herokuapp.com/api/posts/comment"
+        guard let resourceURL = URL(string: resourceString) else {
+            fatalError()
+        }
+        var request = URLRequest(url: resourceURL.appendingPathComponent(postid))
+        request.httpMethod = "POST"
+        request.addValue(token, forHTTPHeaderField: "x-auth-token")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = jsondata
+        
+        let dataTask = URLSession.shared.dataTask(with: request){ data, response, error in
+            if let response = response as? HTTPURLResponse {
+                //print("Response status code \(response.statusCode)")
+            }
+            if let error = error {
+                //print("Error \(error)")
+                return
+            }
+            if let data = data, let dataString = String(data: data, encoding: .utf8){
+                //print("Response data string: \(dataString)")
+            }
+        }
+        dataTask.resume()
+    }
+    
     func likeComment(postid: String, commentid: String, token: String){
         let resourceString = "https://wouldyoureact.herokuapp.com/api/posts/comment/like/"
         guard let resourceURL = URL(string: resourceString) else {

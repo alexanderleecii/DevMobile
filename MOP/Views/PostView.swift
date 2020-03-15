@@ -12,6 +12,10 @@ struct PostView: View {
     @ObservedObject var post : Post
     @ObservedObject var mainViewRouter : MainViewRouter
     
+    @ObservedObject private var keyboard = KeyboardObserver()
+    
+    @State private var comment = ""
+    
     var body: some View {
         VStack{
             PostItem(post: post, postViewRouter: PostViewRouter(), mainViewRouter: self.mainViewRouter)
@@ -37,8 +41,23 @@ struct PostView: View {
             }.frame(width: 350, alignment: .leading)
                 .padding(.bottom, -10)
             CommentsView(post: self.post, mainViewRouter: self.mainViewRouter)
-            
-        }
+            if self.mainViewRouter.connectedUser != nil{
+                HStack{
+                    MultilineTF(txt: self.$comment)
+                        .frame(width: 300, height: 40, alignment: .leading)
+                    Button(action: {
+                        self.post.addComment(comment: Comment(pseudo: self.mainViewRouter.connectedUser!.pseudo, user: self.mainViewRouter.connectedUser!._id, text: self.$comment.wrappedValue), token: self.mainViewRouter.token!)
+                    }){
+                        Text("Comment")
+                    }
+                    }.padding(6)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color.gray, lineWidth:1)
+                )
+                Spacer()
+            }
+        }.padding(.bottom, keyboard.currentHeight)
         
     }
 }
