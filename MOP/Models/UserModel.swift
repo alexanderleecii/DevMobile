@@ -8,7 +8,7 @@
 
 import Foundation
 
-class User:ObservableObject, Decodable{
+class User:Identifiable, ObservableObject, Decodable{
     var _id : String
     var pseudo : String
     var email : String

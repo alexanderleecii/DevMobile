@@ -9,12 +9,11 @@
 import Foundation
 
 class UserViewModel : ObservableObject{
-    @Published var userSet : [User]
-    @Published var connectedUser : User?
+    @Published var userSet = [User]()
+    @Published var connectedUser : User? = nil
     
     init(){
-        userSet = []
-        connectedUser = nil
+        getAllUsers()
     }
     
     func register(pseudo: String, email: String, password: String, completionHandler: @escaping (User, String) -> ()){
@@ -123,5 +122,43 @@ class UserViewModel : ObservableObject{
             }
         }
         dataTask.resume()
+    }
+    
+    func getAllUsers(){
+        let resourceString = "https://wouldyoureact.herokuapp.com/api/users/"
+        guard let resourceURL = URL(string: resourceString) else {
+            fatalError()
+        }
+        
+        var request = URLRequest(url: resourceURL)
+        request.httpMethod = "GET"
+        
+        let dataTask = URLSession.shared.dataTask(with: request){ (data, response, error) in
+            if let error = error {
+                print("Error \(error)")
+                return
+            }
+            
+            if let response = response as? HTTPURLResponse {
+                print("Response status code \(response.statusCode)")
+            }
+            if let data = data, let dataString = String(data: data, encoding: .utf8){
+                //print("Response data string: \(dataString)")
+                let decoder = JSONDecoder()
+                guard let users = try? decoder.decode([User].self, from: data) else {
+                    return
+                }
+                DispatchQueue.main.async {
+                    self.userSet = users
+                }
+            }
+        }
+        dataTask.resume()
+    }
+    
+    func getUsersContaining(substring: String) -> [User]{
+        var res = [User]()
+        res = self.userSet.filter{$0.pseudo.contains(substring)}
+        return res
     }
 }

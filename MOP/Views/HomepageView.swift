@@ -68,7 +68,10 @@ struct HomepageView: View {
                                 LogIn(mainViewRouter: self.mainViewRouter, userVM: self.userVM)
                             }else if self.mainViewRouter.currentPage == "sign_up"{
                                 SignUpView(mainViewRouter: self.mainViewRouter, userVM: self.userVM)
+                            }else if self.mainViewRouter.currentPage == "search"{
+                                SearchView(mainVR: self.mainViewRouter, postVR: self.postViewRouter, searchVR: SearchViewRouter())
                             }
+                            
                             
                         }else{
                             PostView(post: self.postViewRouter.post, mainViewRouter: self.mainViewRouter)
@@ -87,10 +90,26 @@ struct HomepageView: View {
                                 .disabled(self.mainViewRouter.showMenu)
                             }else if self.mainViewRouter.currentPage == "profile"{
                                 ProfileView(mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter, posts: self.posts)
+                                .frame(width: geometry.size.width)
+                                .blur(radius: 2)
+                                .disabled(self.mainViewRouter.showMenu)
                             }else if self.mainViewRouter.currentPage == "settings"{
                                 Text("settings")
                             }else if self.mainViewRouter.currentPage == "log_in"{
                                 LogIn(mainViewRouter: self.mainViewRouter, userVM: self.userVM)
+                                .frame(width: geometry.size.width)
+                                .blur(radius: 2)
+                                .disabled(self.mainViewRouter.showMenu)
+                            }else if self.mainViewRouter.currentPage == "sign_up"{
+                                SignUpView(mainViewRouter: self.mainViewRouter, userVM: self.userVM)
+                                .frame(width: geometry.size.width)
+                                .blur(radius: 2)
+                                .disabled(self.mainViewRouter.showMenu)
+                            }else if self.mainViewRouter.currentPage == "search"{
+                                SearchView(mainVR: self.mainViewRouter, postVR: self.postViewRouter, searchVR: SearchViewRouter())
+                                .frame(width: geometry.size.width)
+                                .blur(radius: 2)
+                                .disabled(self.mainViewRouter.showMenu)
                             }
                         }else{
                             PostView(post: self.postViewRouter.post, mainViewRouter: self.mainViewRouter)
@@ -129,7 +148,11 @@ struct HomepageView: View {
                                 Alert(title: Text(""), message: Text("You must be logged in."))
                             }
                         }
-                        Image("search")
+                        Button(action:{
+                            self.mainViewRouter.currentPage = "search"
+                        }){
+                            Image("search")
+                        }
                     }
                     .frame(width:420, height:60)
                     .background(Color.gray)
