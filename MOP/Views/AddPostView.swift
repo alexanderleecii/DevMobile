@@ -185,7 +185,6 @@ struct MenuIcon : View {
             .foregroundColor(.black)
         }
     }
-    
 }
 
 struct AddPostView_Previews: PreviewProvider {

@@ -13,9 +13,37 @@ class PostViewModel : ObservableObject{
     
     init(){
         loadAllPosts()
-        
     }
-     
+    
+    func getMockPosts(){
+        postSet =  [
+            Post(tags: ["test","rape"], title: "title", text: "text", pseudo: "pseudo", user: "user", location: "hawai", imgUrl: "" ),
+            Post(tags: ["test2","frozen"], title: "title2", text: "text2", pseudo: "pseudo2", user: "user2", location: "mexico", imgUrl: "" )
+        ]
+    }
+    
+    
+    func getPostContaining(by:String, substring: String) -> [Post]{
+        var res = [Post]()
+        if by == "tags" {
+            res = self.postSet.filter{
+                return !$0.tags.filter{tag in print(tag)
+                    return tag == substring}.isEmpty
+            }
+        }
+        else if by == "location" {
+            res = self.postSet.filter{
+                if let loc = $0.location {
+                    return loc.contains(substring)
+                }
+                else {return false}
+            }
+        }
+        return res
+    }
+    
+
+
      func getPostsOrderedBy(viewType att : String){
          if att == "latest_posts" {
             postSet.sort(by: {$0.date > $1.date})

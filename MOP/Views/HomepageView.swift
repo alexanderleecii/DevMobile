@@ -152,6 +152,7 @@ struct HomepageView: View {
                             self.mainViewRouter.currentPage = "search"
                         }){
                             Image("search")
+                            .foregroundColor(Color.black)
                         }
                     }
                     .frame(width:420, height:60)

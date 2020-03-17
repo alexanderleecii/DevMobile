@@ -16,6 +16,21 @@ class UserViewModel : ObservableObject{
         getAllUsers()
     }
     
+    func getMockUsers(){
+        userSet = [
+            User(id: "", pseudo: "maca", email: "test", password: "test", isAdmin: false),
+            User(id: "", pseudo: "macarena", email: "test", password: "test", isAdmin: false),
+            User(id: "", pseudo: "alamaca", email: "test", password: "test", isAdmin: false),
+            User(id: "", pseudo: "mac", email: "test", password: "test", isAdmin: false)
+        ]
+    }
+    
+    func getUsersContaining(substring: String) -> [User]{
+        var res = [User]()
+        res = self.userSet.filter{$0.pseudo.contains(substring)}
+        return res
+    }
+    
     func register(pseudo: String, email: String, password: String, completionHandler: @escaping (User, String) -> ()){
         let resourceString = "https://wouldyoureact.herokuapp.com/api/users/"
         guard let resourceURL = URL(string: resourceString) else {
@@ -156,9 +171,5 @@ class UserViewModel : ObservableObject{
         dataTask.resume()
     }
     
-    func getUsersContaining(substring: String) -> [User]{
-        var res = [User]()
-        res = self.userSet.filter{$0.pseudo.contains(substring)}
-        return res
-    }
+    
 }

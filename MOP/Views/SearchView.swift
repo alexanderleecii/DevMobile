@@ -13,11 +13,38 @@ struct SearchView: View {
     @ObservedObject var postVR = PostViewRouter()
     @ObservedObject var searchVR = SearchViewRouter()
     
+    @ObservedObject var userVM = UserViewModel()
+    @ObservedObject var postVM = PostViewModel()
+    
+    @State var userFilteredList = [User]()
+    @State var postFilteredList = [Post]()
     @State private var searchText : String = ""
+    
     var body: some View {
-        VStack(alignment: .center){
+        
+        let textFieldBinding = Binding<String> (
+            get: {
+                self.searchText
+            },
+            set: {
+                self.searchText = $0
+                if self.searchVR.searchType == "people"{
+                    self.userFilteredList = self.userVM.getUsersContaining(substring: self.searchText)
+                
+                }else if self.searchVR.searchType == "tags" {
+                    self.postFilteredList = self.postVM.getPostContaining(by: "tags", substring: self.searchText)
+                
+                }else if self.searchVR.searchType == "location"{
+                    self.postFilteredList = self.postVM.getPostContaining(by: "location", substring: self.searchText)
+
+                }
+            }
+        )
+        
+        return VStack(alignment: .center){
             HStack{
-                TextField("Search", text: self.$searchText)
+                TextField("Search", text: textFieldBinding)
+                
                     .foregroundColor(Color.gray.opacity(0.9))
                     .frame(width: 310, height: 40, alignment: .leading)
                 Button(action: {
@@ -59,15 +86,15 @@ struct SearchView: View {
             ScrollView{
                 VStack(spacing: 8){
                     if self.searchVR.searchType == "people"{
-                        ForEach(UserViewModel().getUsersContaining(substring: self.searchText)){user in
+                        ForEach(userFilteredList){user in
                             PersonItem(user: user)
                         }
                     }else if self.searchVR.searchType == "tags"{
-                        ForEach(PostViewModel().postSet){post in
+                        ForEach(postFilteredList){post in
                             PostItem(post: post, postViewRouter: self.postVR, mainViewRouter: self.mainVR)
                         }
                     }else if self.searchVR.searchType == "location"{
-                        ForEach(PostViewModel().postSet){post in
+                        ForEach(postFilteredList){post in
                             PostItem(post: post, postViewRouter: self.postVR, mainViewRouter: self.mainVR)
                         }
                     }
@@ -76,6 +103,7 @@ struct SearchView: View {
             }
             Spacer()
         }
+    
         
     }
 }
@@ -86,7 +114,7 @@ struct SearchButton: View{
     var body: some View {
         Button(action: {
             self.searchVR.searchType = self.name
-            print(self.searchVR.searchType)
+            //print(self.searchVR.searchType)
         }){
             if name == "people"{
                 Image("person")
