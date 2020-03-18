@@ -12,13 +12,15 @@ class PostViewModel : ObservableObject{
     @Published var postSet = [Post]()
     
     init(){
-        loadAllPosts()
+        //loadAllPosts()
+        getMockPosts()
     }
     
     func getMockPosts(){
         postSet =  [
             Post(tags: ["test","rape"], title: "title", text: "text", pseudo: "pseudo", user: "user", location: "hawai", imgUrl: "" ),
-            Post(tags: ["test2","frozen"], title: "title2", text: "text2", pseudo: "pseudo2", user: "user2", location: "mexico", imgUrl: "" )
+            Post(tags: ["test","frozen"], title: "title2", text: "text2", pseudo: "pseudo2", user: "user2", location: "mexico", imgUrl: "" ),
+            Post(tags: ["test"], title: "title2", text: "text2sqsdqsdqsdsqd", pseudo: "pseudo2", user: "user2", location: "mexico", imgUrl: "" )
         ]
     }
     
@@ -27,7 +29,7 @@ class PostViewModel : ObservableObject{
         var res = [Post]()
         if by == "tags" {
             res = self.postSet.filter{
-                return !$0.tags.filter{tag in print(tag)
+                return !$0.tags.filter{tag in
                     return tag == substring}.isEmpty
             }
         }

@@ -13,7 +13,8 @@ class UserViewModel : ObservableObject{
     @Published var connectedUser : User? = nil
     
     init(){
-        getAllUsers()
+        //getAllUsers()
+        getMockUsers()
     }
     
     func getMockUsers(){

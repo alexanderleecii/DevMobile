@@ -19,4 +19,15 @@ class SearchViewRouter: ObservableObject{
             objectWillChange.send(self)
         }
     }
+    
+    var searchString: String = ""{
+        didSet{
+            objectWillChange.send(self)
+        }
+    }
+    
+    func printState(){
+        print(["SearchViewRouter state",searchType,searchString], separator: " * ")
+    }
+    
 }

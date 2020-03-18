@@ -9,35 +9,36 @@
 import SwiftUI
 
 struct SearchView: View {
-    @ObservedObject var mainVR = MainViewRouter()
-    @ObservedObject var postVR = PostViewRouter()
-    @ObservedObject var searchVR = SearchViewRouter()
+    @ObservedObject var mainVR : MainViewRouter
+    @ObservedObject var postVR : PostViewRouter
+    @ObservedObject var searchVR : SearchViewRouter
     
     @ObservedObject var userVM = UserViewModel()
     @ObservedObject var postVM = PostViewModel()
     
     @State var userFilteredList = [User]()
     @State var postFilteredList = [Post]()
-    @State private var searchText : String = ""
+    //@State private var searchText : String = ""
+    
+    func update(){
+        if self.searchVR.searchType == "people"{
+            self.userFilteredList = self.userVM.getUsersContaining(substring: self.searchVR.searchString)
+        }else if self.searchVR.searchType == "tags" {
+            self.postFilteredList = self.postVM.getPostContaining(by: "tags", substring: self.searchVR.searchString)
+        }else if self.searchVR.searchType == "location"{
+            self.postFilteredList = self.postVM.getPostContaining(by: "location", substring: self.searchVR.searchString)
+        }
+    }
     
     var body: some View {
         
         let textFieldBinding = Binding<String> (
             get: {
-                self.searchText
+                self.searchVR.searchString
             },
             set: {
-                self.searchText = $0
-                if self.searchVR.searchType == "people"{
-                    self.userFilteredList = self.userVM.getUsersContaining(substring: self.searchText)
-                
-                }else if self.searchVR.searchType == "tags" {
-                    self.postFilteredList = self.postVM.getPostContaining(by: "tags", substring: self.searchText)
-                
-                }else if self.searchVR.searchType == "location"{
-                    self.postFilteredList = self.postVM.getPostContaining(by: "location", substring: self.searchText)
-
-                }
+                self.searchVR.searchString = $0
+                self.update()
             }
         )
         
@@ -91,11 +92,11 @@ struct SearchView: View {
                         }
                     }else if self.searchVR.searchType == "tags"{
                         ForEach(postFilteredList){post in
-                            PostItem(post: post, postViewRouter: self.postVR, mainViewRouter: self.mainVR)
+                            PostItem(post: post, postViewRouter: self.postVR, mainViewRouter: self.mainVR, searchVR: self.searchVR)
                         }
                     }else if self.searchVR.searchType == "location"{
                         ForEach(postFilteredList){post in
-                            PostItem(post: post, postViewRouter: self.postVR, mainViewRouter: self.mainVR)
+                            PostItem(post: post, postViewRouter: self.postVR, mainViewRouter: self.mainVR, searchVR: self.searchVR)
                         }
                     }
                     Spacer()
@@ -103,8 +104,10 @@ struct SearchView: View {
             }
             Spacer()
         }
-    
-        
+        .onAppear{
+            //self.searchText = self.searchVR.searchString
+            self.update()
+        }
     }
 }
 
@@ -114,7 +117,6 @@ struct SearchButton: View{
     var body: some View {
         Button(action: {
             self.searchVR.searchType = self.name
-            //print(self.searchVR.searchType)
         }){
             if name == "people"{
                 Image("person")

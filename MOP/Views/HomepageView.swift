@@ -11,6 +11,8 @@ import SwiftUI
 struct HomepageView: View {
     @ObservedObject var mainViewRouter = MainViewRouter()
     @ObservedObject var postViewRouter = PostViewRouter()
+    @ObservedObject var searchVR = SearchViewRouter()
+    
     @State var showingAddPostView = false
     @ObservedObject var posts = PostViewModel()
     @ObservedObject var userVM : UserViewModel
@@ -55,13 +57,13 @@ struct HomepageView: View {
                                 /*GenericPostView(posts: self.posts, mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter)
                                 .frame(width: geometry.size.width)*/
                                 
-                                LatestPostsView(posts: self.posts, mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter)
+                                LatestPostsView(posts: self.posts, mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter, searchVR: self.searchVR)
                                 .frame(width: geometry.size.width)
                             }else if self.mainViewRouter.currentPage == "top_posts"{
-                                TopPostsView(posts: self.posts, mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter)
+                                TopPostsView(posts: self.posts, mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter, searchVR: self.searchVR)
                                 .frame(width: geometry.size.width)
                             }else if self.mainViewRouter.currentPage == "profile"{
-                                ProfileView(mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter, posts: self.posts)
+                                ProfileView(mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter, searchVR: self.searchVR, posts: self.posts)
                             }else if self.mainViewRouter.currentPage == "settings"{
                                 Text("settings")
                             }else if self.mainViewRouter.currentPage == "log_in"{
@@ -69,27 +71,27 @@ struct HomepageView: View {
                             }else if self.mainViewRouter.currentPage == "sign_up"{
                                 SignUpView(mainViewRouter: self.mainViewRouter, userVM: self.userVM)
                             }else if self.mainViewRouter.currentPage == "search"{
-                                SearchView(mainVR: self.mainViewRouter, postVR: self.postViewRouter, searchVR: SearchViewRouter())
+                                SearchView(mainVR: self.mainViewRouter, postVR: self.postViewRouter, searchVR: self.searchVR)
                             }
                             
                             
                         }else{
-                            PostView(post: self.postViewRouter.post, mainViewRouter: self.mainViewRouter)
+                            PostView(post: self.postViewRouter.post, mainViewRouter: self.mainViewRouter, searchVR: self.searchVR)
                         }
                     }else{
                         if !self.postViewRouter.showPost{
                             if self.mainViewRouter.currentPage == "latest_posts"{
-                                LatestPostsView(posts: self.posts, mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter)
+                                LatestPostsView(posts: self.posts, mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter, searchVR: self.searchVR)
                                 .frame(width: geometry.size.width)
                                 .blur(radius: 2)
                                 .disabled(self.mainViewRouter.showMenu)
                             }else if self.mainViewRouter.currentPage == "top_posts"{
-                                TopPostsView(posts: self.posts, mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter)
+                                TopPostsView(posts: self.posts, mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter, searchVR: self.searchVR)
                                 .frame(width: geometry.size.width)
                                 .blur(radius: 2)
                                 .disabled(self.mainViewRouter.showMenu)
                             }else if self.mainViewRouter.currentPage == "profile"{
-                                ProfileView(mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter, posts: self.posts)
+                                ProfileView(mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter, searchVR: self.searchVR, posts: self.posts)
                                 .frame(width: geometry.size.width)
                                 .blur(radius: 2)
                                 .disabled(self.mainViewRouter.showMenu)
@@ -106,13 +108,13 @@ struct HomepageView: View {
                                 .blur(radius: 2)
                                 .disabled(self.mainViewRouter.showMenu)
                             }else if self.mainViewRouter.currentPage == "search"{
-                                SearchView(mainVR: self.mainViewRouter, postVR: self.postViewRouter, searchVR: SearchViewRouter())
+                                SearchView(mainVR: self.mainViewRouter, postVR: self.postViewRouter, searchVR: self.searchVR)
                                 .frame(width: geometry.size.width)
                                 .blur(radius: 2)
                                 .disabled(self.mainViewRouter.showMenu)
                             }
                         }else{
-                            PostView(post: self.postViewRouter.post, mainViewRouter: self.mainViewRouter)
+                            PostView(post: self.postViewRouter.post, mainViewRouter: self.mainViewRouter, searchVR: self.searchVR)
                             .frame(width: geometry.size.width)
                             .blur(radius: 2)
                             .disabled(self.mainViewRouter.showMenu)
@@ -168,161 +170,6 @@ struct HomepageView: View {
             .gesture(drag)
         }
         .edgesIgnoringSafeArea(.bottom)
-    }
-}
-
-
-struct LatestPostsView: View{
-    @ObservedObject var posts : PostViewModel
-    @ObservedObject var mainViewRouter: MainViewRouter
-    @ObservedObject var postViewRouter: PostViewRouter
-    
-    var body: some View{
-        VStack{
-            Text("Latest posts")
-                .font(.title).bold()
-                .frame(width: 350, height: 50, alignment: .leading)
-            Spacer()
-            if !posts.postSet.isEmpty{ //So the ScrollView is only rendered after the data has been fetched
-                ScrollView{
-                    VStack(spacing: 10){
-                        ForEach(self.posts.postSet){
-                            post in
-                            PostItem(post: post, postViewRouter: self.postViewRouter, mainViewRouter: self.mainViewRouter)
-                            Spacer()
-                        }
-                    }
-                }
-            }
-        }
-        .onAppear{
-            self.posts.getPostsOrderedBy(viewType: "latest_posts")
-        }
-    }
-}
-
-struct TopPostsView: View{
-    @ObservedObject var posts : PostViewModel
-    @ObservedObject var mainViewRouter: MainViewRouter
-    @ObservedObject var postViewRouter: PostViewRouter
-    
-    var body: some View{
-        VStack{
-            Text("Top posts")
-            .font(.title).bold()
-            .frame(width: 350, height: 50, alignment: .leading)
-            Spacer()
-            if !posts.postSet.isEmpty{//So the ScrollView is only rendered after the data has been fetched
-                ScrollView{
-                    VStack(spacing: 10){
-                        ForEach(self.posts.postSet){
-                            post in
-                            PostItem(post: post, postViewRouter: self.postViewRouter, mainViewRouter: self.mainViewRouter)
-                            Spacer()
-                        }
-                    }
-                }
-            }
-            }.onAppear{
-            self.posts.getPostsOrderedBy(viewType: "top_posts")
-        }
-    }
-}
-
-struct ProfileView: View{
-    @ObservedObject var mainViewRouter: MainViewRouter
-    @ObservedObject var postViewRouter: PostViewRouter
-    @ObservedObject var posts: PostViewModel
-    @State var updateUsername = false
-    @State private var username: String = ""
-    
-    var body: some View{
-        let user = self.mainViewRouter.connectedUser
-        if user != nil{
-            self.username = user!.pseudo
-        }
-        return VStack(alignment: .center){
-            if self.mainViewRouter.connectedUser != nil{
-                Text("Profile")
-                    .font(.system(size: 50))
-                    .frame(width: 350, height: 50, alignment: .center)
-                    .padding(.bottom, 50)
-                Text("My email")
-                    .padding(.bottom, 10)
-                    .font(.system(size: 30))
-                Text(String((user?.email)!))
-                .font(.system(size: 20))
-                .padding(.bottom, 30)
-                Text("My username")
-                .padding(.bottom, 10)
-                .font(.system(size: 30))
-                HStack{
-                    if !updateUsername{
-                        Text(String((user?.pseudo)!))
-                        .font(.system(size: 20))
-                        Button(action: {
-                            self.updateUsername = true
-                        }){
-                            Text("Update")
-                                .font(.headline)
-                                .frame(width: 100, height: 30)
-                                .background(Color.gray)
-                                .foregroundColor(Color.white)
-                            .cornerRadius(10)
-                        }
-                    }else{
-                        TextField("Pseudo", text: self.$username)
-                            .padding()
-                            .background(Color.white)
-                            .border(Color.gray)
-                            .cornerRadius(20.0)
-                        Button(action: {
-                            self.updateUsername = false
-                            self.mainViewRouter.connectedUser?.pseudo = self.username
-                        }){
-                            Text("Save")
-                                .font(.headline)
-                                .frame(width: 100, height: 30)
-                                .background(Color.green)
-                                .foregroundColor(Color.white)
-                                .cornerRadius(10)
-                        }
-                    }
-                }.padding([.leading, .trailing], 27.5)
-                Text("My posts")
-                .padding(.bottom, 10)
-                .font(.system(size: 30))
-                
-                ScrollView{
-                    VStack(spacing: 10){
-                        ForEach(self.posts.getUserPosts(_id: self.mainViewRouter.connectedUser!._id)){post in
-                            PostItem(post: post, postViewRouter: self.postViewRouter, mainViewRouter: self.mainViewRouter)
-                            Spacer()
-                        }
-                    }
-                }
-                
-                Spacer()
-            }
-            
-        }
-    }
-}
-
-struct UserPostsView: View{
-    @ObservedObject var posts: PostViewModel
-    @ObservedObject var postViewRouter: PostViewRouter
-    @ObservedObject var mainViewRouter: MainViewRouter
-
-    var body: some View{
-        ScrollView{
-            VStack(spacing: 10){
-                ForEach(self.posts.postSet){post in
-                    PostItem(post: post, postViewRouter: self.postViewRouter, mainViewRouter: self.mainViewRouter)
-                    Spacer()
-                }
-            }
-        }
     }
 }
 

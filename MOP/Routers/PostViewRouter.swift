@@ -32,4 +32,8 @@ class PostViewRouter: ObservableObject{
             objectWillChange.send(self)
         }
     }
+    
+    func printState(){
+        print(["PostViewRouter state",showPost,post.text,sortedBy], separator: " * ")
+    }
 }

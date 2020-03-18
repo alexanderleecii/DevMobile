@@ -12,7 +12,7 @@ struct PostItem: View {
     @ObservedObject var post : Post
     @ObservedObject var postViewRouter : PostViewRouter
     @ObservedObject var mainViewRouter : MainViewRouter
-    
+    @ObservedObject var searchVR : SearchViewRouter
     @State private var showingAlert = false
 
     var body: some View {
@@ -80,23 +80,39 @@ struct PostItem: View {
             .background(Color(red: 0.95, green: 0.95, blue: 0.95, opacity: 1.0))
             
             if post.location != nil{
-                Text(String(post.location!))
+                Button(action: {
+                    withAnimation{
+                    self.mainViewRouter.currentPage = "search"
+                    self.searchVR.searchType = "location"
+                    self.searchVR.searchString = self.post.location!
+                    }
+                }){
+                    Text(String(post.location!))
                     .padding(.leading, 10)
                     .frame(width:350, height:30, alignment: .leading)
-                .background(Color(red: 0.6, green: 0.6, blue: 0.6, opacity: 1.0))
-                .foregroundColor(Color.white)
+                    .background(Color(red: 0.6, green: 0.6, blue: 0.6, opacity: 1.0))
+                    .foregroundColor(Color.white)
+                }
             }
             
             if(!post.getTags().isEmpty){
                 HStack{
-                    ForEach(post.getTags(), id: \.self){
-                        tag in Text("#"+tag)
+                    ForEach(post.getTags(), id: \.self){ tag in
+                        Button(action:{
+                            self.mainViewRouter.currentPage = "search"
+                            self.searchVR.searchType = "tags"
+                            self.searchVR.searchString = tag
+                        }){
+                            Text("#"+tag)
+                        }
                     }
                 }
                 .padding(10)
                 .frame(width:350, height:40, alignment: .leading)
                 .background(Color(red: 0.8, green: 0.8, blue: 0.8, opacity: 1.0))
                 .foregroundColor(Color.white)
+
+                
             }
         }.cornerRadius(10)
     }
@@ -131,7 +147,6 @@ struct PostItem: View {
 
 struct PostItem_Previews: PreviewProvider {
     static var previews: some View {
-        
-        PostItem(post: PostViewModel().postSet[0], postViewRouter: PostViewRouter(), mainViewRouter: MainViewRouter())
+        return PostItem(post: PostViewModel().postSet[0], postViewRouter: PostViewRouter(), mainViewRouter: MainViewRouter(), searchVR: SearchViewRouter())
     }
 }
