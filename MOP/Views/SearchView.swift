@@ -44,8 +44,7 @@ struct SearchView: View {
         
         return VStack(alignment: .center){
             HStack{
-                TextField("Search", text: textFieldBinding)
-                
+                TextField("Search", text: textFieldBinding)	
                     .foregroundColor(Color.gray.opacity(0.9))
                     .frame(width: 310, height: 40, alignment: .leading)
                 Button(action: {

@@ -85,6 +85,7 @@ struct PostItem: View {
                     self.mainViewRouter.currentPage = "search"
                     self.searchVR.searchType = "location"
                     self.searchVR.searchString = self.post.location!
+                    if self.postViewRouter.showPost {self.postViewRouter.showPost.toggle()}
                     }
                 }){
                     Text(String(post.location!))
@@ -102,6 +103,7 @@ struct PostItem: View {
                             self.mainViewRouter.currentPage = "search"
                             self.searchVR.searchType = "tags"
                             self.searchVR.searchString = tag
+                            if self.postViewRouter.showPost {self.postViewRouter.showPost.toggle()}
                         }){
                             Text("#"+tag)
                         }

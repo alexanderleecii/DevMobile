@@ -11,6 +11,7 @@ import SwiftUI
 struct PostView: View {
     @ObservedObject var post : Post
     @ObservedObject var mainViewRouter : MainViewRouter
+    @ObservedObject var postViewRouter : PostViewRouter
     @ObservedObject var searchVR : SearchViewRouter
     @ObservedObject private var keyboard = KeyboardObserver()
     
@@ -18,7 +19,7 @@ struct PostView: View {
     
     var body: some View {
         VStack{
-            PostItem(post: post, postViewRouter: PostViewRouter(), mainViewRouter: self.mainViewRouter, searchVR: self.searchVR)
+            PostItem(post: post, postViewRouter: postViewRouter, mainViewRouter: self.mainViewRouter, searchVR: self.searchVR)
                 .padding(.bottom, 20)
             HStack{
                 Text("Comments")
@@ -64,6 +65,6 @@ struct PostView: View {
 
 struct PostView_Previews: PreviewProvider {
     static var previews: some View {
-        PostView(post: Post(), mainViewRouter: MainViewRouter(), searchVR: SearchViewRouter())
+        PostView(post: Post(), mainViewRouter: MainViewRouter(),postViewRouter: PostViewRouter(), searchVR: SearchViewRouter())
     }
 }

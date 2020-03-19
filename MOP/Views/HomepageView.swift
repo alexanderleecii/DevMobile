@@ -73,10 +73,8 @@ struct HomepageView: View {
                             }else if self.mainViewRouter.currentPage == "search"{
                                 SearchView(mainVR: self.mainViewRouter, postVR: self.postViewRouter, searchVR: self.searchVR)
                             }
-                            
-                            
                         }else{
-                            PostView(post: self.postViewRouter.post, mainViewRouter: self.mainViewRouter, searchVR: self.searchVR)
+                            PostView(post: self.postViewRouter.post, mainViewRouter: self.mainViewRouter,postViewRouter: self.postViewRouter, searchVR: self.searchVR)
                         }
                     }else{
                         if !self.postViewRouter.showPost{
@@ -114,7 +112,7 @@ struct HomepageView: View {
                                 .disabled(self.mainViewRouter.showMenu)
                             }
                         }else{
-                            PostView(post: self.postViewRouter.post, mainViewRouter: self.mainViewRouter, searchVR: self.searchVR)
+                            PostView(post: self.postViewRouter.post, mainViewRouter: self.mainViewRouter,postViewRouter: self.postViewRouter, searchVR: self.searchVR)
                             .frame(width: geometry.size.width)
                             .blur(radius: 2)
                             .disabled(self.mainViewRouter.showMenu)

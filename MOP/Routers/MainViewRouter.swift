@@ -47,6 +47,6 @@ class MainViewRouter: ObservableObject{
     }
     
     func printState(){
-        print(["MainViewRouter state",showMenu,currentPage,connectedUser==nil ? "no user" : "user"])
+        print(["MainViewRouter state:   showMenu=",showMenu,currentPage,connectedUser==nil ? "no user" : "user"])
     }
 }
