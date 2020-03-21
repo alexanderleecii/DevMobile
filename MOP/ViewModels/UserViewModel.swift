@@ -32,7 +32,7 @@ class UserViewModel : ObservableObject{
         return res
     }
     
-    func register(pseudo: String, email: String, password: String, completionHandler: @escaping (User, String) -> ()){
+    func register(pseudo: String, email: String, password: String, completionHandler: @escaping (User?, String?, String?) -> ()){
         let resourceString = "https://wouldyoureact.herokuapp.com/api/users/"
         guard let resourceURL = URL(string: resourceString) else {
             fatalError()
@@ -56,31 +56,40 @@ class UserViewModel : ObservableObject{
             }
             if let data = data, let dataString = String(data: data, encoding: .utf8){
                 //print("Response data string: \(dataString)")
+                let json = try? JSONSerialization.jsonObject(with: data, options: []) as! [String:Any]
                 
-                /*let json = try? JSONSerialization.jsonObject(with: data, options: []) as! [String:Any]
-                let token = json!["token"] as! String
-                var request = URLRequest(url: resourceURL)
-                request.httpMethod = "GET"
-                request.addValue(token, forHTTPHeaderField: "x-auth-token")
-                
-                URLSession.shared.dataTask(with: request){(data, response, _) in
-                    if let response = response as? HTTPURLResponse {
-                        //print("Response status code \(response.statusCode)")
+                if let token = json!["token"]{
+                    let resourceString = "https://wouldyoureact.herokuapp.com/api/auth/"
+                    guard let resourceURL = URL(string: resourceString) else {
+                        fatalError()
                     }
-                    if let data = data, let dataString = String(data: data, encoding: .utf8){
-                        //print("Response data string: \(dataString)")
-                        let decoder = JSONDecoder()
-                        guard let user = try? decoder.decode(User.self, from: data) else {
-                            return
+                    var request = URLRequest(url: resourceURL)
+                    request.httpMethod = "GET"
+                    request.addValue(token as! String, forHTTPHeaderField: "x-auth-token")
+                    
+                    URLSession.shared.dataTask(with: request){(data, response, _) in
+                        if let response = response as? HTTPURLResponse {
+                            //print("Response status code \(response.statusCode)")
+                        }
+                        if let data = data, let dataString = String(data: data, encoding: .utf8){
+                            //print("Response data string: \(dataString)")
+                            let decoder = JSONDecoder()
+                            guard let user = try? decoder.decode(User.self, from: data) else {
+                                return
+                            }
+                            
+                            DispatchQueue.main.async {
+                                self.connectedUser = user
+                                completionHandler(user, token as! String, nil)
+                            }
                         }
                         
-                        DispatchQueue.main.async {
-                            self.connectedUser = user
-                            completionHandler(user,token)
-                        }
+                    }.resume()
+                }else{
+                    if let errors = json!["errors"] as? [[String:Any]], let msg = errors.first?["msg"] as? String{
+                        completionHandler(nil, nil, msg)
                     }
-                    
-                }.resume()*/
+                }
             }
         }
         dataTask.resume()

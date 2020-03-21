@@ -31,6 +31,9 @@ struct SignUpView: View {
     @State private var selectingImage = false
     @State private var imageAlreadySelected = false
     
+    //Errors
+    @State private var showErrorMessage = false
+    @State private var errorMsg = ""
     
     var body: some View {
         VStack{
@@ -66,6 +69,11 @@ struct SignUpView: View {
                 .padding([.leading, .trailing], 27.5)
             }
             
+            if self.showErrorMessage{
+                Text(self.errorMsg)
+                .foregroundColor(.red)
+            }
+            
             if !self.imageAlreadySelected {
                 Button(action:{
                         self.selectingImage.toggle()
@@ -93,33 +101,87 @@ struct SignUpView: View {
                     .cornerRadius(10)
                 }
             }
-            if self.currentField != 3{
-                Button(action: {
-                    self.currentField += 1
-                }){
-                    Text("Next")
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .padding()
-                    .frame(width: 150, height:50)
-                    .background(Color.gray)
-                    .cornerRadius(15.0)
-                }
-            }else{
-                Button(action: {
-                    self.userVM.register(pseudo: self.$user.wrappedValue, email: self.$email.wrappedValue, password: self.$password.wrappedValue){user, token in
-                        //self.mainViewRouter.connectedUser = user
-                        //self.mainViewRouter.token = token
+            HStack{
+                if self.currentField != 0{
+                    Button(action: {
+                        self.showErrorMessage = false
+                        self.currentField -= 1
+                    }){
+                        Text("<")
+                        .fontWeight(.semibold)
+                        .font(.system(size: 20))
+                        .padding(3)
+                        .frame(width: 30, height: 30)
+                        .background(Color.white)
+                        .foregroundColor(Color.gray)
+                        .cornerRadius(360)
                     }
-                    self.mainViewRouter.currentPage = "latest_posts"
-                }){
-                    Text("Sign Up")
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .padding()
-                    .frame(width: 150, height:50)
-                    .background(Color.blue)
-                    .cornerRadius(15.0)
+                }
+                if self.currentField != 3{
+                        Button(action: {
+                            switch self.currentField{
+                                case 0:
+                                    if self.user == ""{
+                                        self.showErrorMessage = true
+                                        self.errorMsg = "Please include a username"
+                                    }else{
+                                        self.showErrorMessage = false
+                                        self.currentField += 1
+                                    }
+                                case 1:
+                                    if self.email == ""{
+                                        self.showErrorMessage = true
+                                        self.errorMsg = "Please include an email"
+                                    }else{
+                                        self.showErrorMessage = false
+                                        self.currentField += 1
+                                    }
+                                case 2:
+                                    if self.password == ""{
+                                        self.showErrorMessage = true
+                                        self.errorMsg = "Please include a password"
+                                    }else{
+                                        self.showErrorMessage = false
+                                        self.currentField += 1
+                                    }
+                                default:
+                                    break
+                                }
+                        }){
+                            Text("Next")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .padding()
+                            .frame(width: 150, height:50)
+                            .background(Color.gray)
+                            .cornerRadius(15.0)
+                        }
+                }else{
+                    Button(action: {
+                        if self.passwordRep != self.password {
+                            self.showErrorMessage = true
+                            self.errorMsg = "The passwords are different"
+                        }else{
+                            self.userVM.register(pseudo: self.$user.wrappedValue, email: self.$email.wrappedValue, password: self.$password.wrappedValue){user, token, error in
+                                if let token = token{
+                                    self.mainViewRouter.connectedUser = user
+                                    self.mainViewRouter.token = token
+                                    self.mainViewRouter.currentPage = "latest_posts"
+                                }else if let error = error{
+                                    self.showErrorMessage = true
+                                    self.errorMsg = error
+                                }
+                            }
+                        }
+                    }){
+                        Text("Sign Up")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .padding()
+                        .frame(width: 150, height:50)
+                        .background(Color.blue)
+                        .cornerRadius(15.0)
+                    }
                 }
             }
             Spacer()
