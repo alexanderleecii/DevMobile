@@ -12,8 +12,8 @@ class PostViewModel : ObservableObject{
     @Published var postSet = [Post]()
     
     init(){
-        //loadAllPosts()
-        getMockPosts()
+        loadAllPosts()
+        //getMockPosts()
     }
     
     func getMockPosts(){
@@ -110,9 +110,8 @@ class PostViewModel : ObservableObject{
         self.postSet.append(post)
         let encoder = JSONEncoder()
         let jsondata = try! encoder.encode(post)
-        print(String(data: jsondata, encoding: .utf8)!)
         
-        let resourceString = "https://wouldyoureact.herokuapp.com/api/posts"
+        let resourceString = "https://wouldyoureact.herokuapp.com/api/posts/"
         guard let resourceURL = URL(string: resourceString) else {
             fatalError()
         }
@@ -121,6 +120,7 @@ class PostViewModel : ObservableObject{
         request.addValue(token, forHTTPHeaderField: "x-auth-token")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = jsondata
+        //print(String(data: request.httpBody!, encoding: .utf8)!)
         
         let dataTask = URLSession.shared.dataTask(with: request){ data, response, error in
             if let response = response as? HTTPURLResponse {

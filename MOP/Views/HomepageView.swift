@@ -54,9 +54,6 @@ struct HomepageView: View {
                     if !self.mainViewRouter.showMenu{
                         if !self.postViewRouter.showPost{
                             if self.mainViewRouter.currentPage == "latest_posts"{
-                                /*GenericPostView(posts: self.posts, mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter)
-                                .frame(width: geometry.size.width)*/
-                                
                                 LatestPostsView(posts: self.posts, mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter, searchVR: self.searchVR)
                                 .frame(width: geometry.size.width)
                             }else if self.mainViewRouter.currentPage == "top_posts"{
@@ -70,6 +67,8 @@ struct HomepageView: View {
                                 LogIn(mainViewRouter: self.mainViewRouter, userVM: self.userVM)
                             }else if self.mainViewRouter.currentPage == "sign_up"{
                                 SignUpView(mainViewRouter: self.mainViewRouter, userVM: self.userVM)
+                            }else if self.mainViewRouter.currentPage == "add_post"{
+                                AddPostView(mainViewRouter: self.mainViewRouter, posts: self.posts)
                             }else if self.mainViewRouter.currentPage == "search"{
                                 SearchView(mainVR: self.mainViewRouter, postVR: self.postViewRouter, searchVR: self.searchVR)
                             }
@@ -128,18 +127,15 @@ struct HomepageView: View {
                         }
                         if self.mainViewRouter.connectedUser != nil{
                             Button(action:{
-                                self.showingAddPostView.toggle()
+                                self.mainViewRouter.currentPage = "add_post"
                                     
                             }){
                                 Image("add")
                                 .foregroundColor(Color.black)
                             }
-                            .sheet(isPresented: self.$showingAddPostView){
-                                AddPostView(mainViewRouter: self.mainViewRouter, posts: self.posts, visible: self.$showingAddPostView)
-                            }
                         }else{
                             Button(action:{
-                                self.showingAlertAddPost.toggle()
+                                self.showingAlertAddPost = true
                             }){
                                 Image("add")
                                 .foregroundColor(Color.black)

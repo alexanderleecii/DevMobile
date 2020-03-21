@@ -24,6 +24,7 @@ struct PostItem: View {
                 Text(post.text)
                 .frame(width:350, height:100)
                 .background(Color(red: 0.95, green: 0.95, blue: 0.95, opacity: 1.0))
+                    .foregroundColor(Color.gray.opacity(0.95))
             }
             
             HStack{

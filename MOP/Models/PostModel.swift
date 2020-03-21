@@ -110,7 +110,6 @@ class Post : Identifiable, ObservableObject, Codable{
         }
         try values.encode(self.title, forKey: .title)
         try values.encode(self.text, forKey: .text)
-        try values.encode(self.pseudo, forKey: .pseudo)
         
         if self.location != nil{
             try values.encode(self.location, forKey: .location)

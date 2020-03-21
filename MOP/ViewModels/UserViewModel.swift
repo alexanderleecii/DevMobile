@@ -106,10 +106,10 @@ class UserViewModel : ObservableObject{
             }
             
             if let response = response as? HTTPURLResponse {
-                //print("Response status code \(response.statusCode)")
+                print("Response status code \(response.statusCode)")
             }
             if let data = data, let dataString = String(data: data, encoding: .utf8){
-                //print("Response data string: \(dataString)")
+                print("Response data string: \(dataString)")
                 
                 let json = try? JSONSerialization.jsonObject(with: data, options: []) as! [String:Any]
                 let token = json!["token"] as! String

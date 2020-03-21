@@ -17,7 +17,7 @@ struct AddPostView: View {
     @ObservedObject var posts : PostViewModel
     
     //Binding Attribute
-    @Binding var visible : Bool
+    //@Binding var visible : Bool
     
     
     //post attributes
@@ -126,19 +126,13 @@ struct AddPostView: View {
             .animation(.easeOut(duration: 0.16))
             .navigationBarTitle(Text("New Post"))
             .navigationBarItems(
-                leading:
-                Button(action:{
-                    self.visible.toggle()
-                }){
-                    Text("Cancel")
-                },
                 trailing:
                 Button(action:{
                     //TODO agregar verificaciones de que todo esta bien
                     if true{
                         //Add to list of Posts
                         self.posts.addPost(post: self.createNewPost(), token: self.mainViewRouter.token!)
-                        self.visible.toggle()
+                        self.mainViewRouter.currentPage = "latest_posts"
                     }
                 }){
                     Text("Add Post")
@@ -189,6 +183,6 @@ struct MenuIcon : View {
 
 struct AddPostView_Previews: PreviewProvider {
     static var previews: some View {
-        AddPostView(mainViewRouter: MainViewRouter(), posts: PostViewModel(), visible: .constant(true))
+        AddPostView(mainViewRouter: MainViewRouter(), posts: PostViewModel())
     }
 }

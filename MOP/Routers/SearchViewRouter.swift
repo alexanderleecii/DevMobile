@@ -16,21 +16,12 @@ class SearchViewRouter: ObservableObject{
     
     var searchType: String = "people"{
         didSet{
-            printState()
             objectWillChange.send(self)
         }
     }
     
     var searchString: String = ""{
         didSet{
-            printState()
-            objectWillChange.send(self)
-        }
-    }
-    
-    var somethingChanged = false{
-        didSet{
-            printState()
             objectWillChange.send(self)
         }
     }
