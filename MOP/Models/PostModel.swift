@@ -72,7 +72,7 @@ class Post : Identifiable, ObservableObject, Codable{
         format.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
         self.date = format.date(from: try values.decode(String.self, forKey: .date))!
         
-        //self.location = try values.decode(String.self, forKey: .location)
+        self.location = try values.decodeIfPresent(String.self, forKey: .location)
         //self.imgUrl = try values.decode(String.self, forKey: .imgUrl)
     }
     
@@ -110,12 +110,7 @@ class Post : Identifiable, ObservableObject, Codable{
         }
         try values.encode(self.title, forKey: .title)
         try values.encode(self.text, forKey: .text)
-        
-        if self.location != nil{
-            try values.encode(self.location, forKey: .location)
-        }else{
-            try values.encode("", forKey: .location)
-        }
+        try values.encodeIfPresent(self.location, forKey: .location)
     }
     
     func getTags() -> [String]{

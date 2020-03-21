@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>456748325362-u7k1qk5f3upee6o1r9jpn8p6i8pfsahd.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.456748325362-u7k1qk5f3upee6o1r9jpn8p6i8pfsahd</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBvM0bYbabIyaqnSu8FbgfENRSGC7d5yJU</string>
+	<key>GCM_SENDER_ID</key>
+	<string>456748325362</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>acsc.MOP</string>
+	<key>PROJECT_ID</key>
+	<string>projectmernswift</string>
+	<key>STORAGE_BUCKET</key>
+	<string>projectmernswift.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:456748325362:ios:c1496ddf5a357380f7b36b</string>
+	<key>DATABASE_URL</key>
+	<string>https://projectmernswift.firebaseio.com</string>
+</dict>
+</plist>

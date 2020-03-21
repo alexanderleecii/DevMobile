@@ -1,44 +1,68 @@
 import SwiftUI
+import FirebaseStorage
 
 struct ImagePicker : UIViewControllerRepresentable {
     
-    @Binding var isShown    : Bool
-    @Binding var image      : Image?
+    @Binding var isShown: Bool
+    @Binding var imageURL: String
+    
+    func makeCoordinator() -> ImagePickerCordinator {
+        return ImagePickerCordinator(parent: self)
+    }
     
     func updateUIViewController(_ uiViewController: UIImagePickerController, context: UIViewControllerRepresentableContext<ImagePicker>) {
         
     }
     
-    func makeCoordinator() -> ImagePickerCordinator {
-        return ImagePickerCordinator(isShown: $isShown, image: $image)
-    }
-    
     func makeUIViewController(context: UIViewControllerRepresentableContext<ImagePicker>) -> UIImagePickerController {
         let picker = UIImagePickerController()
+        picker.sourceType = .photoLibrary
         picker.delegate = context.coordinator
         return picker
     }
 }
 
 class ImagePickerCordinator : NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate{
+    var parent : ImagePicker
+    let storage = Storage.storage().reference()
     
-    @Binding var isShown    : Bool
-    @Binding var image      : Image?
+    init(parent: ImagePicker) {
+        self.parent = parent
+    }
     
-    init(isShown : Binding<Bool>, image: Binding<Image?>) {
-        _isShown = isShown
-        _image   = image
+    //Image selection got cancelled
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        parent.isShown.toggle()
     }
     
     //Selected Image
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        let uiImage = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
-        image = Image(uiImage: uiImage)
-        isShown = false
+        let image = info[.originalImage] as! UIImage
+        uploadImageToFirebase(image: image, route: "/images/"+randomString(length: 12)+".jpeg")
     }
     
-    //Image selection got cancel
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        isShown = false
+    func uploadImageToFirebase(image: UIImage, route: String){
+        let metadata = StorageMetadata()
+        metadata.contentType = "image/jpeg"
+        self.storage.child(route).putData(image.jpegData(compressionQuality: 0.42)!, metadata: metadata)
+        downloadImageFromFirebase(route: route)
     }
+    
+    func downloadImageFromFirebase(route: String){
+        self.storage.child(route).downloadURL{(url, error) in
+            if error != nil{
+                print(error)
+                return
+            }
+            self.parent.imageURL = "\(url!)"
+            self.parent.isShown.toggle()
+            
+        }
+    }
+    
+    func randomString(length: Int) -> String {
+        let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        return String((0..<length).map{ _ in letters.randomElement()! })
+    }
+    
 }

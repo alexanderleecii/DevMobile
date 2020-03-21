@@ -104,7 +104,6 @@ struct SearchView: View {
             Spacer()
         }
         .onAppear{
-            //self.searchText = self.searchVR.searchString
             self.update()
         }
     }

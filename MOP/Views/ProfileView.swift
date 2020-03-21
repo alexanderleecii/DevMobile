@@ -27,6 +27,7 @@ struct ProfileView: View{
                     .font(.system(size: 50))
                     .frame(width: 350, height: 50, alignment: .center)
                     .padding(.bottom, 50)
+                ImageView(imageURL: user!.avatar)
                 Text("My email")
                     .padding(.bottom, 10)
                     .font(.system(size: 30))

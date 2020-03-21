@@ -25,7 +25,7 @@ struct AddPostView: View {
     @State private var text = ""
     @State private var location = ""
     @State private var tags = ""
-    @State private var postImage : Image?
+    @State private var postImageURL = ""
     
     //state control variables
     @State private var selectedOptions =
@@ -63,10 +63,10 @@ struct AddPostView: View {
                     .padding([.leading,.trailing,.top, .bottom], 40)
                     //.multilineTextAlignment(.leading)
                     //.font(.headline)
-                if postImage != nil{
-                    postImage!
+                if postImageURL != nil{
+                    /*postImage!
                     .resizable()
-                    .aspectRatio(contentMode: .fit)
+                    .aspectRatio(contentMode: .fit)*/
                     
                 }
                 Spacer()
@@ -110,7 +110,7 @@ struct AddPostView: View {
                             self.selectedOptions["image"]!.toggle()
                             self.imageAlreadySelected.toggle()
                         }){
-                        ImagePicker(isShown: self.$selectingImage, image: self.$postImage)
+                        ImagePicker(isShown: self.$selectingImage, imageURL: self.$postImageURL)
                     }
                         .animation(.default)
                     }
@@ -143,7 +143,7 @@ struct AddPostView: View {
     
     //TODO
     func convertImageToURL() -> String {
-        if self.$postImage.wrappedValue != nil{
+        if self.$postImageURL.wrappedValue != ""{
             return "image.url"
         }else{
             return ""

@@ -17,9 +17,14 @@ struct PersonItem: View {
                 
             }){
                 HStack{
-                    Circle()
+                    if user.avatar != ""{
+                        ImageView(imageURL: user.avatar)
+                    }else{
+                        Circle()
                         .padding(5)
                         .foregroundColor(Color.gray.opacity(0.6))
+                    }
+                    
                     Spacer()
                     VStack(alignment: .leading){
                         Text(self.user.pseudo)

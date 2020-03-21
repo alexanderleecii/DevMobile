@@ -11,9 +11,7 @@
 
 import Foundation
 import SwiftUI
-
-
-
+import Firebase
 
 struct SignUpView: View {
     @Environment(\.presentationMode) var presentation
@@ -23,7 +21,7 @@ struct SignUpView: View {
     @State private var email : String = ""
     @State private var password : String = ""
     @State private var passwordRep : String = ""
-    @State private var avatarImage : Image?
+    @State private var avatarImageURL : String = ""
     
     @State private var currentField = 0
     
@@ -74,33 +72,28 @@ struct SignUpView: View {
                 .foregroundColor(.red)
             }
             
-            if !self.imageAlreadySelected {
-                Button(action:{
-                        self.selectingImage.toggle()
-                    }){
-                        if !imageAlreadySelected {
-                            Text("Select Avatar")
-                        }
-                        else {
-                            Text("Replace selected image")
-                        }
-                    }
-                    .padding(.bottom, 10)
-                    .sheet(isPresented: self.$selectingImage, onDismiss: {
-                        self.imageAlreadySelected.toggle()
-                    }){
-                        ImagePicker(isShown: self.$selectingImage, image: self.$avatarImage)
-                    }
-                
+            if avatarImageURL != ""{
+                ImageView(imageURL: self.avatarImageURL)
+                .cornerRadius(360)
             }
-            else {
-                if avatarImage != nil{
-                    avatarImage!
-                    .resizable()
-                    .frame(width: 300, height: 170)
-                    .cornerRadius(10)
+            
+            Button(action:{
+                self.selectingImage.toggle()
+            }){
+                if !imageAlreadySelected {
+                    Text("Select Avatar")
+                }
+                else {
+                    Text("Replace selected image")
                 }
             }
+            .padding(.bottom, 10)
+            .sheet(isPresented: self.$selectingImage, onDismiss: {
+                self.imageAlreadySelected.toggle()
+            }){
+                ImagePicker(isShown: self.$selectingImage, imageURL: self.$avatarImageURL)
+            }
+            
             HStack{
                 if self.currentField != 0{
                     Button(action: {
@@ -162,7 +155,7 @@ struct SignUpView: View {
                             self.showErrorMessage = true
                             self.errorMsg = "The passwords are different"
                         }else{
-                            self.userVM.register(pseudo: self.$user.wrappedValue, email: self.$email.wrappedValue, password: self.$password.wrappedValue){user, token, error in
+                            self.userVM.register(pseudo: self.$user.wrappedValue, email: self.$email.wrappedValue, password: self.$password.wrappedValue, avatar: self.$avatarImageURL.wrappedValue){user, token, error in
                                 if let token = token{
                                     self.mainViewRouter.connectedUser = user
                                     self.mainViewRouter.token = token

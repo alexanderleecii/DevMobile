@@ -1,0 +1,6 @@
+framework module Pods_MOP_MOPUITests {
+  umbrella header "Pods-MOP-MOPUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}

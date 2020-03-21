@@ -22,13 +22,13 @@ class UserViewModel : ObservableObject{
         return res
     }
     
-    func register(pseudo: String, email: String, password: String, completionHandler: @escaping (User?, String?, String?) -> ()){
+    func register(pseudo: String, email: String, password: String, avatar: String, completionHandler: @escaping (User?, String?, String?) -> ()){
         let resourceString = "https://wouldyoureact.herokuapp.com/api/users/"
         guard let resourceURL = URL(string: resourceString) else {
             fatalError()
         }
         
-        let parameters = ["pseudo": pseudo, "email": email, "password": password]
+        let parameters = ["pseudo": pseudo, "email": email, "password": password, "avatar": avatar]
         
         var request = URLRequest(url: resourceURL)
         request.httpMethod = "POST"
@@ -37,7 +37,7 @@ class UserViewModel : ObservableObject{
         
         let dataTask = URLSession.shared.dataTask(with: request){ (data, response, error) in
             if let error = error {
-                print("Error \(error)")
+                //print("Error \(error)")
                 return
             }
             
@@ -100,15 +100,15 @@ class UserViewModel : ObservableObject{
         
         let dataTask = URLSession.shared.dataTask(with: request){ (data, response, error) in
             if let error = error {
-                print("Error \(error)")
+                //print("Error \(error)")
                 return
             }
             
             if let response = response as? HTTPURLResponse {
-                print("Response status code \(response.statusCode)")
+                //print("Response status code \(response.statusCode)")
             }
             if let data = data, let dataString = String(data: data, encoding: .utf8){
-                print("Response data string: \(dataString)")
+                //print("Response data string: \(dataString)")
                 let json = try? JSONSerialization.jsonObject(with: data, options: []) as! [String:Any]
                 
                 if let token = json!["token"]{
@@ -157,12 +157,12 @@ class UserViewModel : ObservableObject{
         
         let dataTask = URLSession.shared.dataTask(with: request){ (data, response, error) in
             if let error = error {
-                print("Error \(error)")
+                //print("Error \(error)")
                 return
             }
             
             if let response = response as? HTTPURLResponse {
-                print("Response status code \(response.statusCode)")
+                //print("Response status code \(response.statusCode)")
             }
             if let data = data, let dataString = String(data: data, encoding: .utf8){
                 //print("Response data string: \(dataString)")

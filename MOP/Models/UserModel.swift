@@ -13,6 +13,7 @@ class User:Identifiable, ObservableObject, Decodable{
     var pseudo : String
     var email : String
     //var password : String
+    var avatar : String = ""
     //var isAdmin : Bool
     
     init(id:String, pseudo:String, email:String, password:String, isAdmin:Bool){
