@@ -13,30 +13,20 @@ class PostViewModel : ObservableObject{
     
     init(){
         loadAllPosts()
-        //getMockPosts()
     }
-    
-    func getMockPosts(){
-        postSet =  [
-            Post(tags: ["test","rape"], title: "title", text: "text", pseudo: "pseudo", user: "user", location: "hawai", imgUrl: "" ),
-            Post(tags: ["test","frozen"], title: "title2", text: "text2", pseudo: "pseudo2", user: "user2", location: "mexico", imgUrl: "" ),
-            Post(tags: ["test"], title: "title2", text: "text2sqsdqsdqsdsqd", pseudo: "pseudo2", user: "user2", location: "mexico", imgUrl: "" )
-        ]
-    }
-    
     
     func getPostContaining(by:String, substring: String) -> [Post]{
         var res = [Post]()
         if by == "tags" {
             res = self.postSet.filter{
                 return !$0.tags.filter{tag in
-                    return tag == substring}.isEmpty
+                    return tag.range(of: substring, options: .caseInsensitive) != nil}.isEmpty
             }
         }
         else if by == "location" {
             res = self.postSet.filter{
                 if let loc = $0.location {
-                    return loc.contains(substring)
+                    return loc.range(of: substring, options: .caseInsensitive) != nil
                 }
                 else {return false}
             }

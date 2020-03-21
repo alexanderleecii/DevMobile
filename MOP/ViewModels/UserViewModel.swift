@@ -13,22 +13,12 @@ class UserViewModel : ObservableObject{
     @Published var connectedUser : User? = nil
     
     init(){
-        //getAllUsers()
-        getMockUsers()
-    }
-    
-    func getMockUsers(){
-        userSet = [
-            User(id: "", pseudo: "maca", email: "test", password: "test", isAdmin: false),
-            User(id: "", pseudo: "macarena", email: "test", password: "test", isAdmin: false),
-            User(id: "", pseudo: "alamaca", email: "test", password: "test", isAdmin: false),
-            User(id: "", pseudo: "mac", email: "test", password: "test", isAdmin: false)
-        ]
+        getAllUsers()
     }
     
     func getUsersContaining(substring: String) -> [User]{
         var res = [User]()
-        res = self.userSet.filter{$0.pseudo.contains(substring)}
+        res = self.userSet.filter{$0.pseudo.range(of: substring, options: .caseInsensitive) != nil}
         return res
     }
     
