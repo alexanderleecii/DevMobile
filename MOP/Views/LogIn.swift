@@ -19,6 +19,9 @@ struct LogIn: View{
     
     @State private var email : String = ""
     @State private var password : String = ""
+    
+    @State private var showErrorMessage = false
+    @State private var errorMsg = ""
     var body : some View {
         VStack{
             
@@ -59,12 +62,31 @@ struct LogIn: View{
                 }
             }
             
+            if self.showErrorMessage{
+                Text(errorMsg)
+                    .foregroundColor(.red)
+                    .padding([.top, .bottom], 5)
+            }
+            
             Button(action: {
-                self.userVM.login(email: self.email, password: self.password){user, token in
-                    self.mainViewRouter.connectedUser = user
-                    self.mainViewRouter.token = token
+                if self.email == ""{
+                    self.showErrorMessage = true
+                    self.errorMsg = "You must enter an email"
+                }else if self.password == ""{
+                    self.showErrorMessage = true
+                    self.errorMsg = "You must enter a password"
+                }else{
+                    self.userVM.login(email: self.email, password: self.password){user, token, error in
+                        if let user = user{
+                            self.mainViewRouter.connectedUser = user
+                            self.mainViewRouter.token = token
+                            self.mainViewRouter.currentPage = "latest_posts"
+                        }else if let error = error{
+                            self.showErrorMessage = true
+                            self.errorMsg = error
+                        }
+                    }
                 }
-                self.mainViewRouter.currentPage = "latest_posts"
             }){
                 Text("Log In")
                 .font(.headline)
