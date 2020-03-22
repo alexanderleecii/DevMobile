@@ -40,7 +40,7 @@ struct ProfileView: View{
             
             if self.mainViewRouter.connectedUser != nil{
                 if self.user.email == self.mainViewRouter.connectedUser!.email{
-                    Text("My email")
+                    Text("Email")
                         .padding(.bottom, 10)
                         .font(.system(size: 30))
                     Text(self.user.email)
@@ -49,7 +49,7 @@ struct ProfileView: View{
                 }
             }
             
-            Text("My username")
+            Text("Username")
                 .padding(.bottom, 10)
                 .font(.system(size: 30))
             HStack{
@@ -87,7 +87,7 @@ struct ProfileView: View{
                     }
                 }
             }.padding([.leading, .trailing], 27.5)
-            Text("My posts")
+            Text("Posts")
                 .padding(.bottom, 10)
                 .font(.system(size: 30))
             

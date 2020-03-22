@@ -33,8 +33,6 @@ struct PersonItem: View {
                             .padding(.bottom, 30)
                             .font(.system(size: 20, weight: .regular, design: .default))
                             .foregroundColor(Color.black)
-                        Text("Nb posts")
-                            .font(.system(size: 18, weight: .thin, design: .default))
                     }
                     .frame(width:250, alignment: .leading)
                     .foregroundColor(Color.gray)

@@ -128,14 +128,18 @@ struct HomepageView: View {
                         Button(action:{
                             self.mainViewRouter.currentPage = "latest_posts"
                             self.postViewRouter.showPost = false
+                            self.mainViewRouter.showUser = false
+                            self.mainViewRouter.userProfile = nil
                         }){
                             Image("home")
                             .foregroundColor(Color.black)
                         }
                         if self.mainViewRouter.connectedUser != nil{
                             Button(action:{
+                                self.postViewRouter.showPost = false
+                                self.mainViewRouter.showUser = false
+                                self.mainViewRouter.userProfile = nil
                                 self.mainViewRouter.currentPage = "add_post"
-                                    
                             }){
                                 Image("add")
                                 .foregroundColor(Color.black)
@@ -152,6 +156,9 @@ struct HomepageView: View {
                             }
                         }
                         Button(action:{
+                            self.postViewRouter.showPost = false
+                            self.mainViewRouter.showUser = false
+                            self.mainViewRouter.userProfile = nil
                             self.mainViewRouter.currentPage = "search"
                         }){
                             Image("search")

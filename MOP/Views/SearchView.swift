@@ -48,7 +48,7 @@ struct SearchView: View {
                     .foregroundColor(Color.gray.opacity(0.9))
                     .frame(width: 310, height: 40, alignment: .leading)
                 Button(action: {
-                    
+                    self.update()
                 }){
                     Image("search")
                         .foregroundColor(Color.gray.opacity(0.9))
@@ -99,6 +99,9 @@ struct SearchView: View {
                         }
                     }
                     Spacer()
+                }
+                .onReceive(self.postVM.objectWillChange){posts in
+                    self.update()
                 }
             }
             Spacer()

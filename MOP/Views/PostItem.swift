@@ -18,6 +18,8 @@ struct PostItem: View {
     var body: some View {
         VStack(spacing:0){
             Button(action: {
+                self.mainViewRouter.showUser = false
+                self.mainViewRouter.userProfile = nil
                 self.postViewRouter.post = self.post
                 self.postViewRouter.showPost = true
             }){
@@ -83,6 +85,8 @@ struct PostItem: View {
             if post.location != nil{
                 Button(action: {
                     withAnimation{
+                    self.mainViewRouter.showUser = false
+                    self.mainViewRouter.userProfile = nil
                     self.mainViewRouter.currentPage = "search"
                     self.searchVR.searchType = "location"
                     self.searchVR.searchString = self.post.location!
@@ -101,6 +105,8 @@ struct PostItem: View {
                 HStack{
                     ForEach(post.getTags(), id: \.self){ tag in
                         Button(action:{
+                            self.mainViewRouter.showUser = false
+                            self.mainViewRouter.userProfile = nil
                             self.mainViewRouter.currentPage = "search"
                             self.searchVR.searchType = "tags"
                             self.searchVR.searchString = tag

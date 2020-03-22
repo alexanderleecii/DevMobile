@@ -55,7 +55,8 @@ struct AddPostView: View {
                     .overlay(RoundedRectangle(cornerRadius:30.0).stroke(Color.blue, lineWidth:1))
                     .padding([.leading,.trailing,.top, .bottom], 40)
                 
-                TextField("Post", text: $text)
+                MultilineTF(txt: self.$text)
+                .frame(width: 350, height: 100, alignment: .leading)
                     
                 //.frame(height: 300.0)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -63,12 +64,12 @@ struct AddPostView: View {
                     .padding([.leading,.trailing,.top, .bottom], 40)
                     //.multilineTextAlignment(.leading)
                     //.font(.headline)
+                
                 if postImageURL != nil{
-                    /*postImage!
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)*/
-                    
+                    ImageView(imageURL: self.postImageURL)
+                    .frame(width: 200, height: 150)
                 }
+                
                 Spacer()
                 if selectedOptions["hashtag"]!{
                     HStack{

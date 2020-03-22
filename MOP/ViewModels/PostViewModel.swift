@@ -7,9 +7,12 @@
 //
 
 import Foundation
+import Combine
 
 class PostViewModel : ObservableObject{
     @Published var postSet = [Post]()
+    
+    public let objectWillChange = PassthroughSubject<[Post],Never>()
     
     init(){
         loadAllPosts()
@@ -90,6 +93,7 @@ class PostViewModel : ObservableObject{
                 }
                 DispatchQueue.main.async {
                     self.postSet = posts
+                    self.objectWillChange.send(posts)
                 }
             }
         }
