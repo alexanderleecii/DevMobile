@@ -22,7 +22,6 @@ struct ImageView: View {
         VStack{
             Image(uiImage: self.image)
             .resizable()
-            .frame(width: 100, height: 100)
         }
         .onReceive(self.imageLoader.didChange){data in
             self.image = UIImage(data : data) ?? UIImage()

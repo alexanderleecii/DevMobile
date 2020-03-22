@@ -21,7 +21,7 @@ struct SignUpView: View {
     @State private var email : String = ""
     @State private var password : String = ""
     @State private var passwordRep : String = ""
-    @State private var avatarImageURL : String = ""
+    @State var avatarImageURL : String = ""
     
     @State private var currentField = 0
     
@@ -75,6 +75,7 @@ struct SignUpView: View {
             if avatarImageURL != ""{
                 ImageView(imageURL: self.avatarImageURL)
                 .cornerRadius(360)
+                .frame(width: 100, height: 100)
             }
             
             Button(action:{

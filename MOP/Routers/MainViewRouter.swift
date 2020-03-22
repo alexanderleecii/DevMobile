@@ -49,4 +49,16 @@ class MainViewRouter: ObservableObject{
     func printState(){
         print(["MainViewRouter state:   showMenu=",showMenu,currentPage,connectedUser==nil ? "no user" : "user"])
     }
+    
+    var showUser: Bool = false{
+        didSet{
+            objectWillChange.send(self)
+        }
+    }
+    
+    var userProfile: User? = nil{
+        didSet{
+            objectWillChange.send(self)
+        }
+    }
 }

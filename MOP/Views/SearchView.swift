@@ -87,7 +87,7 @@ struct SearchView: View {
                 VStack(spacing: 8){
                     if self.searchVR.searchType == "people"{
                         ForEach(userFilteredList){user in
-                            PersonItem(user: user)
+                            PersonItem(user: user, mainVR: self.mainVR)
                         }
                     }else if self.searchVR.searchType == "tags"{
                         ForEach(postFilteredList){post in

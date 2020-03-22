@@ -5,6 +5,7 @@ struct ImagePicker : UIViewControllerRepresentable {
     
     @Binding var isShown: Bool
     @Binding var imageURL: String
+    @State var imageFileName : String = ""
     
     func makeCoordinator() -> ImagePickerCordinator {
         return ImagePickerCordinator(parent: self)
@@ -38,18 +39,25 @@ class ImagePickerCordinator : NSObject, UINavigationControllerDelegate, UIImageP
     //Selected Image
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let image = info[.originalImage] as! UIImage
-        uploadImageToFirebase(image: image, route: "/images/"+randomString(length: 12)+".jpeg")
+        parent.imageFileName = generateFileName()
+        uploadImageToFirebase(image: image)
     }
     
-    func uploadImageToFirebase(image: UIImage, route: String){
+    func uploadImageToFirebase(image: UIImage){
         let metadata = StorageMetadata()
         metadata.contentType = "image/jpeg"
-        self.storage.child(route).putData(image.jpegData(compressionQuality: 0.42)!, metadata: metadata)
-        downloadImageFromFirebase(route: route)
+        self.storage.child(parent.imageFileName).putData(image.jpegData(compressionQuality: 0.42)!, metadata: metadata){metadata, error in
+            guard let metadata = metadata else {
+                print(error)
+                return
+            }
+            self.downloadImageFromFirebase()
+        }
+        
     }
     
-    func downloadImageFromFirebase(route: String){
-        self.storage.child(route).downloadURL{(url, error) in
+    func downloadImageFromFirebase(){
+        self.storage.child(parent.imageFileName).downloadURL{(url, error) in
             if error != nil{
                 print(error)
                 return
@@ -58,6 +66,15 @@ class ImagePickerCordinator : NSObject, UINavigationControllerDelegate, UIImageP
             self.parent.isShown.toggle()
             
         }
+    }
+    
+    func generateFileName() -> String {
+        var ret : String
+        let date = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyyMMddHHss"
+        ret = "images/avatar"+formatter.string(from: date)+".jpg"
+        return ret
     }
     
     func randomString(length: Int) -> String {

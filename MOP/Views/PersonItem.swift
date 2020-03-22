@@ -10,22 +10,24 @@ import SwiftUI
 
 struct PersonItem: View {
     @ObservedObject var user : User
+    @ObservedObject var mainVR : MainViewRouter
     
     var body: some View {
         VStack(spacing:0){
-            Button(action: {
-                
-            }){
-                HStack{
-                    if user.avatar != ""{
-                        ImageView(imageURL: user.avatar)
-                    }else{
-                        Circle()
-                        .padding(5)
-                        .foregroundColor(Color.gray.opacity(0.6))
-                    }
-                    
-                    Spacer()
+            HStack{
+                if self.user.avatar != ""{
+                    ImageView(imageURL: user.avatar)
+                    .cornerRadius(360)
+                        .frame(width:80, height: 80)
+                }else{
+                    Circle()
+                    .padding(5)
+                    .foregroundColor(Color.gray.opacity(0.6))
+                }
+                Button(action: {
+                    self.mainVR.showUser.toggle()
+                    self.mainVR.userProfile = self.user
+                }){
                     VStack(alignment: .leading){
                         Text(self.user.pseudo)
                             .padding(.bottom, 30)
@@ -35,10 +37,10 @@ struct PersonItem: View {
                             .font(.system(size: 18, weight: .thin, design: .default))
                     }
                     .frame(width:250, alignment: .leading)
+                    .foregroundColor(Color.gray)
                 }
-                .frame(alignment: .leading)
             }
-            .foregroundColor(Color.gray)
+            .frame(alignment: .leading)
         }
         .frame(width: 350, height: 90)
         .overlay(RoundedRectangle(cornerRadius: 40)
@@ -49,6 +51,6 @@ struct PersonItem: View {
 
 struct PersonItem_Previews: PreviewProvider {
     static var previews: some View {
-        PersonItem(user: User(id: "", pseudo: "test", email: "test", password: "test", isAdmin: false))
+        PersonItem(user: User(id: "", pseudo: "test", email: "test", password: "test", isAdmin: false), mainVR: MainViewRouter())
     }
 }

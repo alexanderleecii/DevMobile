@@ -16,6 +16,24 @@ class User:Identifiable, ObservableObject, Decodable{
     var avatar : String = ""
     //var isAdmin : Bool
     
+    enum CodingKeys: String, CodingKey{
+        case _id
+        case pseudo
+        case email
+        case avatar
+    }
+    
+    required init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        self._id = try values.decode(String.self, forKey: ._id)
+        
+        self.pseudo = try values.decode(String.self, forKey: .pseudo)
+        
+        self.email = try values.decode(String.self, forKey: .email)
+        
+        self.avatar = try values.decodeIfPresent(String.self, forKey: .avatar) ?? ""
+    }
+    
     init(id:String, pseudo:String, email:String, password:String, isAdmin:Bool){
         self._id = id
         self.pseudo = pseudo

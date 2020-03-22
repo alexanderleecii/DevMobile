@@ -52,7 +52,7 @@ struct HomepageView: View {
                         .frame(width:420, height:1)
                     Spacer()
                     if !self.mainViewRouter.showMenu{
-                        if !self.postViewRouter.showPost{
+                        if !self.postViewRouter.showPost && !self.mainViewRouter.showUser{
                             if self.mainViewRouter.currentPage == "latest_posts"{
                                 LatestPostsView(posts: self.posts, mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter, searchVR: self.searchVR)
                                 .frame(width: geometry.size.width)
@@ -60,7 +60,7 @@ struct HomepageView: View {
                                 TopPostsView(posts: self.posts, mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter, searchVR: self.searchVR)
                                 .frame(width: geometry.size.width)
                             }else if self.mainViewRouter.currentPage == "profile"{
-                                ProfileView(mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter, searchVR: self.searchVR, posts: self.posts)
+                                ProfileView(user: self.mainViewRouter.connectedUser!, mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter, searchVR: self.searchVR, posts: self.posts)
                             }else if self.mainViewRouter.currentPage == "settings"{
                                 Text("settings")
                             }else if self.mainViewRouter.currentPage == "log_in"{
@@ -72,11 +72,13 @@ struct HomepageView: View {
                             }else if self.mainViewRouter.currentPage == "search"{
                                 SearchView(mainVR: self.mainViewRouter, postVR: self.postViewRouter, searchVR: self.searchVR)
                             }
-                        }else{
+                        }else if self.postViewRouter.showPost{
                             PostView(post: self.postViewRouter.post, mainViewRouter: self.mainViewRouter,postViewRouter: self.postViewRouter, searchVR: self.searchVR)
+                        }else{
+                            ProfileView(user: self.mainViewRouter.userProfile!, mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter, searchVR: self.searchVR, posts: self.posts)
                         }
                     }else{
-                        if !self.postViewRouter.showPost{
+                        if !self.postViewRouter.showPost && !self.mainViewRouter.showUser{
                             if self.mainViewRouter.currentPage == "latest_posts"{
                                 LatestPostsView(posts: self.posts, mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter, searchVR: self.searchVR)
                                 .frame(width: geometry.size.width)
@@ -88,7 +90,7 @@ struct HomepageView: View {
                                 .blur(radius: 2)
                                 .disabled(self.mainViewRouter.showMenu)
                             }else if self.mainViewRouter.currentPage == "profile"{
-                                ProfileView(mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter, searchVR: self.searchVR, posts: self.posts)
+                                ProfileView(user: self.mainViewRouter.connectedUser!, mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter, searchVR: self.searchVR, posts: self.posts)
                                 .frame(width: geometry.size.width)
                                 .blur(radius: 2)
                                 .disabled(self.mainViewRouter.showMenu)
@@ -110,8 +112,13 @@ struct HomepageView: View {
                                 .blur(radius: 2)
                                 .disabled(self.mainViewRouter.showMenu)
                             }
-                        }else{
+                        }else if self.postViewRouter.showPost{
                             PostView(post: self.postViewRouter.post, mainViewRouter: self.mainViewRouter,postViewRouter: self.postViewRouter, searchVR: self.searchVR)
+                            .frame(width: geometry.size.width)
+                            .blur(radius: 2)
+                            .disabled(self.mainViewRouter.showMenu)
+                        }else{
+                            ProfileView(user: self.mainViewRouter.userProfile!, mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter, searchVR: self.searchVR, posts: self.posts)
                             .frame(width: geometry.size.width)
                             .blur(radius: 2)
                             .disabled(self.mainViewRouter.showMenu)

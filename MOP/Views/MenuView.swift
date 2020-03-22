@@ -66,12 +66,16 @@ struct MenuButton : View {
                     withAnimation{
                         self.mainViewRouter.showMenu = false
                         self.postViewRouter.showPost = false
+                        self.mainViewRouter.showUser = false
+                        self.mainViewRouter.userProfile = nil
                     }
                 }else{
                     self.mainViewRouter.currentPage = String(self.name.lowercased().replacingOccurrences(of: " ", with: "_"))
                     withAnimation{
                         self.mainViewRouter.showMenu = false
                         self.postViewRouter.showPost = false
+                        self.mainViewRouter.showUser = false
+                        self.mainViewRouter.userProfile = nil
                     }
                 }
             }){
