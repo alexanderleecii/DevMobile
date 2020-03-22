@@ -47,9 +47,12 @@ struct HomepageView: View {
                     .padding(.top, 5)
                     .frame(width: 350, height: 40, alignment: .leading)
                     Spacer()
-                    Divider()
+                    if !self.mainViewRouter.showMenu{
+                        Divider()
                         .background(Color.gray)
                         .frame(width:420, height:1)
+                    }
+                    
                     Spacer()
                     if !self.mainViewRouter.showMenu{
                         if !self.postViewRouter.showPost && !self.mainViewRouter.showUser{
@@ -124,6 +127,7 @@ struct HomepageView: View {
                             .disabled(self.mainViewRouter.showMenu)
                         }
                     }
+                    
                     HStack(spacing: 50){
                         Button(action:{
                             self.mainViewRouter.currentPage = "latest_posts"
@@ -167,11 +171,12 @@ struct HomepageView: View {
                     }
                     .frame(width:420, height:60)
                     .background(Color.gray)
+                    .blur(radius: self.mainViewRouter.showMenu ? 2 : 0)
+                    .disabled(self.mainViewRouter.showMenu)
                 }
                 if self.mainViewRouter.showMenu{
                     MenuView(mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter)
                     .frame(width: geometry.size.width/2)
-                        .padding(.leading)
                     .transition(.move(edge: .leading))
                 }
             }

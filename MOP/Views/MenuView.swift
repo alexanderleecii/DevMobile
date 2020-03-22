@@ -13,39 +13,36 @@ struct MenuView: View {
     @ObservedObject var postViewRouter : PostViewRouter
     
     var body: some View {
-        NavigationView{
-            VStack(alignment: .leading){
-                MenuButton(mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter, name: "Latest posts")
-                .padding(.top, 100)
-                .font(.headline)
-                MenuButton(mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter, name: "Top posts")
+        VStack(alignment: .leading){
+            MenuButton(mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter, name: "Latest posts")
+            .padding(.top, 100)
+            .font(.headline)
+            MenuButton(mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter, name: "Top posts")
+            .padding(.top, 30)
+            .font(.headline)
+            
+            if self.mainViewRouter.connectedUser == nil{
+                // logic for when a user is logged = Sign Out - not logged Log In or Sign In
+                MenuButton(mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter, name: "Log In")
                 .padding(.top, 30)
                 .font(.headline)
-                
-                if self.mainViewRouter.connectedUser == nil{
-                    // logic for when a user is logged = Sign Out - not logged Log In or Sign In
-                    MenuButton(mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter, name: "Log In")
-                    .padding(.top, 30)
-                    .font(.headline)
-                }else{
-                    MenuButton(mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter, name: "Profile")
-                    .padding(.top, 30)
-                    .font(.headline)
-                    MenuButton(mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter, name: "Log Out")
-                    .padding(.top, 30)
-                    .font(.headline)
-                }
-                MenuButton(mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter, name: "Settings")
-                .padding(.top, 50)
-                Spacer()
+            }else{
+                MenuButton(mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter, name: "Profile")
+                .padding(.top, 30)
+                .font(.headline)
+                MenuButton(mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter, name: "Log Out")
+                .padding(.top, 30)
+                .font(.headline)
             }
-            .padding()
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(Color.white)
-            .edgesIgnoringSafeArea(.bottom)
+            MenuButton(mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter, name: "Settings")
+            .padding(.top, 50)
+            Spacer()
         }
-        .navigationBarTitle("", displayMode: .inline)
-        .navigationBarHidden(true)
+        .padding()
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color.white)
+        .edgesIgnoringSafeArea(.bottom)
+        
     }
 }
 
