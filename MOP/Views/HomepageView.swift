@@ -51,7 +51,7 @@ struct HomepageView: View {
                         Divider()
                         .background(Color.gray)
                         .frame(width:420, height:1)
-                    }	
+                    }
                     
                     Spacer()
                     if !self.mainViewRouter.showMenu{
@@ -71,7 +71,7 @@ struct HomepageView: View {
                             }else if self.mainViewRouter.currentPage == "sign_up"{
                                 SignUpView(mainViewRouter: self.mainViewRouter, userVM: self.userVM)
                             }else if self.mainViewRouter.currentPage == "add_post"{
-                                AddPostView(mainViewRouter: self.mainViewRouter, posts: self.posts)
+                                AddPostView(mainViewRouter: self.mainViewRouter, postVM: self.posts)
                             }else if self.mainViewRouter.currentPage == "search"{
                                 SearchView(mainVR: self.mainViewRouter, postVR: self.postViewRouter, searchVR: self.searchVR)
                             }

@@ -121,11 +121,11 @@ class PostViewModel : ObservableObject{
                 //print("Response status code \(response.statusCode)")
             }
             if let error = error {
-                //print("Error \(error)")
+                print("Error \(error)")
                 return
             }
             if let data = data, let dataString = String(data: data, encoding: .utf8){
-                //print("Response data string: \(dataString)")
+                print("Response data string: \(dataString)")
             }
         }
         dataTask.resume()

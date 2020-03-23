@@ -92,7 +92,7 @@ struct SignUpView: View {
             .sheet(isPresented: self.$selectingImage, onDismiss: {
                 self.imageAlreadySelected.toggle()
             }){
-                ImagePicker(isShown: self.$selectingImage, imageURL: self.$avatarImageURL)
+                ImagePicker(isShown: self.$selectingImage, imageURL: self.$avatarImageURL, imageType: "avatar")
             }
             
             HStack{
