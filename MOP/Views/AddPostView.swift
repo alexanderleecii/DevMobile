@@ -14,7 +14,7 @@ struct AddPostView: View {
     @ObservedObject var mainViewRouter : MainViewRouter
     
     //PostViewModel
-    @ObservedObject var posts : PostViewModel
+    @ObservedObject var postVM : PostViewModel
     
     //Binding Attribute
     //@Binding var visible : Bool
@@ -36,7 +36,7 @@ struct AddPostView: View {
     @State private var selectingImage = false
     @State private var imageAlreadySelected = false
     
-    //TODO: Preventing keyboard to cover TextField's
+    // Preventing keyboard to cover TextField's
     @ObservedObject private var keyboard = KeyboardObserver()
     
     enum Options: String{
@@ -111,7 +111,7 @@ struct AddPostView: View {
                             self.selectedOptions["image"]!.toggle()
                             self.imageAlreadySelected.toggle()
                         }){
-                        ImagePicker(isShown: self.$selectingImage, imageURL: self.$postImageURL)
+                            ImagePicker(isShown: self.$selectingImage, imageURL: self.$postImageURL, imageType:  "post")
                     }
                         .animation(.default)
                     }
@@ -130,28 +130,40 @@ struct AddPostView: View {
                 trailing:
                 Button(action:{
                     //TODO agregar verificaciones de que todo esta bien
-                    if true{
-                        //Add to list of Posts
-                        self.posts.addPost(post: self.createNewPost(), token: self.mainViewRouter.token!)
+                    if self.postIsCorrect() {
+                        if let token = self.mainViewRouter.token{
+                            self.postVM.addPost(post: self.createNewPost(), token: token)
+                        }
+                        
                         self.mainViewRouter.currentPage = "latest_posts"
                     }
                 }){
                     Text("Add Post")
                 })
         }
-        
+
    }
     
-    //TODO
-    func convertImageToURL() -> String {
-        if self.$postImageURL.wrappedValue != ""{
-            return "image.url"
-        }else{
-            return ""
-        }
+    func postIsCorrect() -> Bool {
+        return (isTitleCorrect() && isTextCorrect() && areTagsCorrect() && isLocationCorrect())
     }
     
-    //TODO
+    func isTitleCorrect() -> Bool{
+        return (self.$title.wrappedValue != "")
+    }
+    
+    func isTextCorrect() -> Bool{
+        return (self.$text.wrappedValue != "")
+    }
+    
+    func areTagsCorrect() -> Bool{
+        return (self.convertTagStrToArray().count <= 3)
+    }
+    
+    func isLocationCorrect() -> Bool{
+        return true
+    }
+    
     func convertTagStrToArray() -> [String]{
         if self.$tags.wrappedValue != ""{
             return self.$tags.wrappedValue.components(separatedBy: " ")
@@ -161,9 +173,13 @@ struct AddPostView: View {
     }
     
     func createNewPost() -> Post {
-        return Post(tags: self.convertTagStrToArray(), title: self.$title.wrappedValue, text: self.$text.wrappedValue, pseudo: self.mainViewRouter.connectedUser!.pseudo, user: self.mainViewRouter.connectedUser!._id,
+        return Post(tags: self.convertTagStrToArray(),
+                    title: self.$title.wrappedValue,
+                    text: self.$text.wrappedValue,
+                    pseudo: self.mainViewRouter.connectedUser!.pseudo,
+                    user: self.mainViewRouter.connectedUser!._id,
                     location: self.$location.wrappedValue,
-                    imgUrl: self.convertImageToURL())
+                    imagePost: self.$postImageURL.wrappedValue)
     }
 }
 
@@ -184,6 +200,6 @@ struct MenuIcon : View {
 
 struct AddPostView_Previews: PreviewProvider {
     static var previews: some View {
-        AddPostView(mainViewRouter: MainViewRouter(), posts: PostViewModel())
+        AddPostView(mainViewRouter: MainViewRouter(), postVM: PostViewModel())
     }
 }
