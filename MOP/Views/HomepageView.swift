@@ -51,7 +51,7 @@ struct HomepageView: View {
                         Divider()
                         .background(Color.gray)
                         .frame(width:420, height:1)
-                    }
+                    }	
                     
                     Spacer()
                     if !self.mainViewRouter.showMenu{

@@ -6,6 +6,7 @@ struct ImagePicker : UIViewControllerRepresentable {
     @Binding var isShown: Bool
     @Binding var imageURL: String
     @State var imageFileName : String = ""
+    var imageType: String
     
     func makeCoordinator() -> ImagePickerCordinator {
         return ImagePickerCordinator(parent: self)
@@ -62,6 +63,7 @@ class ImagePickerCordinator : NSObject, UINavigationControllerDelegate, UIImageP
                 print(error)
                 return
             }
+            print("\(url!)")
             self.parent.imageURL = "\(url!)"
             self.parent.isShown.toggle()
             
@@ -73,7 +75,9 @@ class ImagePickerCordinator : NSObject, UINavigationControllerDelegate, UIImageP
         let date = Date()
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyyMMddHHss"
-        ret = "images/avatar"+formatter.string(from: date)+".jpg"
+        ret = "images/" + parent.imageType + formatter.string(from: date) + ".jpg"
+        print(ret)
+        print(parent.imageType)
         return ret
     }
     
