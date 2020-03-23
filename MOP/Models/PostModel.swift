@@ -22,7 +22,7 @@ class Post : Identifiable, ObservableObject, Codable{
     var nbReports : Int = 0
     @Published var comments : [Comment] = []
     var location : String? = nil
-    var imgUrl : String? = nil
+    var imagePost : String? = nil
     var date = Date()
     
     enum CodingKeys: String, CodingKey{
@@ -37,7 +37,7 @@ class Post : Identifiable, ObservableObject, Codable{
         case reports
         case nbReports
         case comments
-        case imgUrl
+        case imagePost
         case location
         case date
     }
@@ -73,10 +73,12 @@ class Post : Identifiable, ObservableObject, Codable{
         self.date = format.date(from: try values.decode(String.self, forKey: .date))!
         
         self.location = try values.decodeIfPresent(String.self, forKey: .location)
-        //self.imgUrl = try values.decode(String.self, forKey: .imgUrl)
+        
+        // We will need to set to "" the imagePost attribute of every post that doesnt have an image
+        //self.imagePost = try values.decode(String.self, forKey: .imagePost)
     }
     
-    init(tags:[String], title: String, text:String, pseudo: String, user: String, location:String, imgUrl:String){
+    init(tags:[String], title: String, text:String, pseudo: String, user: String, location:String, imagePost:String){
         self.tags = tags
         self.title = title
         self.text = text
@@ -85,8 +87,8 @@ class Post : Identifiable, ObservableObject, Codable{
         if location != ""{
             self.location = location
         }
-        if imgUrl != ""{
-            self.imgUrl = imgUrl
+        if imagePost != ""{
+            self.imagePost = imagePost
         }
     }
     
@@ -111,6 +113,7 @@ class Post : Identifiable, ObservableObject, Codable{
         try values.encode(self.title, forKey: .title)
         try values.encode(self.text, forKey: .text)
         try values.encodeIfPresent(self.location, forKey: .location)
+        try values.encodeIfPresent(self.imagePost, forKey: .imagePost)
     }
     
     func getTags() -> [String]{
