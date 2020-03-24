@@ -19,6 +19,7 @@ class PostViewModel : ObservableObject{
     }
     
     func getPostContaining(by:String, substring: String) -> [Post]{
+        loadAllPosts()
         var res = [Post]()
         if by == "tags" {
             res = self.postSet.filter{
@@ -40,15 +41,17 @@ class PostViewModel : ObservableObject{
 
 
      func getPostsOrderedBy(viewType att : String){
-         if att == "latest_posts" {
+        loadAllPosts()
+        if att == "latest_posts" {
             postSet.sort(by: {$0.date > $1.date})
-         }
-         else if att == "top_posts"{
+        }
+        else if att == "top_posts"{
             postSet.sort(by: {$0.nbLikes > $1.nbLikes})
-         }
+        }
      }
     
     func getUserPosts(_id: String) -> [Post]{
+        loadAllPosts()
         let userPosts = self.postSet.filter{$0.user == _id}
         return userPosts
     }
