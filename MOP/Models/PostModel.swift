@@ -74,8 +74,7 @@ class Post : Identifiable, ObservableObject, Codable{
         
         self.location = try values.decodeIfPresent(String.self, forKey: .location)
         
-        // We will need to set to "" the imagePost attribute of every post that doesnt have an image
-        //self.imagePost = try values.decode(String.self, forKey: .imagePost)
+        self.imagePost = try values.decodeIfPresent(String.self, forKey: .imagePost)
     }
     
     init(tags:[String], title: String, text:String, pseudo: String, user: String, location:String, imagePost:String){

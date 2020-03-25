@@ -30,13 +30,18 @@ struct PostItem: View {
                     .fontWeight(.bold)
                     Text(self.post.text)
                     .padding(.top, 15)
+                        .foregroundColor(Color.gray.opacity(0.95))
                         .frame(width: 350, alignment: .center)
+                    if self.post.imagePost != nil && self.post.imagePost != ""{
+                        ImageView(imageURL: self.post.imagePost!)
+                            .frame(width: 200, height: 150)
+                    }
                 }
             }
+            .buttonStyle(PlainButtonStyle())
             .padding([.top, .bottom], 10)
             .frame(width:350)
             .background(Color(red: 0.95, green: 0.95, blue: 0.95, opacity: 1.0))
-            .foregroundColor(Color.gray.opacity(0.95))
             
             HStack{
                 if self.mainViewRouter.connectedUser != nil{
