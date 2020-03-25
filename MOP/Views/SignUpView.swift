@@ -23,6 +23,8 @@ struct SignUpView: View {
     @State private var passwordRep : String = ""
     @State var avatarImageURL : String = ""
     
+    @ObservedObject private var keyboard = KeyboardObserver()
+    
     @State private var currentField = 0
     
     // Avatar selecting control variables
@@ -35,34 +37,35 @@ struct SignUpView: View {
     
     var body: some View {
         VStack{
-            Text("Sign Up")
+            Text("Join us !")
             .font(.largeTitle)
-            .foregroundColor(.white)
-            .padding(.bottom, 100)
-            .padding(.top, 150)
+            .foregroundColor(Color(red: 0.7, green: 0.7, blue: 0.8, opacity: 1))
+            .padding(.bottom, keyboard.currentHeight == 0 ? 100 : 10)
+            .padding(.top, keyboard.currentHeight == 0 ? 150 : 30)
             
             if self.currentField == 0{
                 TextField("Username", text: self.$user)
                 .padding()
-                .background(Color.white)
+                .background(Color.gray.opacity(0.2))
                 .cornerRadius(20.0)
                 .padding([.leading, .trailing], 27.5)
+                    //.padding(.top, keyboard.currentHeight == 0 ? 0 : 100)
             }else if self.currentField == 1{
                 TextField("Email", text: self.$email)
                 .padding()
-                .background(Color.white)
+                .background(Color.gray.opacity(0.2))
                 .cornerRadius(20.0)
                 .padding([.leading, .trailing], 27.5)
             }else if self.currentField == 2{
                 SecureField("Password", text: self.$password)
                 .padding()
-                .background(Color.white)
+                .background(Color.gray.opacity(0.2))
                 .cornerRadius(20.0)
                 .padding([.leading, .trailing], 27.5)
             }else if self.currentField == 3{
                 SecureField("Confirm password", text: self.$passwordRep)
                 .padding()
-                .background(Color.white)
+                .background(Color.gray.opacity(0.2))
                 .cornerRadius(20.0)
                 .padding([.leading, .trailing], 27.5)
             }
@@ -83,9 +86,11 @@ struct SignUpView: View {
             }){
                 if !imageAlreadySelected {
                     Text("Select Avatar")
+                    .foregroundColor(Color(red: 0.7, green: 0.7, blue: 0.8, opacity: 1))
                 }
                 else {
                     Text("Replace selected image")
+                    .foregroundColor(Color(red: 0.7, green: 0.7, blue: 0.8, opacity: 1))
                 }
             }
             .padding(.bottom, 10)
@@ -106,8 +111,8 @@ struct SignUpView: View {
                         .font(.system(size: 20))
                         .padding(3)
                         .frame(width: 30, height: 30)
-                        .background(Color.white)
-                        .foregroundColor(Color.gray)
+                            .background(Color.gray.opacity(0.2))
+                        .foregroundColor(Color.white)
                         .cornerRadius(360)
                     }
                 }
@@ -173,14 +178,13 @@ struct SignUpView: View {
                         .foregroundColor(.white)
                         .padding()
                         .frame(width: 150, height:50)
-                        .background(Color.blue)
+                        .background(Color(red: 0.7, green: 0.7, blue: 0.8, opacity: 1))
                         .cornerRadius(15.0)
                     }
                 }
             }
             Spacer()
         }
-        .background(Color(red: 0.7, green: 0.7, blue: 0.8, opacity: 1))
         .edgesIgnoringSafeArea(.all)
 
     }

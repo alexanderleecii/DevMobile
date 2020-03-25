@@ -25,32 +25,27 @@ struct LogIn: View{
     var body : some View {
         VStack{
             
-            Text("Log In")
+            if keyboard.currentHeight == 0 {
+                Text("Welcome back !")
                 .font(.largeTitle)
-                .foregroundColor(.white)
+                .foregroundColor(Color(red: 0.8, green: 0.3, blue: 0.3))
                 .padding(.bottom, 100)
                 .padding(.top, 100)
+            }
             
-            /*
-            Image(systemName: "person")
-                .resizable()
-                .frame(width: 100, height: 100.0)
-                .clipShape(Circle())
-                .overlay(Circle().stroke(Color.white, lineWidth:4))
-                .shadow(radius: 10.0)
-                .padding(.bottom, 50)
-            */
             VStack(alignment: .leading, spacing: 15) {
                 TextField("Email", text: self.$email)
                     .padding()
-                    .background(Color.white)
+                    .background(Color.gray.opacity(0.2))
                     .cornerRadius(20.0)
                 
                 SecureField("Password", text: self.$password)
                     .padding()
-                    .background(Color.white)
+                    .background(Color.gray.opacity(0.2))
                     .cornerRadius(20.0)
-            }.padding([.leading, .trailing], 27.5)
+            }
+            .padding(.top, keyboard.currentHeight == 0 ? 0 : 120)
+            .padding([.leading, .trailing], 27.5)
             
             HStack(spacing: 0) {
                 Text("Don't have an account? ")
@@ -58,7 +53,7 @@ struct LogIn: View{
                     self.mainViewRouter.currentPage = "sign_up"
                 }) {
                     Text("Sign Up")
-                    .foregroundColor(.blue)
+                    .foregroundColor(Color(red: 0.8, green: 0.3, blue: 0.3))
                 }
             }
             
@@ -93,14 +88,14 @@ struct LogIn: View{
                 .foregroundColor(.white)
                 .padding()
                 .frame(width: 150, height:50)
-                .background(Color.gray)
+                .background(Color(red: 0.8, green: 0.3, blue: 0.3))
                 .cornerRadius(15.0)
                 .padding(.top)
             }
             Spacer()
         }
-        .background(Color(red: 0.9, green: 0.7, blue: 0.7, opacity: 0.5) )
-        .edgesIgnoringSafeArea(.all)
+        .padding(.bottom, keyboard.currentHeight)
+        .edgesIgnoringSafeArea(.bottom)
     }
 }
 

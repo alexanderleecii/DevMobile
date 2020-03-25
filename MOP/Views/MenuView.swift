@@ -38,7 +38,7 @@ struct MenuView: View {
             .padding(.top, 50)
             Spacer()
         }
-        .padding()
+        .padding(.leading, 30)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(Color.white)
         .edgesIgnoringSafeArea(.bottom)

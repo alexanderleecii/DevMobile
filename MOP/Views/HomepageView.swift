@@ -34,23 +34,25 @@ struct HomepageView: View {
         return GeometryReader{ geometry in
             ZStack(alignment: .leading){
                 VStack(spacing: -4){
-                    HStack{
-                        Button(action: {
-                            withAnimation{
-                                self.mainViewRouter.showMenu = true
+                    VStack{
+                        HStack{
+                            Button(action: {
+                                withAnimation{
+                                    self.mainViewRouter.showMenu = true
+                                }
+                            }){
+                                Image("menu")
+                                    .foregroundColor(Color.gray)
                             }
-                        }){
-                            Image("menu")
-                                .foregroundColor(Color.gray)
                         }
-                    }
-                    .padding(.top, 5)
-                    .frame(width: 350, height: 40, alignment: .leading)
-                    Spacer()
-                    if !self.mainViewRouter.showMenu{
-                        Divider()
-                        .background(Color.gray)
-                        .frame(width:420, height:1)
+                        .padding(.top, 5)
+                        .frame(width: 350, height: 40, alignment: .leading)
+                        
+                        if !self.mainViewRouter.showMenu{
+                            Divider()
+                            .background(Color.gray)
+                            .frame(width:420, height:1)
+                        }
                     }
                     
                     Spacer()
@@ -176,7 +178,7 @@ struct HomepageView: View {
                 }
                 if self.mainViewRouter.showMenu{
                     MenuView(mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter)
-                    .frame(width: geometry.size.width/2)
+                        .frame(width: geometry.size.width/1.8)
                     .transition(.move(edge: .leading))
                 }
             }

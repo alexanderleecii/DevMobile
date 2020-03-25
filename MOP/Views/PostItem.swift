@@ -23,11 +23,20 @@ struct PostItem: View {
                 self.postViewRouter.post = self.post
                 self.postViewRouter.showPost = true
             }){
-                Text(post.text)
-                .frame(width:350, height:100)
-                .background(Color(red: 0.95, green: 0.95, blue: 0.95, opacity: 1.0))
-                    .foregroundColor(Color.gray.opacity(0.95))
+                VStack{
+                    Text(self.post.title)
+                    .font(.system(size: 20))
+                        .foregroundColor(Color.black.opacity(0.6))
+                    .fontWeight(.bold)
+                    Text(self.post.text)
+                    .padding(.top, 15)
+                        .frame(width: 350, alignment: .center)
+                }
             }
+            .padding([.top, .bottom], 10)
+            .frame(width:350)
+            .background(Color(red: 0.95, green: 0.95, blue: 0.95, opacity: 1.0))
+            .foregroundColor(Color.gray.opacity(0.95))
             
             HStack{
                 if self.mainViewRouter.connectedUser != nil{
@@ -96,7 +105,7 @@ struct PostItem: View {
                     Text(String(post.location!))
                     .padding(.leading, 10)
                     .frame(width:350, height:30, alignment: .leading)
-                    .background(Color(red: 0.6, green: 0.6, blue: 0.6, opacity: 1.0))
+                        .background(Color.gray.opacity(0.7))
                     .foregroundColor(Color.white)
                 }
             }
@@ -113,17 +122,20 @@ struct PostItem: View {
                             if self.postViewRouter.showPost {self.postViewRouter.showPost.toggle()}
                         }){
                             Text("#"+tag)
+                                .fontWeight(.semibold)
                         }
                     }
                 }
                 .padding(10)
                 .frame(width:350, height:40, alignment: .leading)
-                .background(Color(red: 0.8, green: 0.8, blue: 0.8, opacity: 1.0))
+                .background(Color.gray)
                 .foregroundColor(Color.white)
 
                 
             }
-        }.cornerRadius(10)
+        }
+        .cornerRadius(10)
+        .shadow(radius: 3)
     }
     
     func isLiked() -> Bool{
@@ -156,6 +168,6 @@ struct PostItem: View {
 
 struct PostItem_Previews: PreviewProvider {
     static var previews: some View {
-        return PostItem(post: PostViewModel().postSet[0], postViewRouter: PostViewRouter(), mainViewRouter: MainViewRouter(), searchVR: SearchViewRouter())
+        return PostItem(post: Post(tags: ["Test1","Test2"], title: "Here's my title", text: "Incredible text.\nWith several lines of incredible text, written by a litteral genius.\nLike so.", pseudo: "TestUser", user: "", location: "Montpellier, France", imagePost: ""), postViewRouter: PostViewRouter(), mainViewRouter: MainViewRouter(), searchVR: SearchViewRouter())
     }
 }

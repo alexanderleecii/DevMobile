@@ -17,8 +17,11 @@ struct TopPostsView: View{
     var body: some View{
         VStack{
             Text("Top posts")
-            .font(.title).bold()
-            .frame(width: 350, height: 50, alignment: .leading)
+            .font(.system(size: 30))
+            .fontWeight(.semibold)
+            .foregroundColor(Color.black.opacity(0.6))
+            .frame(height: 50, alignment: .center)
+            .padding(.top, 5)
             Spacer()
             if !posts.postSet.isEmpty{//So the ScrollView is only rendered after the data has been fetched
                 ScrollView{
@@ -29,11 +32,16 @@ struct TopPostsView: View{
                             Spacer()
                         }
                     }
+                    .padding(.top, 10)
                 }
             }
-            }.onAppear{
-            self.posts.getPostsOrderedBy(viewType: "top_posts")
-        }
+            }
+            .onAppear{
+                self.posts.loadAllPosts()
+            }
+            .onReceive(self.posts.objectWillChange){posts in
+               self.posts.getPostsOrderedBy(viewType: "top_posts")
+            }
     }
 }
 
@@ -47,8 +55,11 @@ struct LatestPostsView: View{
     var body: some View{
         VStack{
             Text("Latest posts")
-                .font(.title).bold()
-                .frame(width: 350, height: 50, alignment: .leading)
+                .font(.system(size: 30))
+                .fontWeight(.semibold)
+                .foregroundColor(Color.black.opacity(0.6))
+                .frame(height: 50, alignment: .center)
+                .padding(.top, 5)
             Spacer()
             if !posts.postSet.isEmpty{ //So the ScrollView is only rendered after the data has been fetched
                 ScrollView{
@@ -59,6 +70,7 @@ struct LatestPostsView: View{
                             Spacer()
                         }
                     }
+                    .padding(.top, 10)
                 }
             }
         }
@@ -83,6 +95,7 @@ struct UserPostsView: View{
                     Spacer()
                 }
             }
+            .padding(.top, 10)
         }
     }
 }

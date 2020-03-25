@@ -25,9 +25,11 @@ struct ProfileView: View{
          }*/
         VStack(alignment: .center){
             Text("Profile")
-                .font(.system(size: 50))
-                .frame(width: 350, height: 50, alignment: .center)
-                .padding(.bottom, 50)
+                .font(.system(size: 30))
+                .fontWeight(.semibold)
+                .foregroundColor(Color.black.opacity(0.6))
+                .frame(height: 50, alignment: .center)
+                .padding(.top, 5)
             
             if self.user.avatar != ""{
                 ImageView(imageURL: self.user.avatar)
@@ -38,20 +40,6 @@ struct ProfileView: View{
                     .cornerRadius(360)
             }
             
-            if self.mainViewRouter.connectedUser != nil{
-                if self.user.email == self.mainViewRouter.connectedUser!.email{
-                    Text("Email")
-                        .padding(.bottom, 10)
-                        .font(.system(size: 30))
-                    Text(self.user.email)
-                        .font(.system(size: 20))
-                        .padding(.bottom, 30)
-                }
-            }
-            
-            Text("Username")
-                .padding(.bottom, 10)
-                .font(.system(size: 30))
             HStack{
                 if !updateUsername{
                     Text(self.user.pseudo)
@@ -86,10 +74,27 @@ struct ProfileView: View{
                             .cornerRadius(10)
                     }
                 }
-            }.padding([.leading, .trailing], 27.5)
+            }
+            //.padding([.leading, .trailing], 27.5)
+            .padding(.bottom, 15)
+            
+            if self.mainViewRouter.connectedUser != nil{
+                if self.user.email == self.mainViewRouter.connectedUser!.email{
+                    Text("Email")
+                        .padding(.bottom, 10)
+                        .font(.system(size: 20))
+                    Text(self.user.email)
+                        .font(.system(size: 15))
+                        .padding(.bottom, 15)
+                }
+            }
+            Divider()
+            .background(Color.gray)
             Text("Posts")
+                .font(.system(size: 25))
+                .fontWeight(.semibold)
                 .padding(.bottom, 10)
-                .font(.system(size: 30))
+                .foregroundColor(Color.black.opacity(0.6))
             
             ScrollView{
                 VStack(spacing: 10){

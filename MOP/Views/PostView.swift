@@ -65,6 +65,6 @@ struct PostView: View {
 
 struct PostView_Previews: PreviewProvider {
     static var previews: some View {
-        PostView(post: Post(), mainViewRouter: MainViewRouter(),postViewRouter: PostViewRouter(), searchVR: SearchViewRouter())
+        PostView(post: Post(tags: ["Test1","Test2"], title: "Here's my title", text: "Incredible text.\nWith several lines of incredible text, written by a litteral genius.\nLike so.", pseudo: "TestUser", user: "", location: "Montpellier, France", imagePost: ""), mainViewRouter: MainViewRouter(),postViewRouter: PostViewRouter(), searchVR: SearchViewRouter())
     }
 }
