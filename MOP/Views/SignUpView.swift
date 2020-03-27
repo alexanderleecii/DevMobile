@@ -49,7 +49,6 @@ struct SignUpView: View {
                 .background(Color.gray.opacity(0.2))
                 .cornerRadius(20.0)
                 .padding([.leading, .trailing], 27.5)
-                    //.padding(.top, keyboard.currentHeight == 0 ? 0 : 100)
             }else if self.currentField == 1{
                 TextField("Email", text: self.$email)
                 .padding()

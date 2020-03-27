@@ -36,15 +36,15 @@ class UserViewModel : ObservableObject{
         request.httpBody = try! JSONSerialization.data(withJSONObject: parameters, options: [])
         
         let dataTask = URLSession.shared.dataTask(with: request){ (data, response, error) in
-            if let error = error {
-                //print("Error \(error)")
+            /*if let error = error {
+                print("Error \(error)")
                 return
             }
             
             if let response = response as? HTTPURLResponse {
-                //print("Response status code \(response.statusCode)")
-            }
-            if let data = data, let dataString = String(data: data, encoding: .utf8){
+                print("Response status code \(response.statusCode)")
+            }*/
+            if let data = data/*, let dataString = String(data: data, encoding: .utf8)*/{
                 //print("Response data string: \(dataString)")
                 let json = try? JSONSerialization.jsonObject(with: data, options: []) as! [String:Any]
                 
@@ -58,10 +58,10 @@ class UserViewModel : ObservableObject{
                     request.addValue(token as! String, forHTTPHeaderField: "x-auth-token")
                     
                     URLSession.shared.dataTask(with: request){(data, response, _) in
-                        if let response = response as? HTTPURLResponse {
-                            //print("Response status code \(response.statusCode)")
-                        }
-                        if let data = data, let dataString = String(data: data, encoding: .utf8){
+                        /*if let response = response as? HTTPURLResponse {
+                            print("Response status code \(response.statusCode)")
+                        }*/
+                        if let data = data/*, let dataString = String(data: data, encoding: .utf8)*/{
                             //print("Response data string: \(dataString)")
                             let decoder = JSONDecoder()
                             guard let user = try? decoder.decode(User.self, from: data) else {
@@ -99,15 +99,15 @@ class UserViewModel : ObservableObject{
         request.httpBody = try! JSONSerialization.data(withJSONObject: parameters, options: [])
         
         let dataTask = URLSession.shared.dataTask(with: request){ (data, response, error) in
-            if let error = error {
-                //print("Error \(error)")
+            /*if let error = error {
+                print("Error \(error)")
                 return
             }
             
             if let response = response as? HTTPURLResponse {
-                //print("Response status code \(response.statusCode)")
-            }
-            if let data = data, let dataString = String(data: data, encoding: .utf8){
+                print("Response status code \(response.statusCode)")
+            }*/
+            if let data = data/*, let dataString = String(data: data, encoding: .utf8)*/{
                 //print("Response data string: \(dataString)")
                 let json = try? JSONSerialization.jsonObject(with: data, options: []) as! [String:Any]
                 
@@ -117,10 +117,10 @@ class UserViewModel : ObservableObject{
                     request.addValue(token as! String, forHTTPHeaderField: "x-auth-token")
                     
                     URLSession.shared.dataTask(with: request){(data, response, _) in
-                        if let response = response as? HTTPURLResponse {
-                            //print("Response status code \(response.statusCode)")
-                        }
-                        if let data = data, let dataString = String(data: data, encoding: .utf8){
+                        /*if let response = response as? HTTPURLResponse {
+                            print("Response status code \(response.statusCode)")
+                        }*/
+                        if let data = data/*, let dataString = String(data: data, encoding: .utf8)*/{
                             //print("Response data string: \(dataString)")
                             let decoder = JSONDecoder()
                             guard let user = try? decoder.decode(User.self, from: data) else {
@@ -156,15 +156,15 @@ class UserViewModel : ObservableObject{
         request.httpMethod = "GET"
         
         let dataTask = URLSession.shared.dataTask(with: request){ (data, response, error) in
-            if let error = error {
-                //print("Error \(error)")
+            /*if let error = error {
+                print("Error \(error)")
                 return
             }
             
             if let response = response as? HTTPURLResponse {
-                //print("Response status code \(response.statusCode)")
-            }
-            if let data = data, let dataString = String(data: data, encoding: .utf8){
+                print("Response status code \(response.statusCode)")
+            }*/
+            if let data = data/*, let dataString = String(data: data, encoding: .utf8)*/{
                 //print("Response data string: \(dataString)")
                 let decoder = JSONDecoder()
                 guard let users = try? decoder.decode([User].self, from: data) else {

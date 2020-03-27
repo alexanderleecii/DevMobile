@@ -66,7 +66,7 @@ class PostViewModel : ObservableObject{
         
         let dataTask = URLSession.shared.dataTask(with: request){ data, _, _ in
             
-            if let data = data, let dataString = String(data: data, encoding: .utf8){
+            if let data = data/*, let dataString = String(data: data, encoding: .utf8)*/{
                 //print("Response data string: \(dataString)")
                 let decoder = JSONDecoder()
                 guard let post = try? decoder.decode(Post.self, from: data) else {
@@ -83,11 +83,9 @@ class PostViewModel : ObservableObject{
         guard let resourceURL = URL(string: resourceString) else {
             fatalError()
         }
-        /*var request = URLRequest(url: resourceURL)
-        request.httpMethod = "GET"*/
         
         let dataTask = URLSession.shared.dataTask(with: resourceURL){ (data, _, _) in
-            if let data = data, let dataString = String(data: data, encoding: .utf8){
+            if let data = data/*, let dataString = String(data: data, encoding: .utf8)*/{
                 //print("Response data string: \(dataString)")
                 let decoder = JSONDecoder()
                 guard let posts = try? decoder.decode([Post].self, from: data) else {
@@ -116,19 +114,18 @@ class PostViewModel : ObservableObject{
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue(token, forHTTPHeaderField: "x-auth-token")
         request.httpBody = jsondata
-        //print(String(data: request.httpBody!, encoding: .utf8)!)
         
         let dataTask = URLSession.shared.dataTask(with: request){ data, response, error in
-            if let response = response as? HTTPURLResponse {
-                //print("Response status code \(response.statusCode)")
-            }
+            /*if let response = response as? HTTPURLResponse {
+                print("Response status code \(response.statusCode)")
+            }*/
             if let error = error {
-                print("Error \(error)")
+                //print("Error \(error)")
                 return
             }
-            if let data = data, let dataString = String(data: data, encoding: .utf8){
+            /*if let data = data, let dataString = String(data: data, encoding: .utf8){
                 print("Response data string: \(dataString)")
-            }
+            }*/
         }
         dataTask.resume()
     }
@@ -145,10 +142,10 @@ class PostViewModel : ObservableObject{
         let dataTask = URLSession.shared.dataTask(with: request){ data, response, _ in
             /*if let response = response as? HTTPURLResponse {
                 print("Response status code \(response.statusCode)")
-            }*/
-            if let data = data, let dataString = String(data: data, encoding: .utf8){
-                //print("Response data string: \(dataString)")
             }
+            if let data = data, let dataString = String(data: data, encoding: .utf8){
+                print("Response data string: \(dataString)")
+            }*/
         }
         dataTask.resume()
     }
@@ -165,10 +162,10 @@ class PostViewModel : ObservableObject{
         let dataTask = URLSession.shared.dataTask(with: request){ data, response, _ in
             /*if let response = response as? HTTPURLResponse {
                 print("Response status code \(response.statusCode)")
-            }*/
-            if let data = data, let dataString = String(data: data, encoding: .utf8){
-                //print("Response data string: \(dataString)")
             }
+            if let data = data, let dataString = String(data: data, encoding: .utf8){
+                print("Response data string: \(dataString)")
+            }*/
         }
         dataTask.resume()
     }
@@ -185,10 +182,10 @@ class PostViewModel : ObservableObject{
         let dataTask = URLSession.shared.dataTask(with: request){ data, response, _ in
             /*if let response = response as? HTTPURLResponse {
                 print("Response status code \(response.statusCode)")
-            }*/
-            if let data = data, let dataString = String(data: data, encoding: .utf8){
-                //print("Response data string: \(dataString)")
             }
+            if let data = data, let dataString = String(data: data, encoding: .utf8){
+                print("Response data string: \(dataString)")
+            }*/
         }
         dataTask.resume()
     }
@@ -209,16 +206,16 @@ class PostViewModel : ObservableObject{
         request.httpBody = jsondata
         
         let dataTask = URLSession.shared.dataTask(with: request){ data, response, error in
-            if let response = response as? HTTPURLResponse {
+            /*if let response = response as? HTTPURLResponse {
                 //print("Response status code \(response.statusCode)")
-            }
+            }*/
             if let error = error {
                 //print("Error \(error)")
                 return
             }
-            if let data = data, let dataString = String(data: data, encoding: .utf8){
+            /*if let data = data, let dataString = String(data: data, encoding: .utf8){
                 //print("Response data string: \(dataString)")
-            }
+            }*/
         }
         dataTask.resume()
     }
@@ -233,12 +230,12 @@ class PostViewModel : ObservableObject{
         request.addValue(token, forHTTPHeaderField: "x-auth-token")
         
         let dataTask = URLSession.shared.dataTask(with: request){ data, response, _ in
-            if let response = response as? HTTPURLResponse {
-                //print("Response status code \(response.statusCode)")
+            /*if let response = response as? HTTPURLResponse {
+                print("Response status code \(response.statusCode)")
             }
             if let data = data, let dataString = String(data: data, encoding: .utf8){
-                //print("Response data string: \(dataString)")
-            }
+                print("Response data string: \(dataString)")
+            }*/
         }
         dataTask.resume()
     }
@@ -253,12 +250,12 @@ class PostViewModel : ObservableObject{
         request.addValue(token, forHTTPHeaderField: "x-auth-token")
         
         let dataTask = URLSession.shared.dataTask(with: request){ data, response, _ in
-            if let response = response as? HTTPURLResponse {
-                //print("Response status code \(response.statusCode)")
+            /*if let response = response as? HTTPURLResponse {
+                print("Response status code \(response.statusCode)")
             }
             if let data = data, let dataString = String(data: data, encoding: .utf8){
-                //print("Response data string: \(dataString)")
-            }
+                print("Response data string: \(dataString)")
+            }*/
         }
         dataTask.resume()
     }
@@ -273,12 +270,12 @@ class PostViewModel : ObservableObject{
         request.addValue(token, forHTTPHeaderField: "x-auth-token")
         
         let dataTask = URLSession.shared.dataTask(with: request){ data, response, _ in
-            if let response = response as? HTTPURLResponse {
-                //print("Response status code \(response.statusCode)")
+            /*if let response = response as? HTTPURLResponse {
+                print("Response status code \(response.statusCode)")
             }
             if let data = data, let dataString = String(data: data, encoding: .utf8){
-                //print("Response data string: \(dataString)")
-            }
+                print("Response data string: \(dataString)")
+            }*/
         }
         dataTask.resume()
     }

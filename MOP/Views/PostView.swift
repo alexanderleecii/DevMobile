@@ -25,7 +25,6 @@ struct PostView: View {
                 Text("Comments")
                     .padding(.trailing, 10)
                 Button(action: {
-                    //TODO
                     self.post.orderCommentsBy(viewType: "latest")
                 }){
                     Text("Latest")
@@ -33,7 +32,6 @@ struct PostView: View {
                 }
                 Text("|")
                 Button(action: {
-                    //TODO
                     self.post.orderCommentsBy(viewType: "top")
                 }){
                     Text("Top")

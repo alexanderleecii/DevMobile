@@ -18,7 +18,6 @@ struct SearchView: View {
     
     @State var userFilteredList = [User]()
     @State var postFilteredList = [Post]()
-    //@State private var searchText : String = ""
     
     func update(){
         if self.searchVR.searchType == "people"{

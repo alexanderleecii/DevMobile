@@ -19,10 +19,6 @@ struct ProfileView: View{
     @State private var username: String = ""
     
     var body: some View{
-        /*let user = self.mainViewRouter.connectedUser
-         if user != nil{
-         self.username = user!.pseudo
-         }*/
         VStack(alignment: .center){
             Text("Profile")
                 .font(.system(size: 30))
@@ -75,7 +71,6 @@ struct ProfileView: View{
                     }
                 }
             }
-            //.padding([.leading, .trailing], 27.5)
             .padding(.bottom, 15)
             
             if self.mainViewRouter.connectedUser != nil{

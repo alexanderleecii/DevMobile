@@ -10,7 +10,6 @@ import Foundation
 import SwiftUI
 
 struct LogIn: View{
-    //@ObservedObject var user : User
     @ObservedObject var mainViewRouter: MainViewRouter
     @ObservedObject var userVM : UserViewModel
     @Environment(\.presentationMode) var presentation
@@ -42,7 +41,6 @@ struct LogIn: View{
                     .background(Color.gray.opacity(0.2))
                     .cornerRadius(20.0)
             }
-            //.padding(.top, keyboard.currentHeight == 0 ? 0 : 120)
             .padding([.leading, .trailing], 27.5)
             
             HStack(spacing: 0) {

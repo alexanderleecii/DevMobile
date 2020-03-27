@@ -16,10 +16,6 @@ struct AddPostView: View {
     //PostViewModel
     @ObservedObject var postVM : PostViewModel
     
-    //Binding Attribute
-    //@Binding var visible : Bool
-    
-    
     //post attributes
     @State private var title = ""
     @State private var text = ""
@@ -144,7 +140,6 @@ struct AddPostView: View {
             .navigationBarItems(
                 trailing:
                 Button(action:{
-                    //TODO agregar verificaciones de que todo esta bien
                     if self.postIsCorrect() {
                         if let token = self.mainViewRouter.token{
                             self.postVM.addPost(post: self.createNewPost(), token: token)

@@ -12,9 +12,7 @@ class User:Identifiable, ObservableObject, Decodable{
     var _id : String
     var pseudo : String
     var email : String
-    //var password : String
     var avatar : String = ""
-    //var isAdmin : Bool
     
     enum CodingKeys: String, CodingKey{
         case _id
@@ -38,7 +36,5 @@ class User:Identifiable, ObservableObject, Decodable{
         self._id = id
         self.pseudo = pseudo
         self.email = email
-        //self.password = password
-        //self.isAdmin = isAdmin
     }
 }
