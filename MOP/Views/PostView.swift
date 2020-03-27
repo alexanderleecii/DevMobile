@@ -44,7 +44,7 @@ struct PostView: View {
             CommentsView(post: self.post, mainViewRouter: self.mainViewRouter)
             if self.mainViewRouter.connectedUser != nil{
                 HStack{
-                    MultilineTF(txt: self.$comment)
+                    MultilineTF(initText: "Type your comment", fontSize: 15, txt: self.$comment)
                         .frame(width: 300, height: 40, alignment: .leading)
                     Button(action: {
                         self.post.addComment(comment: Comment(pseudo: self.mainViewRouter.connectedUser!.pseudo, user: self.mainViewRouter.connectedUser!._id, text: self.$comment.wrappedValue), token: self.mainViewRouter.token!)

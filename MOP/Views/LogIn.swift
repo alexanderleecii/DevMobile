@@ -25,13 +25,11 @@ struct LogIn: View{
     var body : some View {
         VStack{
             
-            if keyboard.currentHeight == 0 {
-                Text("Welcome back !")
-                .font(.largeTitle)
-                .foregroundColor(Color(red: 0.8, green: 0.3, blue: 0.3))
-                .padding(.bottom, 100)
-                .padding(.top, 100)
-            }
+            Text("Welcome back !")
+            .font(.largeTitle)
+            .foregroundColor(Color(red: 0.8, green: 0.3, blue: 0.3))
+            .padding(.bottom, keyboard.currentHeight == 0 ? 100 : 10)
+            .padding(.top, keyboard.currentHeight == 0 ? 150 : 30)
             
             VStack(alignment: .leading, spacing: 15) {
                 TextField("Email", text: self.$email)
@@ -44,7 +42,7 @@ struct LogIn: View{
                     .background(Color.gray.opacity(0.2))
                     .cornerRadius(20.0)
             }
-            .padding(.top, keyboard.currentHeight == 0 ? 0 : 120)
+            //.padding(.top, keyboard.currentHeight == 0 ? 0 : 120)
             .padding([.leading, .trailing], 27.5)
             
             HStack(spacing: 0) {

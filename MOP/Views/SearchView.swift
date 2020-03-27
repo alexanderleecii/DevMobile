@@ -46,7 +46,7 @@ struct SearchView: View {
             HStack{
                 TextField("Search", text: textFieldBinding)
                     .foregroundColor(Color.gray.opacity(0.9))
-                    .frame(width: 310, height: 40, alignment: .leading)
+                    .frame(width: 300, height: 40, alignment: .leading)
                 Button(action: {
                     self.update()
                 }){
@@ -54,7 +54,7 @@ struct SearchView: View {
                         .foregroundColor(Color.gray.opacity(0.9))
                 }
             }
-            .frame(width: 350, height: 20)
+            .frame(width: 330, height: 20)
             .padding()
             .background(Color.gray.opacity(0.2))
             .cornerRadius(50)
@@ -62,23 +62,29 @@ struct SearchView: View {
             HStack{
                 VStack{
                     SearchButton(searchVR: self.searchVR, name: "people")
+                        .foregroundColor(self.searchVR.searchType == "people" ? Color(red: 0.8, green: 0.3, blue: 0.3) : Color.gray.opacity(0.9))
                     if self.searchVR.searchType == "people"{
-                        Divider()
-                        .frame(width:45)
+                        Rectangle()
+                            .frame(width: 45, height: 1.5)
+                            .foregroundColor(Color(red: 0.8, green: 0.3, blue: 0.3).opacity(0.8))
                     }
                 }
                 VStack{
                     SearchButton(searchVR: self.searchVR, name: "tags")
+                    .foregroundColor(self.searchVR.searchType == "tags" ? Color(red: 0.8, green: 0.3, blue: 0.3) : Color.gray.opacity(0.9))
                     if self.searchVR.searchType == "tags"{
-                        Divider()
-                        .frame(width:45)
+                        Rectangle()
+                        .frame(width: 45, height: 1.5)
+                        .foregroundColor(Color(red: 0.8, green: 0.3, blue: 0.3).opacity(0.8))
                     }
                 }
                 VStack{
                     SearchButton(searchVR: self.searchVR, name: "location")
+                    .foregroundColor(self.searchVR.searchType == "location" ? Color(red: 0.8, green: 0.3, blue: 0.3) : Color.gray.opacity(0.9))
                     if self.searchVR.searchType == "location"{
-                        Divider()
-                        .frame(width:45)
+                        Rectangle()
+                        .frame(width: 45, height: 1.5)
+                        .foregroundColor(Color(red: 0.8, green: 0.3, blue: 0.3).opacity(0.8))
                     }
                 }
             }
@@ -106,6 +112,7 @@ struct SearchView: View {
             }
             Spacer()
         }
+        .padding(.top, 10)
         .onAppear{
             self.update()
         }
@@ -122,17 +129,14 @@ struct SearchButton: View{
             if name == "people"{
                 Image("person")
                 .resizable()
-                .foregroundColor(Color.gray.opacity(0.9))
                 .frame(width: 45, height: 45)
             }else if name == "tags"{
                 Image("hashtag")
                 .resizable()
-                .foregroundColor(Color.gray.opacity(0.9))
                 .frame(width: 45, height: 45)
             }else if name == "location"{
                 Image("location")
                 .resizable()
-                .foregroundColor(Color.gray.opacity(0.9))
                 .frame(width: 45, height: 45)
             }
         }

@@ -41,9 +41,9 @@ struct PersonItem: View {
             .frame(alignment: .leading)
         }
         .frame(width: 350, height: 90)
-        .overlay(RoundedRectangle(cornerRadius: 40)
-        .stroke(Color.gray.opacity(0.3), lineWidth:1.4)
-        )
+        .background(Color.gray.opacity(0.1))
+        .cornerRadius(40)
+        .shadow(radius: 3)
     }
 }
 

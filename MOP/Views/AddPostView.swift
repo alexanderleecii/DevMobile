@@ -29,7 +29,7 @@ struct AddPostView: View {
     
     //state control variables
     @State private var selectedOptions =
-        [ "message": false,
+        ["message": true,
           "hashtag" : false,
           "location" : false,
           "image" : false ]
@@ -47,85 +47,100 @@ struct AddPostView: View {
     var body: some View {
         NavigationView{
             VStack{
+                Text("Create a post")
+                .font(.system(size: 30))
+                .fontWeight(.semibold)
+                .foregroundColor(Color.black.opacity(0.6))
+                .frame(height: 50, alignment: .center)
+                .padding(.top, 5)
                 Divider()
-                TextField("Title", text: $title)
-                    
-                //.frame(height: 300.0)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .overlay(RoundedRectangle(cornerRadius:30.0).stroke(Color.blue, lineWidth:1))
-                    .padding([.leading,.trailing,.top, .bottom], 40)
                 
-                MultilineTF(txt: self.$text)
-                .frame(width: 350, height: 100, alignment: .leading)
-                    
-                //.frame(height: 300.0)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .overlay(RoundedRectangle(cornerRadius:30.0).stroke(Color.blue, lineWidth:1))
-                    .padding([.leading,.trailing,.top, .bottom], 40)
-                    //.multilineTextAlignment(.leading)
-                    //.font(.headline)
-                
-                if postImageURL != nil{
-                    ImageView(imageURL: self.postImageURL)
-                    .frame(width: 200, height: 150)
+                if !selectedOptions["message"]! && !selectedOptions["location"]! && !selectedOptions["hashtag"]! && !selectedOptions["image"]!{
+                    Spacer()
                 }
                 
-                Spacer()
-                if selectedOptions["hashtag"]!{
-                    HStack{
-                        Text("Tags")
-                        .padding(.leading)
-                        TextField("", text: $tags)
-                        .padding(.trailing)
-                        .background(Color.gray)
-                        .cornerRadius(15.0)
-                    }
-                    .animation(.default)
-                }
-                if selectedOptions["location"]! {
-                    HStack{
-                        Text("Where were you?")
-                        .padding(.leading)
-                        TextField("", text: $location)
-                        .padding(.trailing)
-                        .background(Color.gray)
-                        .cornerRadius(15.0)
-                        .animation(.default)
-                    }
-                    .padding(.bottom, 20.0)
-                    .font(.body)
-                }
-                if selectedOptions["image"]! {
-                    VStack{
-                        Button(action:{
-                            self.selectingImage.toggle()
-                        }){
-                            if !imageAlreadySelected {
-                                Text("Select image...")
-                            }
-                            else {
-                                Text("Replace selected image...")
-                            }
-                        }
-                        .sheet(isPresented: self.$selectingImage, onDismiss: {
-                            self.selectedOptions["image"]!.toggle()
-                            self.imageAlreadySelected.toggle()
-                        }){
-                            ImagePicker(isShown: self.$selectingImage, imageURL: self.$postImageURL, imageType:  "post")
-                    }
-                        .animation(.default)
-                    }
-                }
                 HStack(spacing: 50){
                     MenuIcon(selectedOptions: self.$selectedOptions, menuType: "message")
+                        .foregroundColor(selectedOptions["message"]! ? Color.black.opacity(0.7) : Color.gray.opacity(0.8))
                     MenuIcon(selectedOptions: self.$selectedOptions, menuType: "location")
+                    .foregroundColor(selectedOptions["location"]! ? Color.black.opacity(0.7) : Color.gray.opacity(0.8))
                     MenuIcon(selectedOptions: self.$selectedOptions, menuType: "hashtag")
+                    .foregroundColor(selectedOptions["hashtag"]! ? Color.black.opacity(0.7) : Color.gray.opacity(0.8))
                     MenuIcon(selectedOptions: self.$selectedOptions, menuType: "image")
+                        .foregroundColor(selectedOptions["image"]! ? Color.black.opacity(0.7) : Color.gray.opacity(0.8))
                 }
+                .frame(width: 400, height: 50)
+                .background(Color.gray.opacity(0.2))
+                
+                VStack{
+                    if selectedOptions["message"]!{
+                        VStack(alignment: .trailing){
+                            TextField("Title", text: $title)
+                                .frame(width: 370, height: 50)
+                            Divider()
+                            MultilineTF(initText: "Your post", fontSize: 17, txt: $text)
+                            .frame(width: 370, height: keyboard.currentHeight == 0 ? 150 : 20, alignment: .leading)
+                            
+                            Spacer()
+                            Text(String(text.count) + " / 350")
+                                .foregroundColor(Color.gray.opacity(0.5))
+                                .padding(.trailing, 20)
+                        }
+                        .padding(.bottom, 20)
+                        .animation(.default)
+                    }
+                    if selectedOptions["hashtag"]!{
+                        VStack(alignment: .trailing){
+                            TextField("Tags", text: $tags)
+                            .frame(width: 370, height: 50)
+                            Text(String(tags.split(separator: " ").count) + " tags / 5")
+                            .foregroundColor(Color.gray.opacity(0.5))
+                            .padding(.trailing, 20)
+                        }
+                        .padding(.bottom, 20)
+                        .animation(.default)
+                    }
+                    if selectedOptions["location"]! {
+                        HStack{
+                            TextField("Where did it happen ?", text: $location)
+                            .frame(width: 370, height: 50)
+                        }
+                        .padding(.bottom, 20)
+                        .animation(.default)
+                    }
+                    if selectedOptions["image"]! {
+                        VStack{
+                            if postImageURL != nil && postImageURL != ""{
+                                ImageView(imageURL: self.postImageURL)
+                                    .frame(width: 200, height: 150, alignment: .center)
+                            }
+                            Button(action:{
+                                self.selectingImage.toggle()
+                            }){
+                                if !imageAlreadySelected {
+                                    Text("Select image...")
+                                }
+                                else {
+                                    Text("Replace selected image...")
+                                }
+                            }
+                            .sheet(isPresented: self.$selectingImage, onDismiss: {
+                                self.selectedOptions["image"]!.toggle()
+                                self.imageAlreadySelected.toggle()
+                            }){
+                                ImagePicker(isShown: self.$selectingImage, imageURL: self.$postImageURL, imageType:  "post")
+                        }
+                            .animation(.default)
+                        }
+                        .padding(.bottom, 20)
+                    }
+                    Spacer()
+                }
+                .padding(.bottom, keyboard.currentHeight == 0 ? 0 : keyboard.currentHeight + 50)
+                
             }
-            .padding(.bottom, keyboard.currentHeight)
+            .edgesIgnoringSafeArea(.bottom)
             .animation(.easeOut(duration: 0.16))
-            .navigationBarTitle(Text("New Post"))
             .navigationBarItems(
                 trailing:
                 Button(action:{
@@ -142,7 +157,7 @@ struct AddPostView: View {
                 })
         }
 
-   }
+    }
     
     func postIsCorrect() -> Bool {
         return (isTitleCorrect() && isTextCorrect() && areTagsCorrect() && isLocationCorrect())
@@ -189,11 +204,15 @@ struct MenuIcon : View {
     var body : some View{
         Button(action: {
             self.selectedOptions[self.menuType]!.toggle()
+            for option in self.selectedOptions{
+                if option.key != self.menuType{
+                    self.selectedOptions[option.key]! = false
+                }
+            }
         }){
             Image(menuType)
             .resizable()
             .frame(width: 35.0, height: 35.0)
-            .foregroundColor(.black)
         }
     }
 }

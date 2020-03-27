@@ -111,7 +111,7 @@ struct SignUpView: View {
                         .font(.system(size: 20))
                         .padding(3)
                         .frame(width: 30, height: 30)
-                            .background(Color.gray.opacity(0.2))
+                            .background(Color.gray.opacity(0.8))
                         .foregroundColor(Color.white)
                         .cornerRadius(360)
                     }
@@ -183,6 +183,16 @@ struct SignUpView: View {
                     }
                 }
             }
+            HStack(spacing: 0) {
+                Text("Already have an account? ")
+                Button(action: {
+                    self.mainViewRouter.currentPage = "log_in"
+                }) {
+                    Text("Log in")
+                    .foregroundColor(Color(red: 0.7, green: 0.7, blue: 0.8, opacity: 1))
+                }
+            }
+            .padding(.top, 10)
             Spacer()
         }
         .edgesIgnoringSafeArea(.all)

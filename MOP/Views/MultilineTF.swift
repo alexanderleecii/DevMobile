@@ -9,7 +9,8 @@
 import SwiftUI
 
 struct MultilineTF : UIViewRepresentable {
-    
+    var initText : String
+    var fontSize : CGFloat
     @Binding var txt : String
     
     func makeCoordinator() -> MultilineTF.Coordinator {
@@ -21,9 +22,9 @@ struct MultilineTF : UIViewRepresentable {
         tview.isEditable = true
         tview.isUserInteractionEnabled = true
         tview.isScrollEnabled = true
-        tview.text = "Type..."
+        tview.text = self.initText
         tview.textColor = .gray
-        tview.font = .systemFont(ofSize: 15)
+        tview.font = .systemFont(ofSize: self.fontSize)
         tview.delegate = context.coordinator
         return tview
     }

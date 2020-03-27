@@ -74,8 +74,9 @@ struct PostItem: View {
                             PostViewModel().reportPost(_id: self.post._id, token: self.mainViewRouter.token!)
                         }){
                             Image("report")
-                                .foregroundColor(Color.red)
+                                .foregroundColor(Color.gray)
                         }
+                        Text(String(self.post.nbReports))
                     }else{
                         Button(action: {
                             self.showingAlert = true
@@ -85,11 +86,18 @@ struct PostItem: View {
                         }.alert(isPresented: $showingAlert) {
                             Alert(title: Text("You already reported that post."), message: Text("You already reported that post."))
                         }
+                        Text(String(self.post.nbReports))
                     }
                 }else{
                     Image("like_post")
-                        .foregroundColor(Color.gray)
+                        .opacity(0.7)
                     Text(String(self.post.nbLikes))
+                        .opacity(0.6)
+                    Spacer()
+                    Image("report")
+                        .opacity(0.7)
+                    Text(String(self.post.nbReports))
+                        .opacity(0.6)
                 }
             }
             .padding(10)

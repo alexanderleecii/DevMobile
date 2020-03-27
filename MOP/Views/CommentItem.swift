@@ -54,7 +54,7 @@ struct CommentItem: View {
                             PostViewModel().reportComment(postid: self.post._id, commentid: self.comment._id, token: self.mainViewRouter.token!)
                         }){
                             Image("report")
-                                .foregroundColor(Color.red)
+                                .foregroundColor(Color.gray)
                         }
                     }else{
                         Button(action: {
@@ -66,11 +66,17 @@ struct CommentItem: View {
                             Alert(title: Text("You already reported that comment."), message: Text("You already reported that comment."))
                         }
                     }
+                    Text(String(self.comment.nbReports))
                     
                 }else{
                     Image("thumbs_up")
-                        .foregroundColor(Color.gray)
+                        .opacity(0.7)
                     Text(String(self.comment.nbLikes))
+                        .opacity(0.6)
+                    Image("report")
+                        .opacity(0.7)
+                    Text(String(self.comment.nbReports))
+                        .opacity(0.6)
                 }
             }
             .frame(width:350, height:40, alignment: .trailing)
@@ -111,6 +117,6 @@ struct CommentItem: View {
 
 struct CommentItem_Previews: PreviewProvider {
     static var previews: some View {
-        Text("Hello world")
+        CommentItem(post: Post(), comment: Comment(pseudo: "Test", user: "", text: "My text\nCool"), mainViewRouter: MainViewRouter())
     }
 }
