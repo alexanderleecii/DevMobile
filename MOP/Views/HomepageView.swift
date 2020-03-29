@@ -56,79 +56,51 @@ struct HomepageView: View {
                     }
                     
                     Spacer()
-                    if !self.mainViewRouter.showMenu{
                         if !self.postViewRouter.showPost && !self.mainViewRouter.showUser{
                             if self.mainViewRouter.currentPage == "latest_posts"{
                                 LatestPostsView(posts: self.posts, mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter, searchVR: self.searchVR)
                                 .frame(width: geometry.size.width)
+                                .blur(radius: self.mainViewRouter.showMenu ? 2 : 0)
+                                .disabled(self.mainViewRouter.showMenu)
                             }else if self.mainViewRouter.currentPage == "top_posts"{
                                 TopPostsView(posts: self.posts, mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter, searchVR: self.searchVR)
                                 .frame(width: geometry.size.width)
+                                .blur(radius: self.mainViewRouter.showMenu ? 2 : 0)
+                                .disabled(self.mainViewRouter.showMenu)
                             }else if self.mainViewRouter.currentPage == "profile"{
                                 ProfileView(user: self.mainViewRouter.connectedUser!, mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter, searchVR: self.searchVR, posts: self.posts)
+                                .blur(radius: self.mainViewRouter.showMenu ? 2 : 0)
+                                .disabled(self.mainViewRouter.showMenu)
                             }else if self.mainViewRouter.currentPage == "settings"{
                                 Text("settings")
+                                .blur(radius: self.mainViewRouter.showMenu ? 2 : 0)
+                                .disabled(self.mainViewRouter.showMenu)
                             }else if self.mainViewRouter.currentPage == "log_in"{
                                 LogIn(mainViewRouter: self.mainViewRouter, userVM: self.userVM)
+                                .blur(radius: self.mainViewRouter.showMenu ? 2 : 0)
+                                .disabled(self.mainViewRouter.showMenu)
                             }else if self.mainViewRouter.currentPage == "sign_up"{
                                 SignUpView(mainViewRouter: self.mainViewRouter, userVM: self.userVM)
+                                .blur(radius: self.mainViewRouter.showMenu ? 2 : 0)
+                                .disabled(self.mainViewRouter.showMenu)
                             }else if self.mainViewRouter.currentPage == "add_post"{
                                 AddPostView(mainViewRouter: self.mainViewRouter, postVM: self.posts)
-                            }else if self.mainViewRouter.currentPage == "search"{
-                                SearchView(mainVR: self.mainViewRouter, postVR: self.postViewRouter, searchVR: self.searchVR)
-                            }
-                        }else if self.postViewRouter.showPost{
-                            PostView(post: self.postViewRouter.post, mainViewRouter: self.mainViewRouter,postViewRouter: self.postViewRouter, searchVR: self.searchVR)
-                        }else{
-                            ProfileView(user: self.mainViewRouter.userProfile!, mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter, searchVR: self.searchVR, posts: self.posts)
-                        }
-                    }else{
-                        if !self.postViewRouter.showPost && !self.mainViewRouter.showUser{
-                            if self.mainViewRouter.currentPage == "latest_posts"{
-                                LatestPostsView(posts: self.posts, mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter, searchVR: self.searchVR)
-                                .frame(width: geometry.size.width)
-                                .blur(radius: 2)
-                                .disabled(self.mainViewRouter.showMenu)
-                            }else if self.mainViewRouter.currentPage == "top_posts"{
-                                TopPostsView(posts: self.posts, mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter, searchVR: self.searchVR)
-                                .frame(width: geometry.size.width)
-                                .blur(radius: 2)
-                                .disabled(self.mainViewRouter.showMenu)
-                            }else if self.mainViewRouter.currentPage == "profile"{
-                                ProfileView(user: self.mainViewRouter.connectedUser!, mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter, searchVR: self.searchVR, posts: self.posts)
-                                .frame(width: geometry.size.width)
-                                .blur(radius: 2)
-                                .disabled(self.mainViewRouter.showMenu)
-                            }else if self.mainViewRouter.currentPage == "settings"{
-                                Text("settings")
-                            }else if self.mainViewRouter.currentPage == "log_in"{
-                                LogIn(mainViewRouter: self.mainViewRouter, userVM: self.userVM)
-                                .frame(width: geometry.size.width)
-                                .blur(radius: 2)
-                                .disabled(self.mainViewRouter.showMenu)
-                            }else if self.mainViewRouter.currentPage == "sign_up"{
-                                SignUpView(mainViewRouter: self.mainViewRouter, userVM: self.userVM)
-                                .frame(width: geometry.size.width)
-                                .blur(radius: 2)
+                                .blur(radius: self.mainViewRouter.showMenu ? 2 : 0)
                                 .disabled(self.mainViewRouter.showMenu)
                             }else if self.mainViewRouter.currentPage == "search"{
                                 SearchView(mainVR: self.mainViewRouter, postVR: self.postViewRouter, searchVR: self.searchVR)
-                                .frame(width: geometry.size.width)
-                                .blur(radius: 2)
+                                .blur(radius: self.mainViewRouter.showMenu ? 2 : 0)
                                 .disabled(self.mainViewRouter.showMenu)
                             }
                         }else if self.postViewRouter.showPost{
                             PostView(post: self.postViewRouter.post, mainViewRouter: self.mainViewRouter,postViewRouter: self.postViewRouter, searchVR: self.searchVR)
-                            .frame(width: geometry.size.width)
-                            .blur(radius: 2)
+                            .blur(radius: self.mainViewRouter.showMenu ? 2 : 0)
                             .disabled(self.mainViewRouter.showMenu)
                         }else{
                             ProfileView(user: self.mainViewRouter.userProfile!, mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter, searchVR: self.searchVR, posts: self.posts)
-                            .frame(width: geometry.size.width)
-                            .blur(radius: 2)
+                            .blur(radius: self.mainViewRouter.showMenu ? 2 : 0)
                             .disabled(self.mainViewRouter.showMenu)
                         }
-                    }
                     
                     HStack(spacing: 50){
                         Button(action:{
