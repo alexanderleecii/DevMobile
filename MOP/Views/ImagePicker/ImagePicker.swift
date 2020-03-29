@@ -27,12 +27,8 @@ class ImagePickerCordinator : NSObject, UINavigationControllerDelegate, UIImageP
     
     init(parent: ImagePicker) {
         self.parent = parent
-<<<<<<< HEAD
-        fbManager = FirebaseManager(imageType: parent.imageType)
-=======
         print(parent.imageType)
         self.fbManager = FirebaseManager(parent: parent)
->>>>>>> tmp
     }
     
     //Image selection got cancelled

@@ -26,6 +26,9 @@ struct MenuView: View {
                 MenuButton(mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter, name: "Log In")
                 .padding(.top, 30)
                 .font(.headline)
+                MenuButton(mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter, name: "Sign Up")
+                .padding(.top, 30)
+                .font(.headline)
             }else{
                 MenuButton(mainViewRouter: self.mainViewRouter, postViewRouter: self.postViewRouter, name: "Profile")
                 .padding(.top, 30)
