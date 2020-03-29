@@ -27,7 +27,12 @@ class ImagePickerCordinator : NSObject, UINavigationControllerDelegate, UIImageP
     
     init(parent: ImagePicker) {
         self.parent = parent
+<<<<<<< HEAD
         fbManager = FirebaseManager(imageType: parent.imageType)
+=======
+        print(parent.imageType)
+        self.fbManager = FirebaseManager(parent: parent)
+>>>>>>> tmp
     }
     
     //Image selection got cancelled
@@ -39,8 +44,6 @@ class ImagePickerCordinator : NSObject, UINavigationControllerDelegate, UIImageP
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let image = info[.originalImage] as! UIImage
         fbManager.uploadImageToFirebase(image: image)
-        print("*********************************************************************************")
-        self.parent.imageURL = fbManager.downloadImageFromFirebase()
         self.parent.isShown.toggle()
     }
 
