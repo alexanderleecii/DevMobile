@@ -1,11 +1,8 @@
 import SwiftUI
-import FirebaseStorage
 
 struct ImagePicker : UIViewControllerRepresentable {
-    
     @Binding var isShown: Bool
     @Binding var imageURL: String
-    @State var imageFileName : String = ""
     var imageType: String
     
     func makeCoordinator() -> ImagePickerCordinator {
@@ -26,10 +23,12 @@ struct ImagePicker : UIViewControllerRepresentable {
 
 class ImagePickerCordinator : NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate{
     var parent : ImagePicker
-    let storage = Storage.storage().reference()
+    var fbManager : FirebaseManager
     
     init(parent: ImagePicker) {
         self.parent = parent
+        print(parent.imageType)
+        self.fbManager = FirebaseManager(parent: parent)
     }
     
     //Image selection got cancelled
@@ -40,50 +39,8 @@ class ImagePickerCordinator : NSObject, UINavigationControllerDelegate, UIImageP
     //Selected Image
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let image = info[.originalImage] as! UIImage
-        parent.imageFileName = generateFileName()
-        uploadImageToFirebase(image: image)
+        fbManager.uploadImageToFirebase(image: image)
+        self.parent.isShown.toggle()
     }
-    
-    func uploadImageToFirebase(image: UIImage){
-        let metadata = StorageMetadata()
-        metadata.contentType = "image/jpeg"
-        self.storage.child(parent.imageFileName).putData(image.jpegData(compressionQuality: 0.42)!, metadata: metadata){metadata, error in
-            guard let metadata = metadata else {
-                print(error)
-                return
-            }
-            self.downloadImageFromFirebase()
-        }
-        
-    }
-    
-    func downloadImageFromFirebase(){
-        self.storage.child(parent.imageFileName).downloadURL{(url, error) in
-            if error != nil{
-                print(error)
-                return
-            }
-            print("\(url!)")
-            self.parent.imageURL = "\(url!)"
-            self.parent.isShown.toggle()
-            
-        }
-    }
-    
-    func generateFileName() -> String {
-        var ret : String
-        let date = Date()
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyyMMddHHss"
-        ret = "images/" + parent.imageType + formatter.string(from: date) + ".jpg"
-        print(ret)
-        print(parent.imageType)
-        return ret
-    }
-    
-    func randomString(length: Int) -> String {
-        let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-        return String((0..<length).map{ _ in letters.randomElement()! })
-    }
-    
+
 }
