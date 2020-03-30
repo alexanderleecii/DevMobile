@@ -39,7 +39,7 @@ struct SignUpView: View {
         VStack{
             Text("Join us !")
             .font(.largeTitle)
-            .foregroundColor(Color(red: 0.7, green: 0.7, blue: 0.8, opacity: 1))
+            .foregroundColor(Color(red: 0.8, green: 0.3, blue: 0.3))
             .padding(.bottom, keyboard.currentHeight == 0 ? 100 : 10)
             .padding(.top, keyboard.currentHeight == 0 ? 150 : 30)
             
@@ -106,12 +106,12 @@ struct SignUpView: View {
                         self.currentField -= 1
                     }){
                         Text("<")
+                        .foregroundColor(Color.white)
                         .fontWeight(.semibold)
                         .font(.system(size: 20))
                         .padding(3)
                         .frame(width: 30, height: 30)
-                            .background(Color.gray.opacity(0.8))
-                        .foregroundColor(Color.white)
+                        .background(Color(red: 0.8, green: 0.3, blue: 0.3))
                         .cornerRadius(360)
                     }
                 }
@@ -148,11 +148,13 @@ struct SignUpView: View {
                         }){
                             Text("Next")
                             .font(.headline)
-                            .foregroundColor(.white)
                             .padding()
                             .frame(width: 150, height:50)
+                            .foregroundColor(Color.white)
+                            .background(Color(red: 0.8, green: 0.3, blue: 0.3))
                             .background(Color.gray)
                             .cornerRadius(15.0)
+                            
                         }
                 }else{
                     Button(action: {
@@ -174,11 +176,12 @@ struct SignUpView: View {
                     }){
                         Text("Sign Up")
                         .font(.headline)
-                        .foregroundColor(.white)
                         .padding()
                         .frame(width: 150, height:50)
-                        .background(Color(red: 0.7, green: 0.7, blue: 0.8, opacity: 1))
+                        .foregroundColor(Color.white)
+                        .background(Color(red: 0.8, green: 0.3, blue: 0.3))
                         .cornerRadius(15.0)
+                        .foregroundColor(Color.white)
                     }
                 }
             }
@@ -188,7 +191,7 @@ struct SignUpView: View {
                     self.mainViewRouter.currentPage = "log_in"
                 }) {
                     Text("Log in")
-                    .foregroundColor(Color(red: 0.7, green: 0.7, blue: 0.8, opacity: 1))
+                    .foregroundColor(Color(red: 0.8, green: 0.3, blue: 0.3))
                 }
             }
             .padding(.top, 10)
